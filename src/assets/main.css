@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@400;700&display=swap');
+
+:root {
+  --light-bg: rgba(252, 251, 251, 1);
+  --dark-bg: rgba(10, 10, 10, 1);
+  --dk-green: rgb(30, 53, 30);
+  --med-green: #1e9f63;
+  --lt-green: rgb(226, 246, 229);
+}
+
+body {
+  margin: 0px;
+  font-family: 'Poppins', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0px;
+}
+
+.page-header {
+  text-align: center;
+  padding-top: 20px;
+}
+
+a {
+  color: #1e9f63;
+}
+
+a:hover {
+  color: var(--dk-green);
+}

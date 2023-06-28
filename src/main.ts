@@ -1,0 +1,30 @@
+import { createAuth0 } from '@auth0/auth0-vue';
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+
+import App from './App.vue'
+import router from './router'
+
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './assets/main.css'
+
+const domain = import.meta.env.VITE_AUTH0_DOMAIN;
+const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
+
+const app = createApp(App)
+const pinia = createPinia()
+
+app.use(
+    createAuth0({
+      domain: domain,
+      clientId: clientId,
+      authorizationParams: {
+        redirect_uri: window.location.origin
+      }
+    })
+  );
+
+app.use(pinia)
+app.use(router)
+
+app.mount('#app')
