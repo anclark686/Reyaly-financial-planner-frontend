@@ -16,7 +16,7 @@
         </RouterLink>
       </section>
       <section class="settings-container">
-        <div class="user-info" v-if="userInfo">
+        <div class="user-info" v-if="userStore.dbUserId">
           <h3 class="subheader">User Info:</h3>
 
           <table class="info-table">
@@ -34,8 +34,8 @@
                   <strong>Pay:</strong>
                 </td>
                 <td class="right">
-                  ${{ userInfo.pay }}
-                  {{ userInfo.pay_rate === "hourly" ? "/hr" : "/year" }}
+                  ${{ userStore.pay }}
+                  {{ userStore.payRate === "hourly" ? "/hr" : "/year" }}
                 </td>
               </tr>
               <tr class="odd">
@@ -43,7 +43,15 @@
                   <strong>Pay Frequency:</strong>
                 </td>
                 <td class="right">
-                  {{ userInfo.pay_freq }}
+                  {{ userStore.payFreq }}
+                </td>
+              </tr>
+              <tr class="even">
+                <td class="left">
+                  <strong>Paycheck Hours:</strong>
+                </td>
+                <td class="right">
+                  {{ userStore.hours }}
                 </td>
               </tr>
             </tbody>
@@ -64,9 +72,17 @@
         <h5>Looks like it's your first time here!</h5>
         <h5>Enter the info below to get started.</h5>
       </div>
-      <SettingsForm formType="new" />
+      <SettingsForm
+        formType="new"
+        :pay="0"
+        rate=""
+        frequency=""
+        :hours="0"
+        @close="updateUserInfo"
+      />
       <button @click="handleFormClick">Close Modal</button>
     </div>
+    <button @click="handleIDClick">print id</button>
   </main>
 </template>
 
@@ -76,7 +92,7 @@ import { useAuth0 } from "@auth0/auth0-vue";
 import Axios from "axios";
 
 import SettingsForm from "../components/SettingsForm.vue";
-
+import { useUserStore } from "../stores/UserStore";
 export default {
   setup() {
     const { user } = useAuth0();
@@ -87,35 +103,43 @@ export default {
   },
   data() {
     return {
+      userStore: useUserStore(),
       showUserForm: false,
-      userInfo: { pay: 0, pay_rate: "", pay_freq: "" },
     };
   },
   components: {
     SettingsForm,
   },
   methods: {
-    getDBUserInfo() {
-      Axios.get(`http://127.0.0.1:3000/users/?uid=${this.user.sub}`)
-        .then((res) => {
-          const data = res.data;
-          console.log(res.data);
-          if (data.message !== "Not Found") {
-            console.log(res.data);
-            this.userInfo = res.data.data[0];
-          } else {
-            this.showUserForm = true;
-          }
-        })
-        .catch((err) => console.log(err));
+    updateUserInfo(newUserData: {
+      pay: number;
+      rate: string;
+      frequency: string;
+      hours: number;
+    }) {
+      this.showUserForm = false;
+      console.log("you here?");
+      console.log(newUserData);
+      this.userStore.pay = newUserData.pay;
+      this.userStore.payRate = newUserData.rate;
+      this.userStore.payFreq = newUserData.frequency;
+      this.userStore.hours = newUserData.hours;
     },
     handleFormClick() {
       this.showUserForm = !this.showUserForm;
       console.log(this.showUserForm);
     },
+    handleIDClick() {
+      console.log(this.userStore.dbUserId);
+    },
   },
   mounted() {
-    this.getDBUserInfo();
+    this.userStore.fill(this.user.sub);
+    setTimeout(() => {
+      if (!this.userStore.dbUserId) {
+        this.showUserForm = true;
+      }
+    }, 1000);
   },
 };
 </script>
@@ -124,6 +148,7 @@ export default {
 .main-dashboard {
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
 }
 .view-boxes {
   width: 50%;
@@ -136,8 +161,8 @@ export default {
 }
 
 .view-box {
-  background-color: var(--med-green);
-  min-width: 200px;
+  background-color: var(--btn-main);
+  min-width: 300px;
   width: 40%;
   height: 100px;
   text-align: center;
@@ -149,7 +174,7 @@ export default {
 }
 
 .view-box:hover {
-  background-color: #26c67b;
+  background-color: var(--btn-hover);
 }
 
 .view-box h2 {
@@ -162,7 +187,8 @@ export default {
 .settings-container {
   min-width: 200px;
   width: 40%;
-  background-color: white;
+  background-color: var(--white-black);
+  color: var(--text-color);
   border-radius: 15px;
   margin: 70px 50px;
   text-align: center;
@@ -178,14 +204,14 @@ export default {
 }
 
 .info-table {
-  width: 75%;
+  width: 90%;
   margin: 20px auto;
   font-size: larger;
-  border: 2px solid black;
+  border: 2px solid var(--black-white);
 }
 
 .info-table td {
-  border: 2px solid black;
+  border: 2px solid var(--black-white);
 }
 
 .left {
@@ -199,7 +225,11 @@ export default {
 }
 
 .even {
-  background-color: var(--lt-green);
+  background-color: var(--green-bg);
+}
+
+.link-adjust {
+  margin-bottom: 20px;
 }
 
 .form-modal {
@@ -223,5 +253,31 @@ export default {
 
 .instructions {
   margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 600) {
+  .view-boxes {
+    width: 75%;
+  }
+  .view-box {
+    width: 90%;
+    margin: 10px;
+  }
+
+  .settings-container {
+    width: 95%;
+    margin: 20px;
+  }
+
+  .user-info {
+    margin: 10px;
+  }
+
+  .info-table {
+    width: 95%;
+    margin: 0 auto;
+    font-size: small;
+    border: 2px solid black;
+  }
 }
 </style>

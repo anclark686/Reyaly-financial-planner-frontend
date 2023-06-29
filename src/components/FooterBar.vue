@@ -10,8 +10,12 @@
     </footer>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+
+export default {
+    
+}
 
 </script>
 

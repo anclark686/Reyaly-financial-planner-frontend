@@ -6,27 +6,32 @@
 
     <div class="settings-content">
       <div class="master-list-container">
-        <div class="master-list">
-          <h3>Master List</h3>
-        </div>
-
+        <MasterList 
+          pageType="settings"
+          :expenses="userStore.expenses"
+          v-if="userStore.expenses.length !== 0"
+        />
       </div>
 
       <div class="form-container">
-        <SettingsForm formType="update"/>
+        <SettingsForm v-if="userStore.pay"
+          formType="update"
+          :pay="userStore.pay"
+          :rate="userStore.payRate"
+          :frequency="userStore.payFreq"
+          :hours="userStore.hours"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-// import { useUserStore } from "../stores/UserStore";
 import { useAuth0 } from "@auth0/auth0-vue";
-import Axios from "axios";
 
+import MasterList from "../components/MasterList.vue";
 import SettingsForm from '../components/SettingsForm.vue';
-
-// const userStore = useUserStore();
+import { useUserStore } from "../stores/UserStore";
 
 export default {
   setup() {
@@ -37,11 +42,18 @@ export default {
     };
   },
   components: {
-    SettingsForm
+    SettingsForm,
+    MasterList,
   },
-  methods: {
-
-  }
+  data() {
+    return {
+      userStore: useUserStore(),
+    }
+  },
+  mounted() {
+    this.userStore.fill(this.user.sub)
+    console.log(this.userStore.expenses)
+  },
 };
 </script>
 
@@ -51,18 +63,22 @@ export default {
   justify-content: space-around;
 }
 
-.master-list {
-  width: 75%;
-  margin: 50px auto;
-  background-color: aquamarine;
+.master-list-container {
+  min-width: 200px;
+  width: 40%;
+  margin: 50px;
+  border-radius: 15px;
+  border: 2px solid black;
+  background-color: var(--green-bg);
+  padding: 30px;
 }
 
 .form-container {
   min-width: 200px;
   width: 40%;
-  background-color: white;
+  background-color: var(--white-black);
   border-radius: 15px;
-  margin: 70px 50px;
+  margin: 50px;
   text-align: center;
   border: 2px solid black;
   padding: 30px;
