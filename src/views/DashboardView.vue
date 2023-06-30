@@ -146,12 +146,9 @@ export default {
       return expenseSum;
     },
     nextPayDay() {
-      // const ogPayDate = new Date(`${this.userStore.date}T00:00:00-04:00`);
-      // console.log(ogPayDate)
-      const ogPayDate = new Date('6/23/23'); 
+      const ogPayDate = new Date(`${this.userStore.date}T00:00:00-04:00`);
       const ogPayDateStr = ogPayDate.toISOString().substring(0, 10);
       const today = new Date();
-      console.log(today)
       const todayStr = today.toISOString().substring(0, 10);
       let dateDiff: number;
       let newPayDay = today 
