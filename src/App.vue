@@ -47,7 +47,7 @@ const userStore = useUserStore()
   --red: rgb(161, 8, 8);
   --black-white: black;
   --btn-main: var(--med-green);
-  --btn-hover: var(#26c67b);
+  --btn-hover: #26c67b;
 }
 
 .page-header {

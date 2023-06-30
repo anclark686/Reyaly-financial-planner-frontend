@@ -21,7 +21,7 @@
         :class="formType === 'new' ? 'pay-info info-centered' : 'pay-info'"
       >
         <tbody>
-          <tr>
+          <tr class="table-row">
             <td class="pay-label">
               <strong><label for="pay">Pay Rate:</label></strong>
             </td>
@@ -29,7 +29,7 @@
               <input type="number" id="pay" name="pay" v-model="newPay" />
             </td>
           </tr>
-          <tr>
+          <tr class="table-row">
             <td class="pay-label">
               <strong><label for="rate">Per:</label></strong>
             </td>
@@ -41,7 +41,7 @@
               </select>
             </td>
           </tr>
-          <tr>
+          <tr class="table-row"> 
             <td class="pay-label">
               <strong><label for="frequency">Frequency:</label></strong>
             </td>
@@ -55,7 +55,7 @@
               </select>
             </td>
           </tr>
-          <tr>
+          <tr class="table-row">
             <td class="pay-label">
               <strong><label for="hours">Hours per Paycheck:</label></strong>
             </td>
@@ -67,6 +67,14 @@
                 name="hours"
                 v-model="newHours"
               />
+            </td>
+          </tr>
+          <tr class="table-row">
+            <td class="pay-label">
+              <strong><label for="pay">Pay Start Date:</label></strong>
+            </td>
+            <td class="pay-input">
+              <input type="date" id="pay" name="pay" v-model="newDate" />
             </td>
           </tr>
         </tbody>
@@ -120,6 +128,7 @@ export default {
       newRate: this.rate,
       newFrequency: this.frequency,
       newHours: this.hours,
+      newDate: new Date().toISOString().slice(0,10),
       invalid: false,
       duplicate: false,
     };
@@ -133,6 +142,7 @@ export default {
         rate: this.newRate,
         frequency: this.newFrequency,
         hours: this.newHours,
+        date: this.newDate
       };
       return userData;
     },
@@ -157,7 +167,7 @@ export default {
         .catch((err) => console.log(err));
     },
     editInfo() {
-      console.log(this.newPay, this.newRate, this.newFrequency, this.newHours);
+      console.log(this.newPay, this.newRate, this.newFrequency, this.newHours, this.newDate);
     },
     onSubmit() {
       if (this.newPay && this.newRate && this.newFrequency && this.newHours) {

@@ -14,7 +14,12 @@
         <RouterLink to="/views/paycheck" class="view-box">
           <h2>Account View</h2>
         </RouterLink>
+
+        <RouterLink to="/views/debt" class="view-box">
+          <h2>Debt View</h2>
+        </RouterLink>
       </section>
+
       <section class="settings-container">
         <div class="user-info" v-if="userStore.dbUserId">
           <h3 class="subheader">User Info:</h3>
@@ -54,6 +59,28 @@
                   {{ userStore.hours }}
                 </td>
               </tr>
+              <tr class="odd">
+                <td class="left">
+                  <strong># of Expenses:</strong>
+                </td>
+                <td class="right">
+                  {{ userStore.expenses.length }}
+                </td>
+              </tr>
+              <tr class="even">
+                <td class="left">
+                  <strong>Expense Total:</strong>
+                </td>
+                <td class="right">${{ expenseSum }}</td>
+              </tr>
+              <tr class="odd">
+                <td class="left">
+                  <strong>Next Payday:</strong>
+                </td>
+                <td class="right">
+                  {{ nextPayDay }}
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -61,7 +88,7 @@
         <p class="link-adjust">
           Click
           <RouterLink to="/settings">here</RouterLink>
-          to adjust your settings.
+          to adjust your settings, and add expenses.
         </p>
       </section>
     </section>
@@ -89,10 +116,10 @@
 <script lang="ts">
 import { RouterLink, RouterView } from "vue-router";
 import { useAuth0 } from "@auth0/auth0-vue";
-import Axios from "axios";
 
 import SettingsForm from "../components/SettingsForm.vue";
 import { useUserStore } from "../stores/UserStore";
+
 export default {
   setup() {
     const { user } = useAuth0();
@@ -110,7 +137,86 @@ export default {
   components: {
     SettingsForm,
   },
+  computed: {
+    expenseSum() {
+      const expenseSum = this.userStore.expenses.reduce(
+        (a: any = {}, b: any = {}) => a + b.amount,
+        0
+      );
+      return expenseSum;
+    },
+    nextPayDay() {
+      // const ogPayDate = new Date(`${this.userStore.date}T00:00:00-04:00`);
+      // console.log(ogPayDate)
+      const ogPayDate = new Date('6/23/23'); 
+      const ogPayDateStr = ogPayDate.toISOString().substring(0, 10);
+      const today = new Date();
+      console.log(today)
+      const todayStr = today.toISOString().substring(0, 10);
+      let dateDiff: number;
+      let newPayDay = today 
+      let newMonth = today.getMonth() + 2;
+      let year: number;
+      let calc: number
+
+      const diff = Math.floor((today.valueOf() - ogPayDate.valueOf()) / (1000*60*60*24))
+
+      if (newMonth === 13) {
+        newMonth = 1;
+        year = today.getFullYear() + 1;
+      } else {
+        year = today.getFullYear();
+      }
+      
+
+      if (this.userStore.payFreq === "weekly") {
+        dateDiff = 7;
+      } else if (this.userStore.payFreq === "bi-weekly") {
+        dateDiff = 14;
+      } else {
+        dateDiff = 0
+      }
+
+      if (dateDiff !== 0) {
+        if (diff % dateDiff === 0) {
+          calc = diff;
+        } else {
+          calc = (dateDiff - (diff % dateDiff)) + diff;
+        }
+        newPayDay = this.addDays(ogPayDateStr, calc)
+      }
+      
+      
+      if (this.userStore.payFreq === "monthly") {
+        console.log("monthly");
+        if (today.getDate() !== 1) {
+          newPayDay = new Date(`${year}-${newMonth}-${1}`);
+        } else {
+          newPayDay = today;
+        }
+
+      } else if (this.userStore.payFreq === "bi-monthly") {
+        console.log("bi-monthly");
+        if (today.getDate() !== 1 && today.getDate() !== 15) {
+          if (today.getDate() < 15) {
+            newPayDay = new Date(`${year}-${today.getMonth() + 1}-${15}`);
+          } else {
+            newPayDay = new Date(`${year}-${newMonth}-${1}`);
+          }
+        } else {
+          newPayDay = today;
+        }
+      }
+
+      return newPayDay.toLocaleDateString();
+    },
+  },
   methods: {
+    addDays(date: string, days: number) {
+      const result = new Date(date);
+      result.setDate(result.getDate() + days);
+      return new Date(result.getTime() - result.getTimezoneOffset() * -60000);
+    },
     updateUserInfo(newUserData: {
       pay: number;
       rate: string;
@@ -235,16 +341,17 @@ export default {
 .form-modal {
   width: 50%;
   height: 50%;
-  background-color: var(--lt-green);
+  background-color: var(--green-bg);
   position: absolute;
   border-radius: 5px;
   top: 25%;
   left: 25%;
   text-align: center;
   padding: 20px;
-  border: solid 2px var(--dk-green);
+  border: solid 2px black;
   border-radius: 10px;
   overflow-y: auto;
+  color: var(--black-white);
 }
 
 #welcome {
@@ -255,7 +362,7 @@ export default {
   margin-bottom: 20px;
 }
 
-@media only screen and (max-width: 600) {
+@media screen and (max-width: 800) {
   .view-boxes {
     width: 75%;
   }

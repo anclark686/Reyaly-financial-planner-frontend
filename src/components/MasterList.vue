@@ -14,28 +14,51 @@
         <tbody>
           <tr
             v-for="(expense, i) in masterList"
-            :key="i"
+            :key="expense.id"
             :class="i % 2 === 0 ? 'expense-row every-other' : 'expense-row'"
           >
             <td>{{ expense.name }}</td>
             <td>{{ expense.amount }}</td>
             <td>{{ expense.date }}</td>
-            <td><button class="emoji-btn">✏️</button> | <button class="emoji-btn">❌</button></td>
+            <td>
+              <button class="emoji-btn" @click="onEditClick(expense, i)">
+                ✏️
+              </button>
+              |
+              <button class="emoji-btn" @click="onDelete(expense.id, i)">
+                ❌
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
+
     <div
       class="expense-form-container"
       v-if="pageType === 'settings' && addNew"
     >
-      <ExpenseForm @addInfo="addInfo" />
+      <ExpenseForm
+        @addInfo="addInfo"
+        :expense="{ id: '', name: '', amount: 0, date: 0 }"
+        type="new"
+      />
       <div class="button-container">
-        <button class="btn btn-success" @click="onCloseClick">Close</button>
+        <button class="btn btn-success" @click="addNew = false">Close</button>
       </div>
     </div>
+
+    <div class="expense-form-container" v-else-if="edit === true">
+      <ExpenseForm
+        @cancel="cancelEdit"
+        @editInfo="editExpenseInfo"
+        :expense="editInfo"
+        type="edit"
+      />
+    </div>
+
     <div class="button-container" v-else>
-      <button class="btn btn-success" @click="onAddNewClick">
+      <button class="btn btn-success" @click="addNew = true">
         Add New Expense
       </button>
     </div>
@@ -47,7 +70,7 @@ import Axios from "axios";
 
 import ExpenseForm from "./ExpenseForm.vue";
 import { useUserStore } from "../stores/UserStore";
-import { type Expense }from "../types"
+import { type Expense } from "../types";
 
 export default {
   props: {
@@ -59,6 +82,9 @@ export default {
       userStore: useUserStore(),
       addNew: false,
       masterList: this.expenses as Expense[],
+      edit: false,
+      editInfo: {} as Expense,
+      editRow: 0,
     };
   },
   components: {
@@ -69,25 +95,82 @@ export default {
       // console.log(expenseData);
       console.log(this.userStore.dbUserId);
       Axios.post(
-        `http://127.0.0.1:3000/users/${this.userStore.dbUserId}/expenses`,
+        `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses`,
         expenseData
       )
         .then((res) => {
           console.log(res.data);
+          if (res.data.message === "Success") {
+            this.masterList.push({
+              id: res.data.id,
+              name: expenseData.name,
+              amount: expenseData.amount,
+              date: expenseData.date,
+            });
+          } else {
+            alert("An error occurred, please try again");
+          }
         })
         .catch((err) => console.log(err));
-      this.masterList.push({
-        name: expenseData.name,
-        amount: expenseData.amount,
-        date: expenseData.date,
-      });
     },
-    onAddNewClick() {
-      this.addNew = true;
-      console.log(this.userStore.darkMode);
+    onEditClick(expense: Expense, idx: number) {
+      console.log("edit");
+      // console.log(expense);
+      // console.log(this.userStore.dbUserId);
+      if (!this.edit) {
+        this.edit = true;
+        this.editInfo = expense;
+        this.editRow = idx;
+      }
     },
-    onCloseClick() {
-      this.addNew = false;
+    editExpenseInfo(expenseData: Expense) {
+      console.log("you get here?");
+      console.log(this.editRow);
+      console.log(expenseData);
+      console.log(this.userStore.dbUserId);
+      Axios.put(
+        `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses/${expenseData.id}`,
+        expenseData
+      )
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.message === "Success") {
+            this.masterList.splice(this.editRow, 1);
+            this.masterList.push({
+              id: expenseData.id,
+              name: expenseData.name,
+              amount: expenseData.amount,
+              date: expenseData.date,
+            });
+            this.edit = false;
+            this.editInfo = {} as Expense;
+            this.editRow = 0;
+          } else {
+            alert("An error occurred, please try again");
+          }
+        })
+        .catch((err) => console.log(err));
+    },
+    cancelEdit() {
+      this.edit = false;
+      this.editInfo = {} as Expense;
+    },
+    onDelete(id: string, idx: number) {
+      console.log("delete");
+      console.log(id);
+      console.log(this.userStore.dbUserId);
+      Axios.delete(
+        `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses/${id}`
+      )
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.message === "Success") {
+            this.masterList.splice(idx, 1);
+          } else {
+            alert("An error occurred, please try again");
+          }
+        })
+        .catch((err) => console.log(err));
     },
   },
 };

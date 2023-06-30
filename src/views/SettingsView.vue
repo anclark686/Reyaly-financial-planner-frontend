@@ -9,7 +9,7 @@
         <MasterList 
           pageType="settings"
           :expenses="userStore.expenses"
-          v-if="userStore.expenses.length !== 0"
+          
         />
       </div>
 
@@ -61,6 +61,7 @@ export default {
 .settings-content {
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 .master-list-container {
@@ -83,6 +84,21 @@ export default {
   border: 2px solid black;
   padding: 30px;
   text-align: left;
+  max-height: 550px;
+}
+
+@media screen and (max-width: 800) {
+  .master-list-container {
+    width: 90%;
+    margin: 20px;
+    padding: 10px;
+  }
+
+  .form-container {
+    width: 90%;
+    margin: 20px;
+    padding: 10px;
+  }
 }
 
 </style>

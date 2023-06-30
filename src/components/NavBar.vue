@@ -38,8 +38,11 @@
               <RouterLink class="dropdown-item" to="/views/paycheck"
                 >Paycheck View</RouterLink
               >
-              <RouterLink class="dropdown-item" to="/views/paycheck"
+              <RouterLink class="dropdown-item" to="/views/account"
                 >Account View</RouterLink
+              >
+              <RouterLink class="dropdown-item" to="/views/debt"
+                >Debt View</RouterLink
               >
               <RouterLink class="dropdown-item" to="/settings"
                 >Settings</RouterLink

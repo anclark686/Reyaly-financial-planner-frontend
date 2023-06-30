@@ -6,6 +6,7 @@ import DashboardView from "../views/DashboardView.vue";
 import SettingsView from "../views/SettingsView.vue";
 import CalendarView from "../views/CalendarView.vue";
 import PaycheckView from "../views/PaycheckView.vue";
+import DebtView from "../views/DebtView.vue";
 import AccountView from "../views/AccountView.vue";
 import AboutView from "../views/AboutView.vue";
 import ContactView from "../views/ContactView.vue";
@@ -37,16 +38,21 @@ const router = createRouter({
       beforeEnter: authGuard,
     },
     {
+      path: "/views/paycheck",
+      name: "paycheck",
+      component: PaycheckView,
+      beforeEnter: authGuard,
+    },
+    {
       path: "/views/account",
       name: "account",
       component: AccountView,
       beforeEnter: authGuard,
     },
     {
-      path: "/views/paycheck",
-      name: "paycheck",
-      component: PaycheckView,
-      beforeEnter: authGuard,
+      path: "/views/debt",
+      name: "debt",
+      component: DebtView,
     },
     {
       path: "/about",

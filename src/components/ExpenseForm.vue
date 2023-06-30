@@ -1,18 +1,29 @@
 <template>
   <div>
-    <form 
-      action="submit" 
-      class="expense-form" 
+    <form
+      action="submit"
+      class="expense-form"
       @submit.prevent="onSubmit"
       @keydown.enter.prevent=""
     >
       <div class="input-row">
         <label for="expense-name">Expense Name</label>
-        <input type="text" id="expense-name" name="expense-name" v-model="name"/>
+        <input
+          type="text"
+          id="expense-name"
+          name="expense-name"
+          v-model="name"
+        />
       </div>
       <div class="input-row">
         <label for="expense-amount">Amount</label>
-        <input type="number" step="0.01" id="expense-amount" name="expense-amount" v-model="amount"/>
+        <input
+          type="number"
+          step="0.01"
+          id="expense-amount"
+          name="expense-amount"
+          v-model="amount"
+        />
       </div>
       <div class="input-row">
         <label for="expense-date">Due Date</label>
@@ -23,7 +34,7 @@
           </option>
         </select>
       </div>
-      <div class="input-row">
+      <div class="input-row" v-if="type === 'new'">
         <input
           type="submit"
           id="submit-expense"
@@ -31,31 +42,46 @@
           value="Add Expense"
         />
       </div>
+
+      <div class="btn-container" v-if="type === 'edit'">
+        <button
+          class="btn btn-danger edit-btn"
+          @click.prevent="$emit('cancel')"
+        >
+          Cancel
+        </button>
+        <button class="btn btn-success edit-btn">Confirm</button>
+      </div>
     </form>
     <p v-if="invalid" id="warning">Please ensure all fields are filled.</p>
   </div>
 </template>
 
 <script lang="ts">
+import { type Expense } from "../types";
+
 export default {
   props: {
     pageType: String,
+    expense: { type: Object, required: true },
+    type: String,
   },
   data() {
     return {
-      name: "",
-      amount: 0,
-      date: "",
+      name: this.expense.name,
+      amount: this.expense.amount,
+      date: this.expense.date,
       invalid: false,
     };
   },
   computed: {
     dateArr() {
-      const dateArr = Array.from({ length: 31 }, (value, index) => index + 1);
+      const dateArr = Array.from({ length: 31 }, (val, idx) => idx + 1);
       return dateArr;
     },
     expenseData() {
       const expenseData = {
+        id: this.expense.id,
         name: this.name,
         amount: this.amount,
         date: this.date,
@@ -71,14 +97,18 @@ export default {
     },
     onSubmit() {
       if (this.name && this.amount && this.date) {
-        this.invalid = false;
-        this.$emit("addInfo", this.expenseData);
-        this.clearinfo()
+        if (this.type === "new") {
+          this.invalid = false;
+          this.$emit("addInfo", this.expenseData);
+          this.clearinfo();
+        } else if (this.type === "edit") {
+          this.$emit("editInfo", this.expenseData);
+          console.log(this.expense);
+        }
       } else {
         this.invalid = true;
       }
-      
-    }
+    },
   },
   // mounted() {
   //   console.log(this.dateArr);
@@ -105,6 +135,7 @@ export default {
 
 .input-row label {
   font-weight: bold;
+  color: var(--text-color);
 }
 
 #expense-name,
@@ -121,6 +152,15 @@ export default {
 
 #submit-expense {
   margin-top: 10px;
+}
+
+.btn-container {
+  display: flex;
+  margin-top: 10px;
+}
+
+.edit-btn {
+  margin: 5px;
 }
 
 #warning {
