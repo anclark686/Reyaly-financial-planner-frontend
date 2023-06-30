@@ -78,7 +78,7 @@
                   <strong>Next Payday:</strong>
                 </td>
                 <td class="right">
-                  {{ nextPayDay }}
+                  {{ userStore.nextPayDay }}
                 </td>
               </tr>
             </tbody>
@@ -145,75 +145,9 @@ export default {
       );
       return expenseSum;
     },
-    nextPayDay() {
-      const ogPayDate = new Date(`${this.userStore.date}T00:00:00-04:00`);
-      const ogPayDateStr = ogPayDate.toISOString().substring(0, 10);
-      const today = new Date();
-      const todayStr = today.toISOString().substring(0, 10);
-      let dateDiff: number;
-      let newPayDay = today 
-      let newMonth = today.getMonth() + 2;
-      let year: number;
-      let calc: number
-
-      const diff = Math.floor((today.valueOf() - ogPayDate.valueOf()) / (1000*60*60*24))
-
-      if (newMonth === 13) {
-        newMonth = 1;
-        year = today.getFullYear() + 1;
-      } else {
-        year = today.getFullYear();
-      }
-      
-
-      if (this.userStore.payFreq === "weekly") {
-        dateDiff = 7;
-      } else if (this.userStore.payFreq === "bi-weekly") {
-        dateDiff = 14;
-      } else {
-        dateDiff = 0
-      }
-
-      if (dateDiff !== 0) {
-        if (diff % dateDiff === 0) {
-          calc = diff;
-        } else {
-          calc = (dateDiff - (diff % dateDiff)) + diff;
-        }
-        newPayDay = this.addDays(ogPayDateStr, calc)
-      }
-      
-      
-      if (this.userStore.payFreq === "monthly") {
-        console.log("monthly");
-        if (today.getDate() !== 1) {
-          newPayDay = new Date(`${year}-${newMonth}-${1}`);
-        } else {
-          newPayDay = today;
-        }
-
-      } else if (this.userStore.payFreq === "bi-monthly") {
-        console.log("bi-monthly");
-        if (today.getDate() !== 1 && today.getDate() !== 15) {
-          if (today.getDate() < 15) {
-            newPayDay = new Date(`${year}-${today.getMonth() + 1}-${15}`);
-          } else {
-            newPayDay = new Date(`${year}-${newMonth}-${1}`);
-          }
-        } else {
-          newPayDay = today;
-        }
-      }
-
-      return newPayDay.toLocaleDateString();
-    },
   },
   methods: {
-    addDays(date: string, days: number) {
-      const result = new Date(date);
-      result.setDate(result.getDate() + days);
-      return new Date(result.getTime() - result.getTimezoneOffset() * -60000);
-    },
+    
     updateUserInfo(newUserData: {
       pay: number;
       rate: string;
