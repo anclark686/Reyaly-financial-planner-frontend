@@ -10,8 +10,9 @@
 
 <script lang="ts">
 import { useAuth0 } from "@auth0/auth0-vue";
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   setup() {
     const { loginWithRedirect } = useAuth0();
 
@@ -21,7 +22,7 @@ export default {
       },
     };
   },
-};
+});
 
 </script>
 

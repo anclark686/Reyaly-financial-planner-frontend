@@ -32,8 +32,9 @@ import { useAuth0 } from "@auth0/auth0-vue";
 import MasterList from "../components/MasterList.vue";
 import SettingsForm from '../components/SettingsForm.vue';
 import { useUserStore } from "../stores/UserStore";
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   setup() {
     const { user } = useAuth0();
 
@@ -54,7 +55,7 @@ export default {
     this.userStore.fill(this.user.sub)
     console.log(this.userStore.expenses)
   },
-};
+});
 </script>
 
 <style scoped>

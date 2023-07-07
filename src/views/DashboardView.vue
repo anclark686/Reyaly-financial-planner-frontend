@@ -116,11 +116,12 @@
 <script lang="ts">
 import { RouterLink, RouterView } from "vue-router";
 import { useAuth0 } from "@auth0/auth0-vue";
+import { defineComponent } from 'vue'
 
 import SettingsForm from "../components/SettingsForm.vue";
 import { useUserStore } from "../stores/UserStore";
 
-export default {
+export default defineComponent({
   setup() {
     const { user } = useAuth0();
 
@@ -178,7 +179,7 @@ export default {
       }
     }, 1000);
   },
-};
+});
 </script>
 
 <style scoped>
