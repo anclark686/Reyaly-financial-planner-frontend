@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import Axios from "axios";
+import { type Paycheck } from "../types";
 
 export const useUserStore = defineStore("UserStore", {
   state: () => {
@@ -14,10 +15,13 @@ export const useUserStore = defineStore("UserStore", {
       payFreq: "",
       hours: 0,
       date: "",
+      deductions: 0,
+      pIndex: 0,
       expenses: [] as {}[],
+      paychecks: [] as Paycheck[],
       accounts: [] as {}[],
       debts: [] as {}[],
-      baseUrl: 'http://127.0.0.1:3000/'
+      baseUrl: "http://127.0.0.1:3000/",
     };
   },
 
@@ -33,83 +37,116 @@ export const useUserStore = defineStore("UserStore", {
             this.payFreq = user.pay_freq;
             this.hours = user.hours;
             this.date = user.date;
+            this.deductions = user.deductions;
 
             this.expenses = res.data.data.expenses;
+            this.paychecks = res.data.data.paychecks;
+            console.log(res.data.data);
           }
           return res.data.data[0];
         })
         .catch((err) => console.log(err));
     },
-    addDays(date: string, days: number) {
-      const result = new Date(date);
-      result.setDate(result.getDate() + days);
-      return new Date(result.getTime() - result.getTimezoneOffset() * -60000);
+    // addDays(date: string, days: number) {
+    //   const result = new Date(date);
+    //   result.setDate(result.getDate() + days);
+    //   return new Date(result.getTime() - result.getTimezoneOffset() * -60000);
+    // },
+    formatDays(date: Date) {
+      const usLocale = "en-US";
+      return date.toLocaleDateString(usLocale, { timeZone: "UTC" });
     },
+    generateExcel() {
+      
+    }
   },
 
   getters: {
     nextPayDay(): string {
-      const ogPayDate = new Date(this.date);
-      const ogPayDateStr = ogPayDate.toISOString().substring(0, 10);
-      const today = new Date();
-      const todayStr = today.toISOString().substring(0, 10);
-      let dateDiff: number;
-      let newPayDay = today 
-      let newMonth = today.getMonth() + 2;
-      let year: number;
-      let calc: number
-      
-      const diff = Math.floor((today.valueOf() - ogPayDate.valueOf()) / (1000*60*60*24))
-
       const userStore = useUserStore();
+      const today = new Date();
+      console.log(this.pIndex)
+      for (const [i, paycheck] of this.paychecks.entries()) {
+        const payDate = new Date(paycheck.date);
 
-      if (newMonth === 13) {
-        newMonth = 1;
-        year = today.getFullYear() + 1;
-      } else {
-        year = today.getFullYear();
-      }
-      
-
-      if (this.payFreq === "weekly") {
-        dateDiff = 7;
-      } else if (this.payFreq === "bi-weekly") {
-        dateDiff = 14;
-      } else {
-        dateDiff = 0
-      }
-
-      if (dateDiff !== 0) {
-        if (diff % dateDiff === 0) {
-          calc = diff;
-        } else {
-          calc = (dateDiff - (diff % dateDiff)) + diff;
-        }
-        newPayDay = userStore.addDays(ogPayDateStr, calc)
-      }
-      
-      
-      if (this.payFreq === "monthly") {
-        console.log("monthly");
-        if (today.getDate() !== 1) {
-          newPayDay = new Date(`${year}-${newMonth}-${1}`);
-        } else {
-          newPayDay = today;
-        }
-
-      } else if (this.payFreq === "bi-monthly") {
-        console.log("bi-monthly");
-        if (today.getDate() !== 1 && today.getDate() !== 15) {
-          if (today.getDate() < 15) {
-            newPayDay = new Date(`${year}-${today.getMonth() + 1}-${15}`);
-          } else {
-            newPayDay = new Date(`${year}-${newMonth}-${1}`);
-          }
-        } else {
-          newPayDay = today;
+        if (today === payDate) {
+          this.pIndex = i;
+          return userStore.formatDays(today);
+        } else if (today < payDate) {
+          this.pIndex = i;
+          return userStore.formatDays(payDate);
         }
       }
-      return newPayDay.toLocaleDateString();
+      return this.date;
     },
-  }
+    estGross(): number {
+      return this.hours * this.pay
+    },
+    estNet(): number {
+      const afterDeductions = this.estGross - this.deductions
+      return afterDeductions * .75
+    },
+    //   console.log(this.date)
+    //   const ogPayDate = new Date(this.date);
+    //   console.log(ogPayDate)
+    //   const ogPayDateStr = ogPayDate.toISOString().substring(0, 10);
+    //   const today = new Date();
+    //   const todayStr = today.toISOString().substring(0, 10);
+    //   let dateDiff: number;
+    //   let newPayDay = today
+    //   let newMonth = today.getMonth() + 2;
+    //   let year: number;
+    //   let calc: number
+
+    //   const diff = Math.floor((today.valueOf() - ogPayDate.valueOf()) / (1000*60*60*24))
+
+    //   const userStore = useUserStore();
+
+    //   if (newMonth === 13) {
+    //     newMonth = 1;
+    //     year = today.getFullYear() + 1;
+    //   } else {
+    //     year = today.getFullYear();
+    //   }
+
+    //   if (this.payFreq === "weekly") {
+    //     dateDiff = 7;
+    //   } else if (this.payFreq === "bi-weekly") {
+    //     dateDiff = 14;
+    //   } else {
+    //     dateDiff = 0
+    //   }
+
+    //   if (dateDiff !== 0) {
+    //     if (diff % dateDiff === 0) {
+    //       calc = diff;
+    //     } else {
+    //       calc = (dateDiff - (diff % dateDiff)) + diff;
+    //     }
+    //     newPayDay = userStore.addDays(ogPayDateStr, calc)
+    //   }
+
+    //   if (this.payFreq === "monthly") {
+    //     console.log("monthly");
+    //     if (today.getDate() !== 1) {
+    //       newPayDay = new Date(`${year}-${newMonth}-${1}`);
+    //     } else {
+    //       newPayDay = today;
+    //     }
+
+    //   } else if (this.payFreq === "bi-monthly") {
+    //     console.log("bi-monthly");
+    //     if (today.getDate() !== 1 && today.getDate() !== 15) {
+    //       if (today.getDate() < 15) {
+    //         newPayDay = new Date(`${year}-${today.getMonth() + 1}-${15}`);
+    //       } else {
+    //         newPayDay = new Date(`${year}-${newMonth}-${1}`);
+    //       }
+    //     } else {
+    //       newPayDay = today;
+    //     }
+    //   }
+    //   return newPayDay.toLocaleDateString();
+    // },
+  },
 });

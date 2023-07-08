@@ -18,6 +18,10 @@
         <RouterLink to="/views/debt" class="view-box">
           <h2>Debt View</h2>
         </RouterLink>
+
+        <button class="view-box">
+          <h2>Export Excel</h2>
+        </button>
       </section>
 
       <section class="settings-container">
@@ -58,6 +62,18 @@
                 <td class="right">
                   {{ userStore.hours }}
                 </td>
+              </tr>
+              <tr class="odd">
+                <td class="left">
+                  <strong># of Deductions:</strong>
+                </td>
+                <td class="right">${{ userStore.deductions }}</td>
+              </tr>
+              <tr class="even">
+                <td class="left">
+                  <strong>Est Take Home:</strong>
+                </td>
+                <td class="right">${{ userStore.estNet }}</td>
               </tr>
               <tr class="odd">
                 <td class="left">
@@ -116,7 +132,7 @@
 <script lang="ts">
 import { RouterLink, RouterView } from "vue-router";
 import { useAuth0 } from "@auth0/auth0-vue";
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 
 import SettingsForm from "../components/SettingsForm.vue";
 import { useUserStore } from "../stores/UserStore";
@@ -148,7 +164,6 @@ export default defineComponent({
     },
   },
   methods: {
-    
     updateUserInfo(newUserData: {
       pay: number;
       rate: string;
@@ -156,7 +171,6 @@ export default defineComponent({
       hours: number;
     }) {
       this.showUserForm = false;
-      console.log("you here?");
       console.log(newUserData);
       this.userStore.pay = newUserData.pay;
       this.userStore.payRate = newUserData.rate;
@@ -169,6 +183,12 @@ export default defineComponent({
     },
     handleIDClick() {
       console.log(this.userStore.dbUserId);
+    },
+    downloadExcel() {
+      let alink = document.createElement("a");
+      alink.href = `http://localhost:5173/static/exports/master_list.xlsx`;
+      alink.download = "master_list.xlsx";
+      alink.click();
     },
   },
   mounted() {

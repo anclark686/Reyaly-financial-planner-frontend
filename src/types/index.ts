@@ -2,7 +2,14 @@ export interface Expense {
     id: string,
     name: string,
     amount: number,
-    date: number
+    date: number,
+    dateStr?: string | undefined,
+    dateObj?: Date | undefined
+}
+
+export interface Paycheck {
+    date:string,
+    id:string,
 }
 
 // export interface User {

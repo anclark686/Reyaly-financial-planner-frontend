@@ -20,6 +20,8 @@
           :rate="userStore.payRate"
           :frequency="userStore.payFreq"
           :hours="userStore.hours"
+          :date="userStore.date"
+          :deductions="userStore.deductions"
         />
       </div>
     </div>
@@ -53,7 +55,6 @@ export default defineComponent({
   },
   mounted() {
     this.userStore.fill(this.user.sub)
-    console.log(this.userStore.expenses)
   },
 });
 </script>

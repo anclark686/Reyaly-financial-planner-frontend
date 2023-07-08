@@ -30,7 +30,7 @@ const userStore = useUserStore()
   background-color: rgb(25, 24, 23);
   --nav-pic: var(--dark-bg);
   --green-bg: var(--dk-green);
-  --white-black: black;
+  --white-black: rgb(9, 9, 9);
   --black-white: white;
   --text-color: white;
   --red: red;

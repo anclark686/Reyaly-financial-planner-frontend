@@ -26,7 +26,7 @@
               <strong><label for="pay">Pay Rate:</label></strong>
             </td>
             <td class="pay-input">
-              <input type="number" id="pay" name="pay" v-model="newPay" />
+              <input type="number" id="pay" name="pay" class="input-info" v-model="newPay" />
             </td>
           </tr>
           <tr class="table-row">
@@ -34,7 +34,7 @@
               <strong><label for="rate">Per:</label></strong>
             </td>
             <td class="pay-input">
-              <select name="rate" id="rate" v-model="newRate">
+              <select name="rate" id="rate" class="input-info" v-model="newRate">
                 <option value="">--Select One --</option>
                 <option value="hourly">Hour</option>
                 <option value="annualy">Year</option>
@@ -46,7 +46,7 @@
               <strong><label for="frequency">Frequency:</label></strong>
             </td>
             <td class="pay-input">
-              <select name="frequency" id="frequency" v-model="newFrequency">
+              <select name="frequency" id="frequency" class="input-info" v-model="newFrequency">
                 <option value="">--Select One --</option>
                 <option value="weekly">Weekly</option>
                 <option value="bi-weekly">Bi-Weekly</option>
@@ -65,23 +65,37 @@
                 step="0.01"
                 id="hours"
                 name="hours"
+                class="input-info"
                 v-model="newHours"
               />
             </td>
           </tr>
           <tr class="table-row">
             <td class="pay-label">
-              <strong><label for="pay">Pay Start Date:</label></strong>
+              <strong><label for="date">Pay Start Date:</label></strong>
             </td>
             <td class="pay-input">
-              <input type="date" id="pay" name="pay" v-model="newDate" />
+              <input type="date" id="date" name="date" class="input-info" v-model="newDate" />
+            </td>
+          </tr>
+          <tr class="table-row">
+            <td class="pay-label">
+              <strong><label for="deductions">Deductions:</label></strong>
+            </td>
+            <td class="pay-input">
+              <input type="number" id="deductions" name="deductions" class="input-info" v-model="newDeductions" />
             </td>
           </tr>
         </tbody>
       </table>
 
       <p v-if="invalid" id="warning">Please ensure all fields are filled.</p>
-      <div class="submit-btn">
+      <div v-if="loading"  class="spinner-container">
+        <div class="spinner-border text-success loading-spinner" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      <div v-else class="submit-btn">
         <input
           class="btn btn-success"
           type="submit"
@@ -96,6 +110,10 @@
           You can view your settings
           <RouterLink to="/settings">here.</RouterLink>
         </p>
+      </div>
+
+      <div v-if="success">
+        <p id="success">Changes Successfully Saved!</p>
       </div>
     </form>
   </div>
@@ -120,6 +138,8 @@ export default {
     rate: String,
     frequency: String,
     hours: Number,
+    date: String,
+    deductions: Number
   },
   data() {
     return {
@@ -128,9 +148,12 @@ export default {
       newRate: this.rate,
       newFrequency: this.frequency,
       newHours: this.hours,
-      newDate: new Date().toISOString().slice(0,10),
+      newDate: this.date,
+      newDeductions: this.deductions,
       invalid: false,
       duplicate: false,
+      loading: false,
+      success: false
     };
   },
   computed: {
@@ -142,17 +165,20 @@ export default {
         rate: this.newRate,
         frequency: this.newFrequency,
         hours: this.newHours,
-        date: this.newDate
+        date: this.newDate,
+        deductions: this.newDeductions
       };
       return userData;
     },
   },
   methods: {
     addInfo() {
+      this.loading = true
       console.log(this.userData);
       console.log(this.pay, this.rate, this.frequency);
-      Axios.post("http://127.0.0.1:3000/users", this.userData)
+      Axios.post(`${this.userStore.baseUrl}/users`, this.userData)
         .then((res) => {
+          this.loading = false
           console.log(res.data);
           if (res.data.message === "Duplicate") {
             this.duplicate = true;
@@ -167,7 +193,21 @@ export default {
         .catch((err) => console.log(err));
     },
     editInfo() {
-      console.log(this.newPay, this.newRate, this.newFrequency, this.newHours, this.newDate);
+      this.loading = true
+      console.log(this.userData)
+      console.log(this.userStore.dbUserId)
+      Axios.put(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}`, this.userData)
+        .then((res) => {
+          console.log(res.data)
+          if (res.data.message === "Success") {
+            this.loading = false
+            this.success = true;
+            setTimeout(() => {
+              this.success = false;
+            }, 5000);
+          }
+        })
+        .catch((err) => console.log(err))
     },
     onSubmit() {
       if (this.newPay && this.newRate && this.newFrequency && this.newHours) {
@@ -182,9 +222,9 @@ export default {
       }
     },
   },
-  // mounted() {
-  //   this.userStore.fill(this.user.sub)
-  // },
+  mounted() {
+    this.userStore.fill(this.user.sub)
+  },
 };
 </script>
 
@@ -220,17 +260,15 @@ td {
   margin: 0 auto;
 }
 
-#pay,
-#rate,
-#frequency,
-#hours {
+.input-info {
   width: 150px;
   border-radius: 5px;
   border: 2px solid black;
 }
 
 #pay,
-#hours {
+#hours,
+#deductions {
   text-align: right;
 }
 
@@ -240,12 +278,21 @@ td {
   margin-top: 20px;
 }
 
-.submit-btn {
+.submit-btn, .spinner-container {
   margin: 50px;
   text-align: center;
   margin: 0px auto;
 }
-#submit-btn {
+
+#submit-btn, .loading-spinner {
   margin: 20px;
 }
+
+
+#success {
+  color: var(--med-green);
+  text-align: center;
+  margin-top: 20px;
+}
+
 </style>

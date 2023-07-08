@@ -67,12 +67,13 @@
 
 <script lang="ts">
 import Axios from "axios";
+import { defineComponent } from "vue";
 
 import ExpenseForm from "./ExpenseForm.vue";
 import { useUserStore } from "../stores/UserStore";
 import { type Expense } from "../types";
 
-export default {
+export default defineComponent({
   props: {
     pageType: String,
     expenses: Array,
@@ -90,10 +91,16 @@ export default {
   components: {
     ExpenseForm,
   },
+  watch: {
+    expenses: function (newVal, oldVal) {
+      this.masterList = this.expenses as Expense[];
+    },
+    masterList: function (newVal, oldVal) {
+      this.sortMasterList();
+    },
+  },
   methods: {
     addInfo(expenseData: Expense) {
-      // console.log(expenseData);
-      console.log(this.userStore.dbUserId);
       Axios.post(
         `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses`,
         expenseData
@@ -107,6 +114,7 @@ export default {
               amount: expenseData.amount,
               date: expenseData.date,
             });
+            this.sortMasterList();
           } else {
             alert("An error occurred, please try again");
           }
@@ -114,9 +122,7 @@ export default {
         .catch((err) => console.log(err));
     },
     onEditClick(expense: Expense, idx: number) {
-      console.log("edit");
-      // console.log(expense);
-      // console.log(this.userStore.dbUserId);
+      this.addNew = false;
       if (!this.edit) {
         this.edit = true;
         this.editInfo = expense;
@@ -124,10 +130,6 @@ export default {
       }
     },
     editExpenseInfo(expenseData: Expense) {
-      console.log("you get here?");
-      console.log(this.editRow);
-      console.log(expenseData);
-      console.log(this.userStore.dbUserId);
       Axios.put(
         `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses/${expenseData.id}`,
         expenseData
@@ -142,6 +144,7 @@ export default {
               amount: expenseData.amount,
               date: expenseData.date,
             });
+            this.sortMasterList();
             this.edit = false;
             this.editInfo = {} as Expense;
             this.editRow = 0;
@@ -156,9 +159,6 @@ export default {
       this.editInfo = {} as Expense;
     },
     onDelete(id: string, idx: number) {
-      console.log("delete");
-      console.log(id);
-      console.log(this.userStore.dbUserId);
       Axios.delete(
         `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses/${id}`
       )
@@ -172,8 +172,18 @@ export default {
         })
         .catch((err) => console.log(err));
     },
+    sortMasterList() {
+      this.masterList.sort((a: any = {} as Expense, b: any = {} as Expense) => {
+        return a.date - b.date;
+      });
+    },
   },
-};
+  // mounted() {
+  //   setTimeout(() => {
+  //     this.masterList = this.expenses;
+  //   }, 1000);
+  // },
+});
 </script>
 
 <style scoped>
@@ -186,13 +196,13 @@ export default {
   width: 100%;
   margin: 20px auto;
   text-align: center;
-  border: 2px solid black;
+  border: 2px solid var(--black-white);
   color: var(--text-color);
 }
 
 .expense-table-header {
   font-weight: bold;
-  border: 2px solid var(--dk-green);
+  border: 2px solid var(--black-white);
   background-color: var(--med-green);
   color: white;
 }

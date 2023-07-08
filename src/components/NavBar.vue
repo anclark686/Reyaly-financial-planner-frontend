@@ -7,11 +7,21 @@
       <div class="right">
         <div class="btn-container">
           <button class="dark-light-btn btn btn-light">
-          <img src="./icons/bright.png" alt="sun" class="dark-light-img" @click="adjDarkLight('light')"/>
-        </button>
-        <button class="dark-light-btn btn btn-dark">
-          <img src="./icons/moon.png" alt="sun" class="dark-light-img" @click="adjDarkLight('dark')">
-        </button>
+            <img
+              src="./icons/bright.png"
+              alt="sun"
+              class="dark-light-img"
+              @click="adjDarkLight('light')"
+            />
+          </button>
+          <button class="dark-light-btn btn btn-dark">
+            <img
+              src="./icons/moon.png"
+              alt="sun"
+              class="dark-light-img"
+              @click="adjDarkLight('dark')"
+            />
+          </button>
         </div>
         <section class="menu-dropdown">
           <div class="dropdown">
@@ -95,9 +105,9 @@ export default {
     },
     adjDarkLight(color: string) {
       document.cookie = `darkmode=${color}; max-age=31536000;`;
-      this.userStore.darkMode = color
-      console.log(this.userStore.darkMode)
-    }
+      this.userStore.darkMode = color;
+      console.log(this.userStore.darkMode);
+    },
   },
 };
 </script>
