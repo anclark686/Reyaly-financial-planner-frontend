@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import Axios from "axios";
+
 import { type Paycheck } from "../types";
 
 export const useUserStore = defineStore("UserStore", {
@@ -26,8 +27,8 @@ export const useUserStore = defineStore("UserStore", {
   },
 
   actions: {
-    async fill(authUID: String | undefined) {
-      await Axios.get(`${this.baseUrl}/users/?uid=${authUID}`)
+    fill(authUID: String | undefined) {
+      Axios.get(`${this.baseUrl}/users/?uid=${authUID}`)
         .then((res) => {
           if (res.data.message !== "Not Found") {
             const user = res.data.data.user;
@@ -56,8 +57,32 @@ export const useUserStore = defineStore("UserStore", {
       const usLocale = "en-US";
       return date.toLocaleDateString(usLocale, { timeZone: "UTC" });
     },
-    generateExcel() {
-      
+    generateJSON(username: String | undefined) {
+      const data = {
+        data: {
+          userInfo: {
+            username: username,
+            pay: `$${this.pay} ${this.payRate}`,
+            payFreq: this.payFreq,
+            hours: this.hours,
+            deductions: `$${this.deductions}`,
+            gross: `$${this.estGross}`,
+            net: `$${this.estNet}`,
+            numExpenses: this.expenses.length,
+            totalExpenses: `$${this.expenseSum}`,
+            startDate: this.formatDays(new Date(this.date)),
+            nextDate: this.nextPayDay
+          },
+          expenses: this.expenses
+        }
+        
+      }
+      console.log(data)
+      Axios.post(`${this.baseUrl}/users/${this.dbUserId}/download`, data)
+        .then((res) => {
+          console.log(res)
+        })  
+        .catch((err) => console.log(err))
     }
   },
 
@@ -65,7 +90,6 @@ export const useUserStore = defineStore("UserStore", {
     nextPayDay(): string {
       const userStore = useUserStore();
       const today = new Date();
-      console.log(this.pIndex)
       for (const [i, paycheck] of this.paychecks.entries()) {
         const payDate = new Date(paycheck.date);
 
@@ -85,6 +109,13 @@ export const useUserStore = defineStore("UserStore", {
     estNet(): number {
       const afterDeductions = this.estGross - this.deductions
       return afterDeductions * .75
+    },
+    expenseSum(): number {
+      const expenseSum = this.expenses.reduce(
+        (a: any = {}, b: any = {}) => a + b.amount,
+        0
+      );
+      return expenseSum;
     },
     //   console.log(this.date)
     //   const ogPayDate = new Date(this.date);

@@ -19,7 +19,7 @@
           <h2>Debt View</h2>
         </RouterLink>
 
-        <button class="view-box">
+        <button class="view-box" @click="downloadExcel">
           <h2>Export Excel</h2>
         </button>
       </section>
@@ -87,7 +87,7 @@
                 <td class="left">
                   <strong>Expense Total:</strong>
                 </td>
-                <td class="right">${{ expenseSum }}</td>
+                <td class="right">${{ userStore.expenseSum }}</td>
               </tr>
               <tr class="odd">
                 <td class="left">
@@ -154,15 +154,15 @@ export default defineComponent({
   components: {
     SettingsForm,
   },
-  computed: {
-    expenseSum() {
-      const expenseSum = this.userStore.expenses.reduce(
-        (a: any = {}, b: any = {}) => a + b.amount,
-        0
-      );
-      return expenseSum;
-    },
-  },
+  // computed: {
+  //   expenseSum() {
+  //     const expenseSum = this.userStore.expenses.reduce(
+  //       (a: any = {}, b: any = {}) => a + b.amount,
+  //       0
+  //     );
+  //     return expenseSum;
+  //   },
+  // },
   methods: {
     updateUserInfo(newUserData: {
       pay: number;
@@ -185,9 +185,11 @@ export default defineComponent({
       console.log(this.userStore.dbUserId);
     },
     downloadExcel() {
+      this.userStore.generateJSON(this.user.nickname)
       let alink = document.createElement("a");
-      alink.href = `http://localhost:5173/static/exports/master_list.xlsx`;
-      alink.download = "master_list.xlsx";
+      const fileName = `${this.user.nickname}-expense-info.xls`
+      alink.href = `${this.userStore.baseUrl}/${fileName}`;
+      alink.download = fileName;
       alink.click();
     },
   },
