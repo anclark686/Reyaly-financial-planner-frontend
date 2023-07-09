@@ -27,8 +27,8 @@ export const useUserStore = defineStore("UserStore", {
   },
 
   actions: {
-    fill(authUID: String | undefined) {
-      Axios.get(`${this.baseUrl}/users/?uid=${authUID}`)
+    async fill(authUID: String | undefined) {
+      await Axios.get(`${this.baseUrl}/users/?uid=${authUID}`)
         .then((res) => {
           if (res.data.message !== "Not Found") {
             const user = res.data.data.user;
@@ -42,7 +42,7 @@ export const useUserStore = defineStore("UserStore", {
 
             this.expenses = res.data.data.expenses;
             this.paychecks = res.data.data.paychecks;
-            console.log(res.data.data);
+            // console.log(res.data.data);
           }
           return res.data.data[0];
         })
@@ -77,7 +77,6 @@ export const useUserStore = defineStore("UserStore", {
         }
         
       }
-      console.log(data)
       Axios.post(`${this.baseUrl}/users/${this.dbUserId}/download`, data)
         .then((res) => {
           console.log(res)

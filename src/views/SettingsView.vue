@@ -53,8 +53,8 @@ export default defineComponent({
       userStore: useUserStore(),
     }
   },
-  mounted() {
-    this.userStore.fill(this.user.sub)
+  async mounted() {
+    await this.userStore.fill(this.user.sub)
   },
 });
 </script>

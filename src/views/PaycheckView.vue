@@ -89,15 +89,14 @@ export default defineComponent({
       }
     },
   },
-  mounted() {
-    (this.loading = true), this.userStore.fill(this.user.sub);
-    setTimeout(() => {
-      const badDateStr = this.userStore.paychecks[this.userStore.pIndex].date;
+  async mounted() {
+    this.loading = true 
+    await this.userStore.fill(this.user.sub);
+    const badDateStr = this.userStore.paychecks[this.userStore.pIndex].date;
       const rawDate = new Date(badDateStr);
       this.paycheck = this.userStore.formatDays(rawDate);
       this.loading = false;
       this.showPaycheckCard = true;
-    }, 1000);
   },
 });
 </script>

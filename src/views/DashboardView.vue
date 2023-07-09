@@ -154,15 +154,6 @@ export default defineComponent({
   components: {
     SettingsForm,
   },
-  // computed: {
-  //   expenseSum() {
-  //     const expenseSum = this.userStore.expenses.reduce(
-  //       (a: any = {}, b: any = {}) => a + b.amount,
-  //       0
-  //     );
-  //     return expenseSum;
-  //   },
-  // },
   methods: {
     updateUserInfo(newUserData: {
       pay: number;
@@ -193,13 +184,11 @@ export default defineComponent({
       alink.click();
     },
   },
-  mounted() {
-    this.userStore.fill(this.user.sub);
-    setTimeout(() => {
-      if (!this.userStore.dbUserId) {
+  async mounted() {
+    await this.userStore.fill(this.user.sub);
+    if (!this.userStore.dbUserId) {
         this.showUserForm = true;
       }
-    }, 1000);
   },
 });
 </script>
