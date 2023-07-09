@@ -37,7 +37,6 @@ export default defineComponent({
       calendarOptions: {
         plugins: [dayGridPlugin, interactionPlugin],
         initialView: "dayGridMonth",
-        themeSystem: "minty",
         events: [],
         eventColor: "#26c67b",
         datesSet: this.gatherDates,
@@ -61,7 +60,10 @@ export default defineComponent({
       for (const expense of this.userStore.expenses) {
         const day = expense.date < 10 ? `0${expense.date}` : expense.date;
         const newDateStr = `${year}-${month}-${day}`;
-        const eventObj = { title: expense.name, date: newDateStr };
+        const eventObj = {
+          title: `${expense.name} - $${expense.amount}`,
+          date: newDateStr,
+        };
 
         if (
           this.calendarOptions.events.filter((e) => e.date === eventObj.date)
@@ -75,7 +77,7 @@ export default defineComponent({
       this.payDates = this.userStore.paychecks.map((x) => ({
         title: "Payday",
         date: x.date,
-        color: "#378006",
+        color: "#1e9f63",
       }));
     },
   },
