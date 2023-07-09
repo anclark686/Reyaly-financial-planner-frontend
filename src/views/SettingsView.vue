@@ -6,15 +6,12 @@
 
     <div class="settings-content">
       <div class="master-list-container">
-        <MasterList 
-          pageType="settings"
-          :expenses="userStore.expenses"
-          
-        />
+        <MasterList pageType="settings" :expenses="userStore.expenses" />
       </div>
 
       <div class="form-container">
-        <SettingsForm v-if="userStore.pay"
+        <SettingsForm
+          v-if="userStore.pay"
           formType="update"
           :pay="userStore.pay"
           :rate="userStore.payRate"
@@ -32,9 +29,9 @@
 import { useAuth0 } from "@auth0/auth0-vue";
 
 import MasterList from "../components/MasterList.vue";
-import SettingsForm from '../components/SettingsForm.vue';
+import SettingsForm from "../components/SettingsForm.vue";
 import { useUserStore } from "../stores/UserStore";
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 
 export default defineComponent({
   setup() {
@@ -51,10 +48,10 @@ export default defineComponent({
   data() {
     return {
       userStore: useUserStore(),
-    }
+    };
   },
   async mounted() {
-    await this.userStore.fill(this.user.sub)
+    await this.userStore.fill(this.user.sub);
   },
 });
 </script>
@@ -102,5 +99,4 @@ export default defineComponent({
     padding: 10px;
   }
 }
-
 </style>

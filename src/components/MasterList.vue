@@ -8,7 +8,7 @@
             <td>Expense Name</td>
             <td>Amount</td>
             <td>Due Date</td>
-            <td>Modify</td>
+            <td v-if="pageType === 'settings'">Modify</td>
           </tr>
         </thead>
         <tbody>
@@ -20,7 +20,7 @@
             <td>{{ expense.name }}</td>
             <td>{{ expense.amount }}</td>
             <td>{{ expense.date }}</td>
-            <td>
+            <td v-if="pageType === 'settings'">
               <button class="emoji-btn" @click="onEditClick(expense, i)">
                 ✏️
               </button>
@@ -178,11 +178,6 @@ export default defineComponent({
       });
     },
   },
-  // mounted() {
-  //   setTimeout(() => {
-  //     this.masterList = this.expenses;
-  //   }, 1000);
-  // },
 });
 </script>
 

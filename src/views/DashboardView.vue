@@ -11,7 +11,7 @@
           <h2>Paycheck View</h2>
         </RouterLink>
 
-        <RouterLink to="/views/paycheck" class="view-box">
+        <RouterLink to="/views/account" class="view-box">
           <h2>Account View</h2>
         </RouterLink>
 
@@ -283,11 +283,11 @@ export default defineComponent({
 
 .form-modal {
   width: 50%;
-  height: 50%;
+  height: 75%;
   background-color: var(--green-bg);
-  position: absolute;
+  position: fixed;
   border-radius: 5px;
-  top: 25%;
+  top: 10%;
   left: 25%;
   text-align: center;
   padding: 20px;

@@ -6,20 +6,18 @@
 
       <div class="right">
         <div class="btn-container">
-          <button class="dark-light-btn btn btn-light">
+          <button class="dark-light-btn btn btn-light" @click="adjDarkLight('light')">
             <img
               src="./icons/bright.png"
               alt="sun"
               class="dark-light-img"
-              @click="adjDarkLight('light')"
             />
           </button>
-          <button class="dark-light-btn btn btn-dark">
+          <button class="dark-light-btn btn btn-dark" @click="adjDarkLight('dark')">
             <img
               src="./icons/moon.png"
               alt="sun"
               class="dark-light-img"
-              @click="adjDarkLight('dark')"
             />
           </button>
         </div>
