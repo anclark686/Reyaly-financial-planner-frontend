@@ -33,7 +33,10 @@
         </tr>
         <tr class="info-row every-other">
           <td>Pay Rate:</td>
-          <td>${{ userStore.pay }} per {{ userStore.payRate === "hourly" ? "hour" : "year"  }}</td>
+          <td>
+            ${{ userStore.pay }} per
+            {{ userStore.payRate === "hourly" ? "hour" : "year" }}
+          </td>
         </tr>
         <tr class="info-row">
           <td>Est. Gross Pay:</td>
@@ -85,7 +88,6 @@ export default defineComponent({
     },
   },
   computed: {
-    
     total() {
       const total = this.expenseList.reduce(
         (a: any = {}, b: any = {}) => a + b.amount,
@@ -94,7 +96,7 @@ export default defineComponent({
       return total;
     },
     remaining() {
-      return this.userStore.estNet - this.total
+      return this.userStore.estNet - this.total;
     },
   },
   methods: {
@@ -147,7 +149,8 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.expense-table, .pay-info-table {
+.expense-table,
+.pay-info-table {
   width: 100%;
   margin: 0 auto;
   text-align: center;
@@ -156,7 +159,8 @@ export default defineComponent({
   background-color: var(--white-black);
 }
 
-.expense-table-header, .pay-info-table-header {
+.expense-table-header,
+.pay-info-table-header {
   font-weight: bold;
   border: 2px solid var(--black-white);
   background-color: var(--med-green);

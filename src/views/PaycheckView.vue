@@ -25,7 +25,7 @@
             />
           </button>
         </div>
-        
+
         <PaycheckInfo
           v-if="showPaycheckCard"
           :date="paycheck"
@@ -90,13 +90,13 @@ export default defineComponent({
     },
   },
   async mounted() {
-    this.loading = true 
+    this.loading = true;
     await this.userStore.fill(this.user.sub);
     const badDateStr = this.userStore.paychecks[this.userStore.pIndex].date;
-      const rawDate = new Date(badDateStr);
-      this.paycheck = this.userStore.formatDays(rawDate);
-      this.loading = false;
-      this.showPaycheckCard = true;
+    const rawDate = new Date(badDateStr);
+    this.paycheck = this.userStore.formatDays(rawDate);
+    this.loading = false;
+    this.showPaycheckCard = true;
   },
 });
 </script>

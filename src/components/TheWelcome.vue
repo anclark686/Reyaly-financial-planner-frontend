@@ -2,15 +2,15 @@
 import { useUserStore } from "../stores/UserStore";
 
 const data = () => {
-    return {
-      userStore: useUserStore(),
-    }
-  }
+  return {
+    userStore: useUserStore(),
+  };
+};
 
 const doSomething = () => {
-  const userStore =  useUserStore()
-  console.log(userStore.dbUserId)
-}
+  const userStore = useUserStore();
+  console.log(userStore.dbUserId);
+};
 </script>
 
 <template>

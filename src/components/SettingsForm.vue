@@ -26,7 +26,13 @@
               <strong><label for="pay">Pay Rate:</label></strong>
             </td>
             <td class="pay-input">
-              <input type="number" id="pay" name="pay" class="input-info" v-model="newPay" />
+              <input
+                type="number"
+                id="pay"
+                name="pay"
+                class="input-info"
+                v-model="newPay"
+              />
             </td>
           </tr>
           <tr class="table-row">
@@ -34,19 +40,29 @@
               <strong><label for="rate">Per:</label></strong>
             </td>
             <td class="pay-input">
-              <select name="rate" id="rate" class="input-info" v-model="newRate">
+              <select
+                name="rate"
+                id="rate"
+                class="input-info"
+                v-model="newRate"
+              >
                 <option value="">--Select One --</option>
                 <option value="hourly">Hour</option>
                 <option value="annualy">Year</option>
               </select>
             </td>
           </tr>
-          <tr class="table-row"> 
+          <tr class="table-row">
             <td class="pay-label">
               <strong><label for="frequency">Frequency:</label></strong>
             </td>
             <td class="pay-input">
-              <select name="frequency" id="frequency" class="input-info" v-model="newFrequency">
+              <select
+                name="frequency"
+                id="frequency"
+                class="input-info"
+                v-model="newFrequency"
+              >
                 <option value="">--Select One --</option>
                 <option value="weekly">Weekly</option>
                 <option value="bi-weekly">Bi-Weekly</option>
@@ -75,7 +91,13 @@
               <strong><label for="date">Pay Start Date:</label></strong>
             </td>
             <td class="pay-input">
-              <input type="date" id="date" name="date" class="input-info" v-model="newDate" />
+              <input
+                type="date"
+                id="date"
+                name="date"
+                class="input-info"
+                v-model="newDate"
+              />
             </td>
           </tr>
           <tr class="table-row">
@@ -83,14 +105,21 @@
               <strong><label for="deductions">Deductions:</label></strong>
             </td>
             <td class="pay-input">
-              <input type="number" id="deductions" name="deductions" class="input-info" v-model="newDeductions" />
+              <input
+                type="number"
+                id="deductions"
+                name="deductions"
+                class="input-info"
+                v-model="newDeductions"
+                @keyup.enter="onSubmit"
+              />
             </td>
           </tr>
         </tbody>
       </table>
 
       <p v-if="invalid" id="warning">Please ensure all fields are filled.</p>
-      <div v-if="loading"  class="spinner-container">
+      <div v-if="loading" class="spinner-container">
         <div class="spinner-border text-success loading-spinner" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
@@ -139,7 +168,7 @@ export default {
     frequency: String,
     hours: Number,
     date: String,
-    deductions: Number
+    deductions: Number,
   },
   data() {
     return {
@@ -153,7 +182,7 @@ export default {
       invalid: false,
       duplicate: false,
       loading: false,
-      success: false
+      success: false,
     };
   },
   computed: {
@@ -166,17 +195,17 @@ export default {
         frequency: this.newFrequency,
         hours: this.newHours,
         date: this.newDate,
-        deductions: this.newDeductions
+        deductions: this.newDeductions,
       };
       return userData;
     },
   },
   methods: {
     addInfo() {
-      this.loading = true
+      this.loading = true;
       Axios.post(`${this.userStore.baseUrl}/users`, this.userData)
         .then((res) => {
-          this.loading = false
+          this.loading = false;
           console.log(res.data);
           if (res.data.message === "Duplicate") {
             this.duplicate = true;
@@ -188,19 +217,22 @@ export default {
         .catch((err) => console.log(err));
     },
     editInfo() {
-      this.loading = true
-      Axios.put(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}`, this.userData)
+      this.loading = true;
+      Axios.put(
+        `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}`,
+        this.userData
+      )
         .then((res) => {
-          console.log(res.data)
+          console.log(res.data);
           if (res.data.message === "Success") {
-            this.loading = false
+            this.loading = false;
             this.success = true;
             setTimeout(() => {
               this.success = false;
             }, 5000);
           }
         })
-        .catch((err) => console.log(err))
+        .catch((err) => console.log(err));
     },
     onSubmit() {
       if (this.newPay && this.newRate && this.newFrequency && this.newHours) {
@@ -216,7 +248,7 @@ export default {
     },
   },
   mounted() {
-    this.userStore.fill(this.user.sub)
+    this.userStore.fill(this.user.sub);
   },
 };
 </script>
@@ -224,7 +256,7 @@ export default {
 <style scoped>
 .settings-form {
   background-color: var(--white-black);
-  color: var(--text-color)
+  color: var(--text-color);
 }
 
 .settings-form-green {
@@ -271,13 +303,15 @@ td {
   margin-top: 20px;
 }
 
-.submit-btn, .spinner-container {
+.submit-btn,
+.spinner-container {
   margin: 50px;
   text-align: center;
   margin: 0px auto;
 }
 
-#submit-btn, .loading-spinner {
+#submit-btn,
+.loading-spinner {
   margin: 20px;
 }
 
@@ -286,5 +320,4 @@ td {
   text-align: center;
   margin-top: 20px;
 }
-
 </style>

@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { useAuth0 } from "@auth0/auth0-vue";
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 
 export default defineComponent({
   setup() {
@@ -23,7 +23,6 @@ export default defineComponent({
     };
   },
 });
-
 </script>
 
 <style scoped>

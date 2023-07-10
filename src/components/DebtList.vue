@@ -5,9 +5,10 @@
       <table class="debt-table" v-if="debts?.length !== 0">
         <thead class="debt-table-header">
           <tr>
-            <td>Debt Name</td>
+            <td>Creditor</td>
             <td>Type</td>
-            <td>Amount Owed</td>
+            <td>Owed</td>
+            <td>Limit</td>
             <td>APR</td>
             <td>Modify</td>
           </tr>
@@ -21,6 +22,7 @@
             <td>{{ debt.name }}</td>
             <td>{{ debt.type }}</td>
             <td>{{ debt.owed }}</td>
+            <td>{{ debt.limit }}</td>
             <td>{{ debt.rate }}</td>
             <td>
               <button class="emoji-btn" @click="onEditClick(debt, i)">
@@ -134,7 +136,7 @@ export default defineComponent({
       }
     },
     editDebtInfo(debtData: Debt) {
-      console.log(debtData)
+      console.log(debtData);
       Axios.put(
         `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/debts/${debtData.id}`,
         debtData
@@ -179,7 +181,6 @@ export default defineComponent({
         })
         .catch((err) => console.log(err));
     },
-    onSubmit() {},
   },
 });
 </script>

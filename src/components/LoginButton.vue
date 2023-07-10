@@ -16,7 +16,7 @@ export default {
         loginWithRedirect({
           appState: {
             target: "/dashboard",
-          }
+          },
         });
       },
     };
@@ -25,11 +25,11 @@ export default {
 </script>
 
 <style scoped>
-  #login {
-    background-color: white;
-    border: none;
-  }
-  #login:hover {
-    background-color: var(--bs-dropdown-link-hover-bg);
-  }
+#login {
+  background-color: white;
+  border: none;
+}
+#login:hover {
+  background-color: var(--bs-dropdown-link-hover-bg);
+}
 </style>

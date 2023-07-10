@@ -12,7 +12,6 @@
           to adjust your settings, and add expenses.
         </p>
       </section>
-
     </section>
   </main>
 </template>

@@ -176,9 +176,9 @@ export default defineComponent({
       console.log(this.userStore.dbUserId);
     },
     downloadExcel() {
-      this.userStore.generateJSON(this.user.nickname)
+      this.userStore.generateJSON(this.user.nickname);
       let alink = document.createElement("a");
-      const fileName = `${this.user.nickname}-expense-info.xls`
+      const fileName = `${this.user.nickname}-expense-info.xls`;
       alink.href = `${this.userStore.baseUrl}/${fileName}`;
       alink.download = fileName;
       alink.click();
@@ -187,8 +187,8 @@ export default defineComponent({
   async mounted() {
     await this.userStore.fill(this.user.sub);
     if (!this.userStore.dbUserId) {
-        this.showUserForm = true;
-      }
+      this.showUserForm = true;
+    }
   },
 });
 </script>
@@ -305,7 +305,7 @@ export default defineComponent({
   margin-bottom: 20px;
 }
 
-@media(max-width:1000px){
+@media (max-width: 1000px) {
   .view-boxes {
     width: 75%;
   }

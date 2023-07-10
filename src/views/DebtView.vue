@@ -5,10 +5,10 @@
     </header>
     <section class="debt-content">
       <div class="debt-list-container">
-        <DebtList :debts="userStore.debts"/>
+        <DebtList :debts="userStore.debts" />
       </div>
       <div class="debt-payoff-container">
-        <DebtPayoff />
+        <DebtPayoff :debts="userStore.debts" />
       </div>
     </section>
   </main>
@@ -40,10 +40,10 @@ export default defineComponent({
     };
   },
   async mounted() {
-    console.log(this.user.sub)
+    console.log(this.user.sub);
     await this.userStore.fill(this.user.sub);
-    console.log("you here?")
-    console.log(this.user.sub)
+    console.log("you here?");
+    console.log(this.user.sub);
   },
 });
 </script>
@@ -78,7 +78,7 @@ export default defineComponent({
   border: 2px solid black;
 }
 
-@media(max-width:1000px){
+@media (max-width: 1000px) {
   .debt-list-container {
     width: 90%;
     margin: 20px;
@@ -91,5 +91,4 @@ export default defineComponent({
     padding: 10px;
   }
 }
-
 </style>

@@ -33,7 +33,6 @@ import MasterList from "../components/MasterList.vue";
 import SettingsForm from "../components/SettingsForm.vue";
 import { useUserStore } from "../stores/UserStore";
 
-
 export default defineComponent({
   setup() {
     const { user } = useAuth0();
@@ -87,7 +86,7 @@ export default defineComponent({
   max-height: 550px;
 }
 
-@media(max-width:1000px){
+@media (max-width: 1000px) {
   .master-list-container {
     width: 90%;
     margin: 20px;

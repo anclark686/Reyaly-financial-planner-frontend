@@ -18,8 +18,13 @@
           />
         </div>
         <div class="input-row">
-          <label for="debt-name">Type</label>
-          <select name="rate" id="rate" class="input-info" v-model="type">
+          <label for="debt-type">Type</label>
+          <select
+            name="debt-type"
+            id="debt-type"
+            class="input-info"
+            v-model="type"
+          >
             <option value="">--Select One --</option>
             <option value="credit">Credit Card</option>
             <option value="auto">Auto Loan</option>
@@ -153,7 +158,6 @@ export default defineComponent({
       } else {
         this.invalid = true;
       }
-      
     },
   },
 });
@@ -204,5 +208,4 @@ export default defineComponent({
   text-align: center;
   margin-top: 20px;
 }
-
 </style>
