@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <main>
     <form
       action="submit"
       class="expense-form"
@@ -54,13 +54,13 @@
       </div>
     </form>
     <p v-if="invalid" id="warning">Please ensure all fields are filled.</p>
-  </div>
+  </main>
 </template>
 
 <script lang="ts">
-import { type Expense } from "../types";
+import { defineComponent } from "vue";
 
-export default {
+export default defineComponent({
   props: {
     pageType: String,
     expense: { type: Object, required: true },
@@ -90,27 +90,26 @@ export default {
     },
   },
   methods: {
-    clearinfo() {
+    clearInfo() {
       this.name = "";
       this.amount = 0;
       this.date = "";
     },
     onSubmit() {
       if (this.name && this.amount && this.date) {
+        this.invalid = false;
         if (this.type === "new") {
-          this.invalid = false;
           this.$emit("addInfo", this.expenseData);
-          this.clearinfo();
+          this.clearInfo();
         } else if (this.type === "edit") {
           this.$emit("editInfo", this.expenseData);
-          console.log(this.expense);
         }
       } else {
         this.invalid = true;
       }
     },
   },
-};
+});
 </script>
 
 <style scoped>

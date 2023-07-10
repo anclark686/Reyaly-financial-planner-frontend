@@ -174,8 +174,6 @@ export default {
   methods: {
     addInfo() {
       this.loading = true
-      console.log(this.userData);
-      console.log(this.pay, this.rate, this.frequency);
       Axios.post(`${this.userStore.baseUrl}/users`, this.userData)
         .then((res) => {
           this.loading = false
@@ -183,10 +181,7 @@ export default {
           if (res.data.message === "Duplicate") {
             this.duplicate = true;
           } else if (res.data.message === "Success") {
-            console.log(res.data.id);
             this.userStore.dbUserId = res.data.id;
-            console.log("in the form");
-            console.log(this.userData);
             this.$emit("close", this.userData);
           }
         })
@@ -194,8 +189,6 @@ export default {
     },
     editInfo() {
       this.loading = true
-      console.log(this.userData)
-      console.log(this.userStore.dbUserId)
       Axios.put(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}`, this.userData)
         .then((res) => {
           console.log(res.data)
@@ -287,7 +280,6 @@ td {
 #submit-btn, .loading-spinner {
   margin: 20px;
 }
-
 
 #success {
   color: var(--med-green);

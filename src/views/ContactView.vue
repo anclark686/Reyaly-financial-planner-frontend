@@ -1,16 +1,11 @@
 <template>
-    <div>
-            <header>
-        <h1 class="page-header">Contact</h1>
+  <main class="contact-container">
+    <header>
+      <h1 class="page-header">Contact</h1>
     </header>
-    </div>
-
+  </main>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts"></script>
 
-</script>
-
-<style scoped>
-
-</style>
+<style scoped></style>

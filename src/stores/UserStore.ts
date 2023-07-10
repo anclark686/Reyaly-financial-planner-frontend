@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import Axios from "axios";
 
+import { type Expense } from "../types";
 import { type Paycheck } from "../types";
 
 export const useUserStore = defineStore("UserStore", {
@@ -18,7 +19,7 @@ export const useUserStore = defineStore("UserStore", {
       date: "",
       deductions: 0,
       pIndex: 0,
-      expenses: [] as {}[],
+      expenses: [] as Expense[],
       paychecks: [] as Paycheck[],
       accounts: [] as {}[],
       debts: [] as {}[],
@@ -42,9 +43,11 @@ export const useUserStore = defineStore("UserStore", {
 
             this.expenses = res.data.data.expenses;
             this.paychecks = res.data.data.paychecks;
-            // console.log(res.data.data);
+            this.debts = res.data.data.debts;
+            console.log(res.data.data);
+            console.log(this.debts); 
           }
-          return res.data.data[0];
+          // return res.data.data[0];
         })
         .catch((err) => console.log(err));
     },

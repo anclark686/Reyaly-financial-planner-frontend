@@ -234,7 +234,7 @@ export default defineComponent({
 }
 
 .settings-container {
-  min-width: 200px;
+  min-width: 400px;
   width: 40%;
   background-color: var(--white-black);
   color: var(--text-color);
@@ -305,7 +305,7 @@ export default defineComponent({
   margin-bottom: 20px;
 }
 
-@media screen and (max-width: 800) {
+@media(max-width:1000px){
   .view-boxes {
     width: 75%;
   }

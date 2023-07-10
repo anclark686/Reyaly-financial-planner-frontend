@@ -1,7 +1,7 @@
 <template>
   <div class="master-list">
     <h3 class="subheader">Master List</h3>
-    <div class="expense-container">
+    <section class="expense-container">
       <table class="expense-table" v-if="expenses?.length !== 0">
         <thead class="expense-table-header">
           <tr>
@@ -32,9 +32,9 @@
           </tr>
         </tbody>
       </table>
-    </div>
+    </section>
 
-    <div
+    <section
       class="expense-form-container"
       v-if="pageType === 'settings' && addNew"
     >
@@ -46,22 +46,26 @@
       <div class="button-container">
         <button class="btn btn-success" @click="addNew = false">Close</button>
       </div>
-    </div>
+    </section>
 
-    <div class="expense-form-container" v-else-if="edit === true">
+    <section class="expense-form-container" v-else-if="edit === true">
       <ExpenseForm
         @cancel="cancelEdit"
         @editInfo="editExpenseInfo"
         :expense="editInfo"
         type="edit"
       />
-    </div>
+    </section>
 
-    <div class="button-container" v-else>
-      <button class="btn btn-success" @click="addNew = true">
+    <section class="button-container" v-else>
+      <button
+        class="btn btn-success"
+        @click="addNew = true"
+        v-if="pageType === 'settings'"
+      >
         Add New Expense
       </button>
-    </div>
+    </section>
   </div>
 </template>
 

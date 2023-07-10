@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <main class="login-container">
     <header>
       <h1 class="page-header">Reyaly Financial Planner</h1>
     </header>
     <h2>In order to get started, please login</h2>
     <button @click="login" class="main-login-btn">Log in</button>
-  </div>
+  </main>
 </template>
 
 <script lang="ts">

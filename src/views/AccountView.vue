@@ -1,20 +1,20 @@
 <template>
-  <div>
+  <main class="account-container">
     <header>
       <h1 class="page-header">Account View</h1>
     </header>
-    <div class="account-content">
-      <div class="master-list-container">
+    <section class="account-content">
+      <section class="master-list-container">
         <MasterList pageType="account" :expenses="userStore.expenses" />
         <p class="link-adjust">
           Click
           <RouterLink to="/settings">here</RouterLink>
           to adjust your settings, and add expenses.
         </p>
-      </div>
+      </section>
 
-    </div>
-  </div>
+    </section>
+  </main>
 </template>
 
 <script lang="ts">

@@ -7,6 +7,16 @@ export interface Expense {
     dateObj?: Date | undefined
 }
 
+export interface Debt {
+    id: string,
+    name: string,
+    type: string,
+    owed: number,
+    limit: number,
+    rate: number,
+    payment: number,
+}
+
 export interface Paycheck {
     date:string,
     id:string,

@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <main class="calendar-container">
     <header>
       <h1 class="page-header">Calendar View</h1>
     </header>
-    <div class="calendar">
+    <section class="calendar">
       <FullCalendar ref="cc" :options="calendarOptions" />
-    </div>
-    <div class="expense-form-container" v-if="addNew === true">
+    </section>
+    <section class="expense-form-container" v-if="addNew === true">
       <h3 class="subheader">Add Recurring Expense</h3>
       <ExpenseForm
         @addInfo="addInfo"
@@ -18,8 +18,8 @@
           Close
         </button>
       </div>
-    </div>
-  </div>
+    </section>
+  </main>
 </template>
 
 <script>

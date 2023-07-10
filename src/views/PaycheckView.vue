@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <main class="paycheck-container">
     <header>
       <h1 class="page-header">Paycheck View</h1>
     </header>
-    <main>
+    <section>
       <div class="card">
         <div class="card-header">
           <button class="arrow-btn btn" @click="changeDate('previous')">
@@ -32,8 +32,8 @@
           :frequency="userStore.payFreq"
         />
       </div>
-    </main>
-  </div>
+    </section>
+  </main>
 </template>
 
 <script lang="ts">

@@ -53,6 +53,7 @@ const router = createRouter({
       path: "/views/debt",
       name: "debt",
       component: DebtView,
+      beforeEnter: authGuard,
     },
     {
       path: "/about",
