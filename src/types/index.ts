@@ -4,7 +4,13 @@ export interface Expense {
     amount: number,
     date: number,
     dateStr?: string | undefined,
-    dateObj?: Date | undefined
+    dateObj?: Date | undefined,
+    account?: string
+}
+
+export interface Paycheck {
+    date: string,
+    id: string,
 }
 
 export interface Debt {
@@ -17,9 +23,13 @@ export interface Debt {
     payment: number,
 }
 
-export interface Paycheck {
-    date:string,
-    id:string,
+export interface Account {
+    id: string,
+    name: string,
+    start: number,
+    total: number,
+    end: number,
+    expenses: [],
 }
 
 // export interface User {

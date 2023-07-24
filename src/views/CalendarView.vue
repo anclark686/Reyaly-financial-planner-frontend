@@ -6,7 +6,7 @@
     <section class="calendar">
       <FullCalendar ref="cc" :options="calendarOptions" />
     </section>
-    <section class="expense-form-container" v-if="addNew === true">
+    <section class="expense-form-modal" v-if="addNew === true">
       <h3 class="subheader">Add Recurring Expense</h3>
       <ExpenseForm
         @addInfo="addInfo"
@@ -15,6 +15,36 @@
       />
       <div class="btn-container">
         <button id="close-btn" class="btn btn-success" @click="addNew = false">
+          Close
+        </button>
+      </div>
+    </section>
+    <section class="view-expense-modal" v-if="showData === true">
+      <h3 class="subheader">{{ currentexpense.name }} Info</h3>
+      <div class="expense-info">
+        <table>
+          <tbody>
+            <tr>
+              <td class="expense-label"><strong>Expense Name:</strong></td>
+              <td>{{ currentexpense.name }}</td>
+            </tr>
+            <tr>
+              <td class="expense-label"><strong>Expense Amount:</strong></td>
+              <td>${{ currentexpense.amount }}</td>
+            </tr>
+            <tr>
+              <td class="expense-label"><strong>Expense Due Date:</strong></td>
+              <td>{{ currentexpense.fullDate }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="btn-container">
+        <button
+          id="close-btn"
+          class="btn btn-success"
+          @click="showData = false"
+        >
           Close
         </button>
       </div>
@@ -29,9 +59,12 @@ import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useAuth0 } from "@auth0/auth0-vue";
+import JSConfetti from "js-confetti";
 
 import { useUserStore } from "../stores/UserStore";
 import ExpenseForm from "../components/ExpenseForm.vue";
+
+const jsConfetti = new JSConfetti();
 
 export default defineComponent({
   setup() {
@@ -52,22 +85,20 @@ export default defineComponent({
       payDates: [],
       addNew: false,
       dueDate: 0,
+      showData: false,
+      currentexpense: {},
       calendarOptions: {
         plugins: [dayGridPlugin, interactionPlugin],
         selectable: true,
         initialView: "dayGridMonth",
         events: [],
         eventColor: "#26c67b",
+        editable: true,
         datesSet: this.gatherDates,
         dateClick: this.handleDateClick,
+        eventClick: this.handleEventClick,
       },
     };
-  },
-  watch: {
-    expenseDates: function (newVal, oldVal) {
-      console.log(1);
-      console.log(2);
-    },
   },
   methods: {
     getMonthAndYear() {
@@ -85,8 +116,9 @@ export default defineComponent({
         const day = expense.date < 10 ? `0${expense.date}` : expense.date;
         const newDateStr = `${year}-${month}-${day}`;
         const eventObj = {
-          title: `${expense.name} - $${expense.amount}`,
+          title: expense.name,
           date: newDateStr,
+          expense: expense,
         };
 
         if (
@@ -107,6 +139,15 @@ export default defineComponent({
     handleDateClick(info) {
       this.addNew = true;
       this.dueDate = info.date.getDate();
+    },
+    handleEventClick(info) {
+      if (info.event.extendedProps.expense) {
+        this.showData = true;
+        this.currentexpense = info.event.extendedProps.expense;
+        this.currentexpense.fullDate = info.event.start.toLocaleDateString();
+      } else {
+        jsConfetti.addConfetti();
+      }
     },
     addInfo(expenseData) {
       console.log(expenseData);
@@ -159,7 +200,8 @@ export default defineComponent({
   border: 2px solid var(--black-white);
 }
 
-.expense-form-container {
+.expense-form-modal,
+.view-expense-modal {
   width: 50%;
   height: 250px;
   background-color: var(--green-bg);
@@ -174,6 +216,7 @@ export default defineComponent({
   overflow-y: auto;
   color: var(--black-white);
   z-index: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
 }
 
 .subheader {
@@ -182,5 +225,20 @@ export default defineComponent({
 
 .btn-container {
   margin-top: 20px;
+}
+.expense-info {
+  width: 50%;
+  margin: 0 auto;
+  background-color: var(--white-black);
+  border-radius: 5px;
+  border: solid 2px black;
+}
+
+.expense-label {
+  text-align: left;
+}
+
+table {
+  margin: auto;
 }
 </style>

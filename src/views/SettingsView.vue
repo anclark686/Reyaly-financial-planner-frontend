@@ -83,7 +83,7 @@ export default defineComponent({
   border: 2px solid black;
   padding: 30px;
   text-align: left;
-  max-height: 550px;
+  height: fit-content;
 }
 
 @media (max-width: 1000px) {

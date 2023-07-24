@@ -130,7 +130,7 @@
 </template>
 
 <script lang="ts">
-import { RouterLink, RouterView } from "vue-router";
+import { RouterLink } from "vue-router";
 import { useAuth0 } from "@auth0/auth0-vue";
 import { defineComponent } from "vue";
 
@@ -153,6 +153,7 @@ export default defineComponent({
   },
   components: {
     SettingsForm,
+    RouterLink
   },
   methods: {
     updateUserInfo(newUserData: {
@@ -295,6 +296,7 @@ export default defineComponent({
   border-radius: 10px;
   overflow-y: auto;
   color: var(--black-white);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
 }
 
 #welcome {

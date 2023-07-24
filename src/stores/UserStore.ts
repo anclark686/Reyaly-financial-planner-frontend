@@ -3,6 +3,8 @@ import Axios from "axios";
 
 import { type Expense } from "../types";
 import { type Paycheck } from "../types";
+import { type Debt } from "../types";
+import { type Account } from "../types";
 
 export const useUserStore = defineStore("UserStore", {
   state: () => {
@@ -21,8 +23,8 @@ export const useUserStore = defineStore("UserStore", {
       pIndex: 0,
       expenses: [] as Expense[],
       paychecks: [] as Paycheck[],
-      accounts: [] as {}[],
-      debts: [] as {}[],
+      accounts: [] as Account[],
+      debts: [] as Debt[],
       baseUrl: "http://127.0.0.1:3000/",
     };
   },
@@ -44,12 +46,15 @@ export const useUserStore = defineStore("UserStore", {
             this.expenses = res.data.data.expenses;
             this.paychecks = res.data.data.paychecks;
             this.debts = res.data.data.debts;
+            this.accounts = res.data.data.accounts;
             console.log(res.data.data);
-            console.log(this.debts); 
           }
           // return res.data.data[0];
         })
         .catch((err) => console.log(err));
+    },
+    consoleSomething() {
+      console.log("hello")
     },
     // addDays(date: string, days: number) {
     //   const result = new Date(date);

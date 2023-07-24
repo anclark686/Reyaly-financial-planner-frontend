@@ -26,10 +26,7 @@ export default {
 
 <style scoped>
 #login {
-  background-color: white;
+  background-color: inherit;
   border: none;
-}
-#login:hover {
-  background-color: var(--bs-dropdown-link-hover-bg);
 }
 </style>

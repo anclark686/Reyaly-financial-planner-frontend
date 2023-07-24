@@ -2,7 +2,11 @@
   <div>
     <div class="pic-header"></div>
     <nav class="navbar">
-      <p class="brand">Reyaly Financial Planner</p>
+      <div class="brand">
+        <RouterLink class="dropdown-item" to="/">
+          <p>Reyaly Financial Planner</p>
+        </RouterLink>
+      </div>
 
       <div class="right">
         <div class="btn-container">
@@ -35,24 +39,24 @@
               class="dropdown-menu dropdown-menu-right"
               aria-labelledby="dropdownMenuButton"
             >
-              <RouterLink class="dropdown-item" to="/dashboard"
-                >Dashboard</RouterLink
-              >
-              <RouterLink class="dropdown-item" to="/views/calendar"
-                >Calendar View</RouterLink
-              >
-              <RouterLink class="dropdown-item" to="/views/paycheck"
-                >Paycheck View</RouterLink
-              >
-              <RouterLink class="dropdown-item" to="/views/account"
-                >Account View</RouterLink
-              >
-              <RouterLink class="dropdown-item" to="/views/debt"
-                >Debt View</RouterLink
-              >
-              <RouterLink class="dropdown-item" to="/settings"
-                >Settings</RouterLink
-              >
+              <RouterLink class="dropdown-item" to="/dashboard">
+                Dashboard
+              </RouterLink>
+              <RouterLink class="dropdown-item" to="/views/calendar">
+                Calendar View
+              </RouterLink>
+              <RouterLink class="dropdown-item" to="/views/paycheck">
+                Paycheck View
+              </RouterLink>
+              <RouterLink class="dropdown-item" to="/views/account">
+                Account View
+              </RouterLink>
+              <RouterLink class="dropdown-item" to="/views/debt">
+                Debt View
+              </RouterLink>
+              <RouterLink class="dropdown-item" to="/settings">
+                Settings
+              </RouterLink>
               <div class="dropdown-divider"></div>
               <div class="login-logout dropdown-item" v-if="isAuthenticated">
                 <LogoutButton />
@@ -69,7 +73,7 @@
 </template>
 
 <script lang="ts">
-import { RouterLink, RouterView } from "vue-router";
+import { RouterLink } from "vue-router";
 import { useAuth0 } from "@auth0/auth0-vue";
 
 import LoginButton from "./LoginButton.vue";
@@ -88,6 +92,7 @@ export default {
   components: {
     LoginButton,
     LogoutButton,
+    RouterLink
   },
   data() {
     return {
@@ -153,6 +158,14 @@ export default {
   color: white;
 }
 
+.dropdown-menu {
+  background-color: var(--white-black);
+}
+
+.dropdown-menu a {
+  color: var(--text-color);
+}
+
 .dropdown-menu-right {
   right: 0;
   left: auto;
@@ -161,6 +174,11 @@ export default {
 .dropdown-item:active {
   background-color: var(--med-green);
 }
+
+.dropdown-item:hover {
+  background-color: var(--green-bg);
+}
+
 
 .btn-success {
   background-color: var(--med-green);

@@ -288,6 +288,7 @@ export default defineComponent({
   overflow-y: auto;
   color: var(--black-white);
   z-index: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
 }
 
 #x-out {

@@ -148,7 +148,6 @@ export default defineComponent({
     onSubmit() {
       if (this.name && this.type) {
         this.invalid = false;
-        console.log(this.debtData);
         if (this.pageType === "new") {
           this.$emit("addInfo", this.debtData);
           // this.clearInfo();

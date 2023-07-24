@@ -13,6 +13,7 @@
           id="expense-name"
           name="expense-name"
           v-model="name"
+          ref="name"
         />
       </div>
       <div class="input-row">
@@ -27,7 +28,7 @@
       </div>
       <div class="input-row">
         <label for="expense-date">Due Date</label>
-        <select name="expense-date" id="expense-date" v-model="date">
+        <select name="expense-date" id="expense-date" v-model="date"  @keyup.enter="onSubmit">
           <option value="">--Select One --</option>
           <option v-for="num in dateArr" v-bind:key="num" :value="num">
             {{ num }}
@@ -96,11 +97,12 @@ export default defineComponent({
       this.date = "";
     },
     onSubmit() {
-      if (this.name && this.amount && this.date) {
+      if (this.name && this.date) {
         this.invalid = false;
         if (this.type === "new") {
           this.$emit("addInfo", this.expenseData);
           this.clearInfo();
+          (this.$refs["name"] as any).focus()
         } else if (this.type === "edit") {
           this.$emit("editInfo", this.expenseData);
         }

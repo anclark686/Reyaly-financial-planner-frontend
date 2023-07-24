@@ -21,10 +21,8 @@ export default {
 
 <style scoped>
 #logout {
-  background-color: white;
+  background-color: inherit;
   border: none;
-}
-#logout:hover {
-  background-color: var(--bs-dropdown-link-hover-bg);
+  color: var(--text-color)
 }
 </style>

@@ -28,6 +28,7 @@
             <td class="pay-input">
               <input
                 type="number"
+                step="0.01"
                 id="pay"
                 name="pay"
                 class="input-info"
@@ -151,6 +152,7 @@
 <script lang="ts">
 import { useAuth0 } from "@auth0/auth0-vue";
 import Axios from "axios";
+
 import { useUserStore } from "../stores/UserStore";
 
 export default {
@@ -188,7 +190,7 @@ export default {
   computed: {
     userData() {
       const userData = {
-        userName: this.user.nickname,
+        username: this.user.nickname,
         uid: this.user.sub,
         pay: this.newPay,
         rate: this.newRate,
@@ -210,7 +212,7 @@ export default {
           if (res.data.message === "Duplicate") {
             this.duplicate = true;
           } else if (res.data.message === "Success") {
-            this.userStore.dbUserId = res.data.id;
+            this.userStore.fill(this.user.sub)
             this.$emit("close", this.userData);
           }
         })

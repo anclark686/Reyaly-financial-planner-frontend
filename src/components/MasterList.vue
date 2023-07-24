@@ -1,6 +1,6 @@
 <template>
   <div class="master-list">
-    <h3 class="subheader">Master List</h3>
+    <h3 class="subheader" v-if="pageType !== 'accountBox'">Master List</h3>
     <section class="expense-container">
       <table class="expense-table" v-if="expenses?.length !== 0">
         <thead class="expense-table-header">
@@ -9,13 +9,15 @@
             <td>Amount</td>
             <td>Due Date</td>
             <td v-if="pageType === 'settings'">Modify</td>
+            <td v-if="pageType === 'account'">Add</td>
+            <td v-if="pageType === 'accountBox'">Remove</td>
           </tr>
         </thead>
         <tbody>
           <tr
             v-for="(expense, i) in masterList"
             :key="expense.id"
-            :class="i % 2 === 0 ? 'expense-row every-other' : 'expense-row'"
+            :class="i % 2 === 0 ? 'expense-row every-other' : 'expense-row eog'"
           >
             <td>{{ expense.name }}</td>
             <td>{{ expense.amount }}</td>
@@ -25,8 +27,18 @@
                 ✏️
               </button>
               |
-              <button class="emoji-btn" @click="onDelete(expense.id, i)">
+              <button class="emoji-btn" @click="preDelete(expense.id, i, expense.name)">
                 ❌
+              </button>
+            </td>
+            <td v-if="pageType === 'account'">
+              <button class="emoji-btn" @click="onAddClick(expense)">
+                ➕
+              </button>
+            </td>
+            <td v-if="pageType === 'accountBox'">
+              <button class="emoji-btn" @click="onRemoveClick(i)">
+                ➖
               </button>
             </td>
           </tr>
@@ -66,6 +78,12 @@
         Add New Expense
       </button>
     </section>
+    <DeleteModal
+      v-if="showModal"
+      @close="showModal = false"
+      @delExpense="onDelete(deleteInfo.id, deleteInfo.idx)"
+      :expenseName="deleteInfo.title"
+    />
   </div>
 </template>
 
@@ -74,6 +92,7 @@ import Axios from "axios";
 import { defineComponent } from "vue";
 
 import ExpenseForm from "./ExpenseForm.vue";
+import DeleteModal from "./DeleteModal.vue";
 import { useUserStore } from "../stores/UserStore";
 import { type Expense } from "../types";
 
@@ -90,10 +109,13 @@ export default defineComponent({
       edit: false,
       editInfo: {} as Expense,
       editRow: 0,
+      showModal: false,
+      deleteInfo: {} as { id: string, idx: number, title: string },
     };
   },
   components: {
     ExpenseForm,
+    DeleteModal,
   },
   watch: {
     expenses: function (newVal, oldVal) {
@@ -162,7 +184,12 @@ export default defineComponent({
       this.edit = false;
       this.editInfo = {} as Expense;
     },
+    preDelete(id: string, idx: number, title: string) {
+      this.showModal = true;
+      this.deleteInfo = { id: id, idx: idx, title: title };
+    },
     onDelete(id: string, idx: number) {
+      this.showModal = false;
       Axios.delete(
         `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses/${id}`
       )
@@ -170,11 +197,20 @@ export default defineComponent({
           console.log(res.data);
           if (res.data.message === "Success") {
             this.masterList.splice(idx, 1);
+            this.deleteInfo = { id: "", idx: 0, title: "" };
           } else {
             alert("An error occurred, please try again");
           }
         })
         .catch((err) => console.log(err));
+    },
+    onAddClick(expense: Expense) {
+      console.log(expense)
+      this.$emit("addExpense", expense);
+    },
+    onRemoveClick(idx: number) {
+      console.log(idx)
+      this.masterList.splice(idx, 1);
     },
     sortMasterList() {
       this.masterList.sort((a: any = {} as Expense, b: any = {} as Expense) => {
@@ -208,6 +244,10 @@ export default defineComponent({
 
 .every-other {
   background-color: var(--white-black);
+}
+
+.eog {
+  background-color: var(--green-bg);
 }
 
 .emoji-btn {
