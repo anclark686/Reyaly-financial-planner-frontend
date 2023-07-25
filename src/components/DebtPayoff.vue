@@ -71,7 +71,7 @@
               {{ debt.name }}
             </td>
             <td>
-              {{ debt.payment }}
+              ${{ debt.payment }}
             </td>
             <td :class="debt.remaining === 'Paid Off!' ? 'success' : null">
               {{ debt.remaining }}
@@ -210,7 +210,7 @@ export default defineComponent({
 
 <style scoped>
 .subheader {
-  margin-bottom: 10px;
+  margin: 10px;
 }
 
 .inputs {

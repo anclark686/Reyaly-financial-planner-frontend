@@ -21,7 +21,7 @@
             :class="i % 2 === 0 ? 'expense-row every-other' : 'expense-row eog'"
           >
             <td>{{ expense.name }}</td>
-            <td>{{ expense.amount }}</td>
+            <td>${{ expense.amount }}</td>
             <td>{{ expense.date }}</td>
             <td v-if="pageType === 'settings'">
               <button class="emoji-btn" @click="onEditClick(expense, i)">✏️</button>

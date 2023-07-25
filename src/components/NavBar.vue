@@ -3,7 +3,10 @@
     <div class="pic-header"></div>
     <nav class="navbar">
       <div class="brand">
-        <RouterLink class="dropdown-item" to="/">
+        <RouterLink v-if="isAuthenticated" class="brand-header" to="/dashboard">
+          <p>Reyaly Financial Planner</p>
+        </RouterLink>
+        <RouterLink v-else class="brand-header" to="/">
           <p>Reyaly Financial Planner</p>
         </RouterLink>
       </div>
@@ -113,6 +116,11 @@ export default {
   font-size: 24px;
   padding: 10px;
   font-family: "Lobster", cursive;
+}
+
+.brand-header {
+  color: white;
+  text-decoration: none;
 }
 
 .right {
