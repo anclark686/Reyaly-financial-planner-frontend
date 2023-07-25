@@ -238,4 +238,14 @@ export default defineComponent({
   margin: 20px;
   text-align: center;
 }
+
+@media (max-width: 1000px) {
+  .subheader {
+    font-size: 2.5rem;
+  }
+
+  .btn {
+    font-size: 1.5rem;
+  }
+}
 </style>

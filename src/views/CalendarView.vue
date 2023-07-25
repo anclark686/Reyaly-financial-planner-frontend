@@ -232,4 +232,31 @@ export default defineComponent({
 table {
   margin: auto;
 }
+
+@media (max-width: 1000px) {
+  .page-header {
+    font-size: 2.5rem;
+  }
+  .calendar {
+    width: 95%;
+  }
+  .expense-form-modal,
+  .view-expense-modal {
+    width: 95%;
+    height: 250px;
+    background-color: var(--green-bg);
+    position: fixed;
+    border-radius: 5px;
+    top: 25%;
+    left: 2.5%;
+    text-align: center;
+    padding: 20px;
+    border: solid 2px black;
+    border-radius: 10px;
+    overflow-y: auto;
+    color: var(--black-white);
+    z-index: 1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  }
+}
 </style>

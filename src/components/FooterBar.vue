@@ -14,9 +14,7 @@
   </footer>
 </template>
 
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <style scoped>
 footer {
@@ -36,5 +34,11 @@ footer a:visited {
   height: 25px;
   width: 25px;
   margin: 5px;
+}
+
+@media (max-width: 1000px) {
+  footer {
+    font-size: 1.5rem;
+  }
 }
 </style>

@@ -145,4 +145,10 @@ export default defineComponent({
   text-align: center;
   margin-top: 20px;
 }
+
+@media (max-width: 1000px) {
+  .btn {
+    font-size: 1.5rem;
+  }
+}
 </style>

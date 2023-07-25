@@ -193,4 +193,16 @@ export default defineComponent({
   margin: 20px;
   text-align: center;
 }
+
+@media (max-width: 1000px) {
+  .subheader {
+    font-size: 2.25rem;
+  }
+  .btn {
+    font-size: 1.5rem;
+  }
+  .debt-table {
+    width: 97%;
+  }
+}
 </style>

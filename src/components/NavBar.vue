@@ -170,4 +170,26 @@ export default {
   background-color: var(--med-green);
   border: 2px solid black;
 }
+@media (max-width: 1000px) {
+  .brand-header {
+    font-size: 2rem;
+  }
+
+  .btn {
+    font-size: 2rem;
+  }
+
+  .dark-light-btn {
+    width: 70px;
+    height: 70px;
+  }
+
+  .dark-light-img {
+    height: 50px;
+    width: 50px;
+  }
+  .dropdown-item {
+    font-size: 1.5rem;
+  }
+}
 </style>

@@ -160,7 +160,12 @@
               <strong><label for="relationship">Single or Married:</label></strong>
             </td>
             <td class="pay-input">
-              <select name="relationship" id="relationship" class="input-info" v-model="newRelationship">
+              <select
+                name="relationship"
+                id="relationship"
+                class="input-info"
+                v-model="newRelationship"
+              >
                 <option value="">--Select One--</option>
                 <option value="single">Single</option>
                 <option value="married">Married</option>
@@ -271,10 +276,10 @@ export default {
     },
     editInfo() {
       this.loadingSettings = true;
-      console.log(this.userData)
+      console.log(this.userData);
       Axios.put(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}`, this.userData)
         .then((res) => {
-          console.log(res.data)
+          console.log(res.data);
           if (res.data.message === "Success") {
             this.loadingSettings = false;
             this.success = true;
@@ -367,5 +372,15 @@ td {
   color: var(--med-green);
   text-align: center;
   margin-top: 20px;
+}
+
+@media (max-width: 1000px) {
+  .subheader {
+    font-size: 2.5rem;
+  }
+
+  .btn {
+    font-size: 1.5rem;
+  }
 }
 </style>

@@ -96,4 +96,19 @@ export default defineComponent({
     padding: 10px;
   }
 }
+@media (max-width: 1000px) {
+  .page-header {
+    font-size: 2.5rem;
+  }
+
+  .debt-list-container {
+    width: 95%;
+    font-size: 1rem;
+  }
+
+  .debt-payoff-container {
+    width: 95%;
+    font-size: 1rem;
+  }
+}
 </style>

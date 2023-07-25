@@ -70,9 +70,7 @@
             <td>
               {{ debt.name }}
             </td>
-            <td>
-              ${{ debt.payment }}
-            </td>
+            <td>${{ debt.payment }}</td>
             <td :class="debt.remaining === 'Paid Off!' ? 'success' : null">
               {{ debt.remaining }}
             </td>
@@ -313,5 +311,21 @@ export default defineComponent({
   color: rgb(161, 8, 8);
   text-align: center;
   margin-top: 20px;
+}
+
+@media (max-width: 1000px) {
+  .inputs {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    align-items: center;
+  }
+  .subheader {
+    font-size: 2.25rem;
+  }
+
+  .btn {
+    font-size: 1.5rem;
+  }
 }
 </style>

@@ -34,13 +34,13 @@
           </tr>
         </tbody>
       </table>
-      <h4>Expenses</h4>
+      <h4 class="subheader">Expenses</h4>
       <div class="expense-list" v-if="expenseList.length > 0">
         <MasterList pageType="accountForm" :expenses="expenseList" />
         <button id="clear" class="btn btn-secondary" @click.prevent="clear">Clear</button>
       </div>
       <div class="expense-list" v-else>
-        <p>&lt;-- Click add on an expense to get started!</p>
+        <p>Click ➕ &nbsp;on an expense to get started!</p>
       </div>
       <table class="account-table">
         <tbody>
@@ -229,5 +229,19 @@ export default defineComponent({
   color: var(--red);
   text-align: center;
   margin-top: 20px;
+}
+
+@media (max-width: 1000px) {
+  .subheader {
+    font-size: 1rem;
+  }
+
+  .account-table label {
+    width: 95%;
+    text-align: left;
+  }
+  .btn {
+    font-size: 1rem;
+  }
 }
 </style>

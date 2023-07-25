@@ -118,4 +118,14 @@ export default defineComponent({
   width: 80px;
   margin: 5px;
 }
+
+@media (max-width: 1000px) {
+  .subheader {
+    font-size: 2rem;
+  }
+
+  .modify-btn {
+    width: 150px;
+  }
+}
 </style>

@@ -97,16 +97,22 @@ export default defineComponent({
 }
 
 @media (max-width: 1000px) {
+  .page-header {
+    font-size: 2.5rem;
+  }
+
   .master-list-container {
     width: 90%;
     margin: 20px;
     padding: 10px;
+    font-size: 1rem;
   }
 
   .form-container {
     width: 90%;
     margin: 20px;
     padding: 10px;
+    font-size: 1.25rem;
   }
 }
 </style>

@@ -125,7 +125,6 @@
           </p>
         </section>
       </section>
-      <button @click="handleFormClick">showModal</button>
       <div v-if="showUserForm" @close="showUserForm = false" class="form-modal">
         <h2 id="welcome">Welcome {{ user.name }}!</h2>
         <div class="instructions">
@@ -324,12 +323,24 @@ export default defineComponent({
 }
 
 @media (max-width: 1000px) {
+  .page-header {
+    font-size: 2.5rem;
+  }
+
+  .subheader {
+    font-size: 2.5rem;
+  }
+
   .view-boxes {
     width: 75%;
   }
   .view-box {
     width: 90%;
     margin: 10px;
+  }
+
+  .view-box h2 {
+    font-size: 2rem;
   }
 
   .settings-container {
@@ -344,8 +355,11 @@ export default defineComponent({
   .info-table {
     width: 95%;
     margin: 0 auto;
-    font-size: small;
+    font-size: 1rem;
     border: 2px solid black;
+  }
+  .link-adjust {
+    font-size: 1rem;
   }
 }
 </style>

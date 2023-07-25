@@ -207,19 +207,19 @@ export const useUserStore = defineStore("UserStore", {
 
       switch (this.payFreq) {
         case "bi-weekly":
-          estIncomeTax = Math.floor(fedIncomeAnnual / 26)
+          estIncomeTax = Math.floor(fedIncomeAnnual / 26);
           break;
         case "weekly":
-          estIncomeTax = Math.floor(fedIncomeAnnual / 52)
+          estIncomeTax = Math.floor(fedIncomeAnnual / 52);
           break;
         case "bi-monthly":
-          estIncomeTax = Math.floor(fedIncomeAnnual / 24)
+          estIncomeTax = Math.floor(fedIncomeAnnual / 24);
           break;
         default:
-          estIncomeTax = Math.floor(fedIncomeAnnual / 12)
+          estIncomeTax = Math.floor(fedIncomeAnnual / 12);
           break;
       }
-      console.log(`estIncomeTax ${estIncomeTax}`)
+      console.log(`estIncomeTax ${estIncomeTax}`);
       const estFedTaxes = estIncomeTax + estFica;
       console.log(`estFica = ${estFica}`);
       console.log(`estFedTaxes = ${estFedTaxes}`);
@@ -351,8 +351,8 @@ export const useUserStore = defineStore("UserStore", {
           break;
       }
       const estStateTaxes = Math.floor(this.afterDeductions * percentage);
-      console.log(`estStateTaxes = ${estStateTaxes}`)
-      return estStateTaxes
+      console.log(`estStateTaxes = ${estStateTaxes}`);
+      return estStateTaxes;
     },
   },
 
@@ -386,14 +386,14 @@ export const useUserStore = defineStore("UserStore", {
     estAnnual(): number {
       let estAnnual: number;
       if (this.payRate === "hourly") {
-        estAnnual = (40 * this.pay) * 52;
+        estAnnual = 40 * this.pay * 52;
       } else {
         estAnnual = this.pay;
       }
       return estAnnual;
     },
     afterDeductions(): number {
-      return this.estGross - this.deductions
+      return this.estGross - this.deductions;
     },
     estFedTaxes(): number {
       const userStore = useUserStore();
@@ -404,7 +404,7 @@ export const useUserStore = defineStore("UserStore", {
       return userStore.getLocalTaxWithholding();
     },
     estNet(): number {
-      const afterTaxes = this.afterDeductions - this.estLocalTaxes - this.estFedTaxes
+      const afterTaxes = this.afterDeductions - this.estLocalTaxes - this.estFedTaxes;
 
       return Math.floor(afterTaxes);
     },

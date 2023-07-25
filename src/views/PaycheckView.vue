@@ -122,4 +122,17 @@ export default defineComponent({
   width: 25px;
   color: white;
 }
+
+@media (max-width: 1000px) {
+  .page-header {
+    font-size: 2.5rem;
+  }
+  .subheader {
+    font-size: 2rem;
+  }
+  .card {
+    width: 95%;
+    font-size: 1rem;
+  }
+}
 </style>
