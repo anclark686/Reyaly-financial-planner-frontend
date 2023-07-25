@@ -8,8 +8,6 @@ import CalendarView from "../views/CalendarView.vue";
 import PaycheckView from "../views/PaycheckView.vue";
 import DebtView from "../views/DebtView.vue";
 import AccountView from "../views/AccountView.vue";
-import AboutView from "../views/AboutView.vue";
-import ContactView from "../views/ContactView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -54,16 +52,6 @@ const router = createRouter({
       name: "debt",
       component: DebtView,
       beforeEnter: authGuard,
-    },
-    {
-      path: "/about",
-      name: "about",
-      component: AboutView,
-    },
-    {
-      path: "/contact",
-      name: "contact",
-      component: ContactView,
     },
   ],
 });
