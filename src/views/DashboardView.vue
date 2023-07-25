@@ -1,132 +1,140 @@
 <template>
-  <main class="dashboard">
-    <h1 class="page-header">Dashboard</h1>
-    <section class="main-dashboard">
-      <section class="view-boxes">
-        <RouterLink to="/views/calendar" class="view-box">
-          <h2>Calendar View</h2>
-        </RouterLink>
+  <section class="page-content">
+    <main class="dashboard" v-if="!userStore.loading">
+      <h1 class="page-header">Dashboard</h1>
+      <section class="main-dashboard">
+        <section class="view-boxes">
+          <RouterLink to="/views/calendar" class="view-box">
+            <h2>Calendar View</h2>
+          </RouterLink>
 
-        <RouterLink to="/views/paycheck" class="view-box">
-          <h2>Paycheck View</h2>
-        </RouterLink>
+          <RouterLink to="/views/paycheck" class="view-box">
+            <h2>Paycheck View</h2>
+          </RouterLink>
 
-        <RouterLink to="/views/account" class="view-box">
-          <h2>Account View</h2>
-        </RouterLink>
+          <RouterLink to="/views/account" class="view-box">
+            <h2>Account View</h2>
+          </RouterLink>
 
-        <RouterLink to="/views/debt" class="view-box">
-          <h2>Debt View</h2>
-        </RouterLink>
+          <RouterLink to="/views/debt" class="view-box">
+            <h2>Debt View</h2>
+          </RouterLink>
 
-        <button class="view-box" @click="downloadExcel">
-          <h2>Export Excel</h2>
-        </button>
+          <button class="view-box" @click="downloadExcel">
+            <h2>Export Excel</h2>
+          </button>
+        </section>
+
+        <section class="settings-container">
+          <div class="user-info" v-if="userStore.dbUserId">
+            <h3 class="subheader">User Info:</h3>
+
+            <table class="info-table">
+              <tbody>
+                <tr class="odd">
+                  <td class="left">
+                    <strong>Username:</strong>
+                  </td>
+                  <td class="right">
+                    {{ user.nickname }}
+                  </td>
+                </tr>
+                <tr class="even">
+                  <td class="left">
+                    <strong>Pay:</strong>
+                  </td>
+                  <td class="right">
+                    ${{ userStore.pay }}
+                    {{ userStore.payRate === "hourly" ? "/hr" : "/year" }}
+                  </td>
+                </tr>
+                <tr class="odd">
+                  <td class="left">
+                    <strong>Pay Frequency:</strong>
+                  </td>
+                  <td class="right">
+                    {{ userStore.payFreq }}
+                  </td>
+                </tr>
+                <tr class="even">
+                  <td class="left">
+                    <strong>Paycheck Hours:</strong>
+                  </td>
+                  <td class="right">
+                    {{ userStore.hours }}
+                  </td>
+                </tr>
+                <tr class="odd">
+                  <td class="left">
+                    <strong># of Deductions:</strong>
+                  </td>
+                  <td class="right">${{ userStore.deductions }}</td>
+                </tr>
+                <tr class="even">
+                  <td class="left">
+                    <strong>Est Take Home:</strong>
+                  </td>
+                  <td class="right">${{ userStore.estNet }}</td>
+                </tr>
+                <tr class="odd">
+                  <td class="left">
+                    <strong># of Expenses:</strong>
+                  </td>
+                  <td class="right">
+                    {{ userStore.expenses.length }}
+                  </td>
+                </tr>
+                <tr class="even">
+                  <td class="left">
+                    <strong>Expense Total:</strong>
+                  </td>
+                  <td class="right">${{ userStore.expenseSum }}</td>
+                </tr>
+                <tr class="odd">
+                  <td class="left">
+                    <strong>Next Payday:</strong>
+                  </td>
+                  <td class="right">
+                    {{ userStore.nextPayDay }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p class="link-adjust">
+            Click
+            <RouterLink to="/settings">here</RouterLink>
+            to adjust your settings, and add expenses.
+          </p>
+        </section>
       </section>
-
-      <section class="settings-container">
-        <div class="user-info" v-if="userStore.dbUserId">
-          <h3 class="subheader">User Info:</h3>
-
-          <table class="info-table">
-            <tbody>
-              <tr class="odd">
-                <td class="left">
-                  <strong>Username:</strong>
-                </td>
-                <td class="right">
-                  {{ user.nickname }}
-                </td>
-              </tr>
-              <tr class="even">
-                <td class="left">
-                  <strong>Pay:</strong>
-                </td>
-                <td class="right">
-                  ${{ userStore.pay }}
-                  {{ userStore.payRate === "hourly" ? "/hr" : "/year" }}
-                </td>
-              </tr>
-              <tr class="odd">
-                <td class="left">
-                  <strong>Pay Frequency:</strong>
-                </td>
-                <td class="right">
-                  {{ userStore.payFreq }}
-                </td>
-              </tr>
-              <tr class="even">
-                <td class="left">
-                  <strong>Paycheck Hours:</strong>
-                </td>
-                <td class="right">
-                  {{ userStore.hours }}
-                </td>
-              </tr>
-              <tr class="odd">
-                <td class="left">
-                  <strong># of Deductions:</strong>
-                </td>
-                <td class="right">${{ userStore.deductions }}</td>
-              </tr>
-              <tr class="even">
-                <td class="left">
-                  <strong>Est Take Home:</strong>
-                </td>
-                <td class="right">${{ userStore.estNet }}</td>
-              </tr>
-              <tr class="odd">
-                <td class="left">
-                  <strong># of Expenses:</strong>
-                </td>
-                <td class="right">
-                  {{ userStore.expenses.length }}
-                </td>
-              </tr>
-              <tr class="even">
-                <td class="left">
-                  <strong>Expense Total:</strong>
-                </td>
-                <td class="right">${{ userStore.expenseSum }}</td>
-              </tr>
-              <tr class="odd">
-                <td class="left">
-                  <strong>Next Payday:</strong>
-                </td>
-                <td class="right">
-                  {{ userStore.nextPayDay }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      <button @click="handleFormClick">showModal</button>
+      <div v-if="showUserForm" @close="showUserForm = false" class="form-modal">
+        <h2 id="welcome">Welcome {{ user.name }}!</h2>
+        <div class="instructions">
+          <h5>Looks like it's your first time here!</h5>
+          <h5>Enter the info below to get started.</h5>
         </div>
-
-        <p class="link-adjust">
-          Click
-          <RouterLink to="/settings">here</RouterLink>
-          to adjust your settings, and add expenses.
-        </p>
-      </section>
-    </section>
-    <button @click="handleFormClick">showModal</button>
-    <div v-if="showUserForm" @close="showUserForm = false" class="form-modal">
-      <h2 id="welcome">Welcome {{ user.name }}!</h2>
-      <div class="instructions">
-        <h5>Looks like it's your first time here!</h5>
-        <h5>Enter the info below to get started.</h5>
+        <SettingsForm
+          formType="new"
+          :pay="0"
+          rate=""
+          frequency=""
+          :hours="0"
+          @close="updateUserInfo"
+        />
+        <button @click="handleFormClick">Close Modal</button>
       </div>
-      <SettingsForm
-        formType="new"
-        :pay="0"
-        rate=""
-        frequency=""
-        :hours="0"
-        @close="updateUserInfo"
-      />
-      <button @click="handleFormClick">Close Modal</button>
+      <button @click="handleIDClick">print id</button>
+    </main>
+    <div class="spinner-container" v-else>
+      <div class="spinner-border text-success loading-spinner spinner-border-lg" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <h1>Loading...</h1>
     </div>
-    <button @click="handleIDClick">print id</button>
-  </main>
+  </section>
 </template>
 
 <script lang="ts">
@@ -153,7 +161,7 @@ export default defineComponent({
   },
   components: {
     SettingsForm,
-    RouterLink
+    RouterLink,
   },
   methods: {
     updateUserInfo(newUserData: {
@@ -181,7 +189,6 @@ export default defineComponent({
       let alink = document.createElement("a");
       const fileName = `${this.user.nickname}-expense-info.xls`;
       alink.href = `${this.userStore.baseUrl}/${fileName}`;
-      alink.download = fileName;
       alink.click();
     },
   },

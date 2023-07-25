@@ -26,13 +26,16 @@ export const useUserStore = defineStore("UserStore", {
       accounts: [] as Account[],
       debts: [] as Debt[],
       baseUrl: "http://127.0.0.1:3000/",
+      loading: false,
     };
   },
 
   actions: {
     async fill(authUID: String | undefined) {
+      this.loading = true;
       await Axios.get(`${this.baseUrl}/users/?uid=${authUID}`)
         .then((res) => {
+          console.log(res.data)
           if (res.data.message !== "Not Found") {
             const user = res.data.data.user;
             this.dbUserId = user._id.$oid;
@@ -43,15 +46,45 @@ export const useUserStore = defineStore("UserStore", {
             this.date = user.date;
             this.deductions = user.deductions;
 
-            this.expenses = res.data.data.expenses;
+            this.expenses = this.matchAccountToExpense(res.data.data.expenses, res.data.data.accounts);
             this.paychecks = res.data.data.paychecks;
             this.debts = res.data.data.debts;
             this.accounts = res.data.data.accounts;
+            
+            this.loading = false;
             console.log(res.data.data);
           }
-          // return res.data.data[0];
         })
         .catch((err) => console.log(err));
+    },
+    async getUpdatedAccts() {
+      await Axios.get(`${this.baseUrl}/users/${this.dbUserId}/accounts`)
+        .then((res) => {
+          this.accounts = res.data.data;
+        })
+        .catch((err) => console.log(err))
+    },
+    matchAccountToExpense(expenses: Expense[], accounts: Account[]) {
+      const acctObj = {} as any
+      for (const acct of accounts) {
+        acctObj[acct.id] = acct.name
+      }
+
+      for (const expense of expenses) {
+        if (expense.account) {
+          expense.account = acctObj[expense.account]
+        }
+      }
+      console.log(acctObj)
+      console.log(expenses)
+      return expenses
+    },
+    getExpenseTotal(expenseList: Expense[]) {
+      const total = expenseList.reduce(
+        (a: any = {}, b: any = {}) => a + b.amount,
+        0
+      );
+      return total;
     },
     consoleSomething() {
       console.log("hello")

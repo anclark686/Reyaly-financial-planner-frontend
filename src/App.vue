@@ -54,4 +54,15 @@ const userStore = useUserStore()
   color: var(--text-color);
 }
 
+.spinner-container {
+  margin: 10% auto 10% auto;
+  text-align: center;
+  height: 100%;
+  font-size: large;
+}
+
+.spinner-border {
+  width: 3rem !important; 
+  height: 3rem !important;
+}
 </style>

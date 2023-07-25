@@ -120,7 +120,7 @@
       </table>
 
       <p v-if="invalid" id="warning">Please ensure all fields are filled.</p>
-      <div v-if="loading" class="spinner-container">
+      <div v-if="loadingSettings" class="small-spinner-container">
         <div class="spinner-border text-success loading-spinner" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
@@ -183,7 +183,7 @@ export default {
       newDeductions: this.deductions,
       invalid: false,
       duplicate: false,
-      loading: false,
+      loadingSettings: false,
       success: false,
     };
   },
@@ -204,10 +204,10 @@ export default {
   },
   methods: {
     addInfo() {
-      this.loading = true;
+      this.loadingSettings = true;
       Axios.post(`${this.userStore.baseUrl}/users`, this.userData)
         .then((res) => {
-          this.loading = false;
+          this.loadingSettings = false;
           console.log(res.data);
           if (res.data.message === "Duplicate") {
             this.duplicate = true;
@@ -219,7 +219,7 @@ export default {
         .catch((err) => console.log(err));
     },
     editInfo() {
-      this.loading = true;
+      this.loadingSettings = true;
       Axios.put(
         `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}`,
         this.userData
@@ -227,7 +227,7 @@ export default {
         .then((res) => {
           console.log(res.data);
           if (res.data.message === "Success") {
-            this.loading = false;
+            this.loadingSettings = false;
             this.success = true;
             setTimeout(() => {
               this.success = false;
@@ -249,9 +249,7 @@ export default {
       }
     },
   },
-  mounted() {
-    this.userStore.fill(this.user.sub);
-  },
+
 };
 </script>
 
@@ -306,7 +304,7 @@ td {
 }
 
 .submit-btn,
-.spinner-container {
+.small-spinner-container {
   margin: 50px;
   text-align: center;
   margin: 0px auto;

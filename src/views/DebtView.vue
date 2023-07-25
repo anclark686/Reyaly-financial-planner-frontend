@@ -1,17 +1,25 @@
 <template>
-  <main class="debt-container">
-    <header>
-      <h1 class="page-header">Debts</h1>
-    </header>
-    <section class="debt-content">
-      <div class="debt-list-container">
-        <DebtList :debts="userStore.debts" />
+  <section class="page-content">
+    <main class="debt-container" v-if="!userStore.loading">
+      <header>
+        <h1 class="page-header">Debts</h1>
+      </header>
+      <section class="debt-content">
+        <div class="debt-list-container">
+          <DebtList :debts="userStore.debts" />
+        </div>
+        <div class="debt-payoff-container">
+          <DebtPayoff :debts="userStore.debts" />
+        </div>
+      </section>
+    </main>
+    <div class="spinner-container" v-else>
+      <div class="spinner-border text-success loading-spinner" role="status">
+        <span class="visually-hidden">Loading...</span>
       </div>
-      <div class="debt-payoff-container">
-        <DebtPayoff :debts="userStore.debts" />
-      </div>
-    </section>
-  </main>
+      <h1>Loading...</h1>
+    </div>
+  </section>
 </template>
 
 <script lang="ts">

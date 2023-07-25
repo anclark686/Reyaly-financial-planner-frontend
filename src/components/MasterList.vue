@@ -1,6 +1,6 @@
 <template>
   <div class="master-list">
-    <h3 class="subheader" v-if="pageType !== 'accountBox'">Master List</h3>
+    <h3 class="subheader" v-if="!pageType?.includes('account')">Master List</h3>
     <section class="expense-container">
       <table class="expense-table" v-if="expenses?.length !== 0">
         <thead class="expense-table-header">
@@ -9,8 +9,9 @@
             <td>Amount</td>
             <td>Due Date</td>
             <td v-if="pageType === 'settings'">Modify</td>
+            <td v-if="pageType === 'account'">Account</td>
             <td v-if="pageType === 'account'">Add</td>
-            <td v-if="pageType === 'accountBox'">Remove</td>
+            <td v-if="pageType === 'accountForm'">Remove</td>
           </tr>
         </thead>
         <tbody>
@@ -32,11 +33,14 @@
               </button>
             </td>
             <td v-if="pageType === 'account'">
+              {{ expense.account ? expense.account : "-" }}
+            </td>
+            <td v-if="pageType === 'account'">
               <button class="emoji-btn" @click="onAddClick(expense)">
                 ➕
               </button>
             </td>
-            <td v-if="pageType === 'accountBox'">
+            <td v-if="pageType === 'accountForm'">
               <button class="emoji-btn" @click="onRemoveClick(i)">
                 ➖
               </button>
@@ -81,15 +85,15 @@
     <DeleteModal
       v-if="showModal"
       @close="showModal = false"
-      @delExpense="onDelete(deleteInfo.id, deleteInfo.idx)"
-      :expenseName="deleteInfo.title"
+      @deleteItem="onDelete(deleteInfo.id, deleteInfo.idx)"
+      :name="deleteInfo.title"
     />
   </div>
 </template>
 
 <script lang="ts">
-import Axios from "axios";
 import { defineComponent } from "vue";
+import Axios from "axios";
 
 import ExpenseForm from "./ExpenseForm.vue";
 import DeleteModal from "./DeleteModal.vue";
@@ -205,11 +209,9 @@ export default defineComponent({
         .catch((err) => console.log(err));
     },
     onAddClick(expense: Expense) {
-      console.log(expense)
       this.$emit("addExpense", expense);
     },
     onRemoveClick(idx: number) {
-      console.log(idx)
       this.masterList.splice(idx, 1);
     },
     sortMasterList() {

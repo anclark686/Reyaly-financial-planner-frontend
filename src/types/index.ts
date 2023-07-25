@@ -29,7 +29,7 @@ export interface Account {
     start: number,
     total: number,
     end: number,
-    expenses: [],
+    expenses: Expense[],
 }
 
 // export interface User {

@@ -1,28 +1,36 @@
 <template>
-  <main class="settings-container">
-    <header>
-      <h1 class="page-header">Settings</h1>
-    </header>
+  <section class="page-content">
+    <main class="settings-container" v-if="!userStore.loading">
+      <header>
+        <h1 class="page-header">Settings</h1>
+      </header>
 
-    <section class="settings-content">
-      <div class="master-list-container">
-        <MasterList pageType="settings" :expenses="userStore.expenses" />
-      </div>
+      <section class="settings-content">
+        <div class="master-list-container">
+          <MasterList pageType="settings" :expenses="userStore.expenses" />
+        </div>
 
-      <div class="form-container">
-        <SettingsForm
-          v-if="userStore.pay"
-          formType="update"
-          :pay="userStore.pay"
-          :rate="userStore.payRate"
-          :frequency="userStore.payFreq"
-          :hours="userStore.hours"
-          :date="userStore.date"
-          :deductions="userStore.deductions"
-        />
+        <div class="form-container">
+          <SettingsForm
+            v-if="userStore.pay"
+            formType="update"
+            :pay="userStore.pay"
+            :rate="userStore.payRate"
+            :frequency="userStore.payFreq"
+            :hours="userStore.hours"
+            :date="userStore.date"
+            :deductions="userStore.deductions"
+          />
+        </div>
+      </section>
+    </main>
+    <div class="spinner-container" v-else>
+      <div class="spinner-border text-success loading-spinner" role="status">
+        <span class="visually-hidden">Loading...</span>
       </div>
-    </section>
-  </main>
+      <h1>Loading...</h1>
+    </div>
+  </section>
 </template>
 
 <script lang="ts">

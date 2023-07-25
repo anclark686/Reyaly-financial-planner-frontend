@@ -1,55 +1,69 @@
 <template>
-  <main class="calendar-container">
-    <header>
-      <h1 class="page-header">Calendar View</h1>
-    </header>
-    <section class="calendar">
-      <FullCalendar ref="cc" :options="calendarOptions" />
-    </section>
-    <section class="expense-form-modal" v-if="addNew === true">
-      <h3 class="subheader">Add Recurring Expense</h3>
-      <ExpenseForm
-        @addInfo="addInfo"
-        :expense="{ id: '', name: '', amount: 0, date: dueDate }"
-        type="new"
-      />
-      <div class="btn-container">
-        <button id="close-btn" class="btn btn-success" @click="addNew = false">
-          Close
-        </button>
+  <section class="page-content">
+    <main class="calendar-container" v-if="!userStore.loading">
+      <header>
+        <h1 class="page-header">Calendar View</h1>
+      </header>
+      <section class="calendar">
+        <FullCalendar ref="cc" :options="calendarOptions" />
+      </section>
+      <section class="expense-form-modal" v-if="addNew === true">
+        <h3 class="subheader">Add Recurring Expense</h3>
+        <ExpenseForm
+          @addInfo="addInfo"
+          :expense="{ id: '', name: '', amount: 0, date: dueDate }"
+          type="new"
+        />
+        <div class="btn-container">
+          <button
+            id="close-btn"
+            class="btn btn-success"
+            @click="addNew = false"
+          >
+            Close
+          </button>
+        </div>
+      </section>
+      <section class="view-expense-modal" v-if="showData === true">
+        <h3 class="subheader">{{ currentexpense.name }} Info</h3>
+        <div class="expense-info">
+          <table>
+            <tbody>
+              <tr>
+                <td class="expense-label"><strong>Expense Name:</strong></td>
+                <td>{{ currentexpense.name }}</td>
+              </tr>
+              <tr>
+                <td class="expense-label"><strong>Expense Amount:</strong></td>
+                <td>${{ currentexpense.amount }}</td>
+              </tr>
+              <tr>
+                <td class="expense-label">
+                  <strong>Expense Due Date:</strong>
+                </td>
+                <td>{{ currentexpense.fullDate }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="btn-container">
+          <button
+            id="close-btn"
+            class="btn btn-success"
+            @click="showData = false"
+          >
+            Close
+          </button>
+        </div>
+      </section>
+    </main>
+    <div class="spinner-container" v-else>
+      <div class="spinner-border text-success loading-spinner" role="status">
+        <span class="visually-hidden">Loading...</span>
       </div>
-    </section>
-    <section class="view-expense-modal" v-if="showData === true">
-      <h3 class="subheader">{{ currentexpense.name }} Info</h3>
-      <div class="expense-info">
-        <table>
-          <tbody>
-            <tr>
-              <td class="expense-label"><strong>Expense Name:</strong></td>
-              <td>{{ currentexpense.name }}</td>
-            </tr>
-            <tr>
-              <td class="expense-label"><strong>Expense Amount:</strong></td>
-              <td>${{ currentexpense.amount }}</td>
-            </tr>
-            <tr>
-              <td class="expense-label"><strong>Expense Due Date:</strong></td>
-              <td>{{ currentexpense.fullDate }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="btn-container">
-        <button
-          id="close-btn"
-          class="btn btn-success"
-          @click="showData = false"
-        >
-          Close
-        </button>
-      </div>
-    </section>
-  </main>
+      <h1>Loading...</h1>
+    </div>
+  </section>
 </template>
 
 <script>

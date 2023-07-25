@@ -2,7 +2,7 @@
   <section>
     <form
       action="submit"
-      class="debt-form"
+      class="account-form"
       @submit.prevent="onSubmit"
       @keydown.enter.prevent=""
     >
@@ -10,13 +10,13 @@
         <tbody>
           <tr>
             <td>
-              <strong><label for="debt-name">Account Name: </label></strong>
+              <strong><label for="account-name">Account Name: </label></strong>
             </td>
             <td>
               <input
                 type="text"
-                id="debt-name"
-                name="debt-name"
+                id="account-name"
+                name="account-name"
                 class="input-info"
                 v-model="name"
               />
@@ -25,15 +25,15 @@
           <tr>
             <td>
               <strong
-                ><label for="debt-limit">Starting Balance: </label></strong
+                ><label for="account-limit">Starting Balance: </label></strong
               >
             </td>
             <td>
               <input
                 type="number"
                 step="0.01"
-                id="debt-limit"
-                name="debt-limit"
+                id="account-limit"
+                name="account-limit"
                 class="input-info num-input"
                 v-model="startBalance"
               />
@@ -43,7 +43,7 @@
       </table>
       <h4>Expenses</h4>
       <div class="expense-list" v-if="expenseList.length > 0">
-        <MasterList pageType="accountBox" :expenses="expenseList" />
+        <MasterList pageType="accountForm" :expenses="expenseList" />
         <button id="clear" class="btn btn-secondary" @click.prevent="clear">
           Clear
         </button>
@@ -55,7 +55,9 @@
         <tbody>
           <tr>
             <td>
-              <strong><label for="debt-name">Total Expenses: </label></strong>
+              <strong
+                ><label for="account-name">Total Expenses: </label></strong
+              >
             </td>
             <td>
               <p class="input-info">{{ total }}</p>
@@ -63,7 +65,9 @@
           </tr>
           <tr>
             <td>
-              <strong><label for="debt-limit">Ending Balance: </label></strong>
+              <strong
+                ><label for="account-limit">Ending Balance: </label></strong
+              >
             </td>
             <td>
               <p class="input-info">{{ endBalance }}</p>
@@ -72,17 +76,22 @@
         </tbody>
       </table>
       <p v-if="invalid" id="warning">Please ensure all fields are filled.</p>
-      <button
-        class="btn btn-secondary bottom-btn"
-        @click.prevent="$emit('cancel')"
-      >
+      <button class="btn btn-secondary bottom-btn" @click.prevent="cancel">
         Cancel
       </button>
       <input
+        v-if="formType === 'new'"
         class="btn btn-success bottom-btn"
         type="submit"
         id="submit-btn"
         value="Add Account"
+      />
+      <input
+        v-if="formType === 'edit'"
+        class="btn btn-success bottom-btn"
+        type="submit"
+        id="submit-btn"
+        value="Update Account"
       />
     </form>
   </section>
@@ -92,9 +101,10 @@
 import { defineComponent, type PropType } from "vue";
 import Axios from "axios";
 
+import { useUserStore } from "../stores/UserStore";
 import MasterList from "./MasterList.vue";
 import { type Expense } from "../types";
-import { useUserStore } from "../stores/UserStore";
+import { type Account } from "../types";
 
 export default defineComponent({
   props: {
@@ -103,44 +113,48 @@ export default defineComponent({
       required: true,
     },
     formType: String,
+    account: {
+      type: Object as PropType<Account>,
+      required: true,
+    },
   },
   data() {
     return {
       userStore: useUserStore(),
-      expenseList: [] as Expense[],
+      expenseList: this.account.expenses,
       edit: false,
-      name: "",
-      startBalance: 0,
+      name: this.account.name,
+      startBalance: this.account.start,
       invalid: false,
     };
   },
   computed: {
     total() {
-      const total = this.expenseList.reduce(
-        (a: any = {}, b: any = {}) => a + b.amount,
-        0
-      );
-      return total;
+      return this.userStore.getExpenseTotal(this.expenseList);
     },
     endBalance() {
       return this.startBalance - this.total;
     },
-    newAcct() {
-      const newAcct = {
+    acctInfo() {
+      const acctInfo = {
         name: this.name,
         start: this.startBalance,
         total: this.total,
         end: this.endBalance,
         expenses: this.expenseList,
+        id: "",
       };
-      return newAcct;
+      return acctInfo;
     },
   },
   watch: {
     expense: function (newVal, oldVal) {
+      console.log(this.account.expenses);
+      console.log(this.expenseList);
       if (
         this.expenseList.filter((e: any) => e.name === this.expense.name)
-          .length === 0
+          .length === 0 ||
+        this.expenseList.length == 0
       ) {
         this.expenseList.push(this.expense);
       }
@@ -150,15 +164,47 @@ export default defineComponent({
     MasterList,
   },
   methods: {
+    clearInfo() {
+      this.name = "";
+      this.startBalance = 0;
+      this.expenseList = this.account.expenses;
+    },
     addNewAcct() {
-      console.log(this.newAcct)
-
-      Axios.post(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/accounts`, this.newAcct)
-        .then((res) => console.log(res.data))
-        .catch((err) => console.log(err))
+      Axios.post(
+        `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/accounts`,
+        this.acctInfo
+      )
+        .then((res) => {
+          console.log(res.data);
+          this.acctInfo.id = res.data.id;
+          this.$emit("close-new");
+          this.clearInfo();
+        })
+        .catch((err) => console.log(err));
     },
     editAcct() {
+      console.log("in the form edit");
+      this.acctInfo.id = this.account.id;
+      Axios.put(
+        `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/accounts/${this.account.id}`,
+        this.acctInfo
+      )
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.message === "Success") {
+            this.$emit("close-edit");
+            this.clearInfo();
+          }
+        })
+        .catch((err) => console.log(err));
+    },
+    cancel() {
+      this.account.expenses = this.account.expenses.filter(
+        (i: any) => i.account
+      );
 
+      console.log(this.account.expenses);
+      this.$emit("cancel");
     },
     onSubmit() {
       if (this.name && this.startBalance && this.expenseList.length > 0) {

@@ -1,39 +1,51 @@
 <template>
-  <main class="paycheck-container">
-    <header>
-      <h1 class="page-header">Paycheck View</h1>
-    </header>
-    <section>
-      <div class="card">
-        <div class="card-header">
-          <button class="arrow-btn btn" @click="changeDate('previous')">
-            <img
-              src="../components/icons/arrow-left.png"
-              alt="left-arrow"
-              class="arrow-img"
-            />
-          </button>
-          <div v-if="loading" class="spinner-border text-success" role="status">
-            <span class="visually-hidden">Loading...</span>
+  <section class="page-content">
+    <main class="paycheck-container" v-if="!userStore.loading">
+      <header>
+        <h1 class="page-header">Paycheck View</h1>
+      </header>
+      <section>
+        <div class="card">
+          <div class="card-header">
+            <button class="arrow-btn btn" @click="changeDate('previous')">
+              <img
+                src="../components/icons/arrow-left.png"
+                alt="left-arrow"
+                class="arrow-img"
+              />
+            </button>
+            <div
+              v-if="loading"
+              class="spinner-border text-success"
+              role="status"
+            >
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <h2 class="subheader" v-else>{{ paycheck }}</h2>
+            <button class="arrow-btn btn" @click="changeDate('next')">
+              <img
+                src="../components/icons/arrow-right.png"
+                alt="right-arrow"
+                class="arrow-img"
+              />
+            </button>
           </div>
-          <h2 class="subheader" v-else>{{ paycheck }}</h2>
-          <button class="arrow-btn btn" @click="changeDate('next')">
-            <img
-              src="../components/icons/arrow-right.png"
-              alt="right-arrow"
-              class="arrow-img"
-            />
-          </button>
-        </div>
 
-        <PaycheckInfo
-          v-if="showPaycheckCard"
-          :date="paycheck"
-          :frequency="userStore.payFreq"
-        />
+          <PaycheckInfo
+            v-if="showPaycheckCard"
+            :date="paycheck"
+            :frequency="userStore.payFreq"
+          />
+        </div>
+      </section>
+    </main>
+    <div class="spinner-container" v-else>
+      <div class="spinner-border text-success loading-spinner" role="status">
+        <span class="visually-hidden">Loading...</span>
       </div>
-    </section>
-  </main>
+      <h1>Loading...</h1>
+    </div>
+  </section>
 </template>
 
 <script lang="ts">

@@ -9,14 +9,14 @@
           <hr />
           <div class="modal-body">
             <p name="body"> Are you sure you want to delete </p>
-            <p name="body" id="recipe-title"> {{ expenseName }}?</p>
+            <p name="body" id="recipe-title"> {{ name }}?</p>
           </div>
 
           <div class="modal-footer">
             <button class="modal-btn btn btn-secondary" id="cancel" @click="$emit('close')">
               Cancel
             </button>
-            <button class="modal-btn btn" id="delete" @click="$emit('delExpense')">
+            <button class="modal-btn btn" id="delete" @click="$emit('deleteItem')">
               Delete
             </button>
           </div>
@@ -29,11 +29,11 @@
 <script lang="ts">
 export default {
   props: {
-    expenseName: String,
+    name: String,
   },
   methods: {
     onClickButton(event: any) {
-      this.$emit("clicked", "someValue");
+      this.$emit("clicked");
     },
   },
 };
