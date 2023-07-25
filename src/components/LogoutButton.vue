@@ -23,6 +23,6 @@ export default {
 #logout {
   background-color: inherit;
   border: none;
-  color: var(--text-color)
+  color: var(--text-color);
 }
 </style>

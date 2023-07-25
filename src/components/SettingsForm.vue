@@ -4,11 +4,7 @@
       action="submit"
       @submit.prevent="onSubmit"
       @keydown.enter.prevent=""
-      :class="
-        formType === 'new'
-          ? 'settings-form settings-form-green'
-          : 'settings-form'
-      "
+      :class="formType === 'new' ? 'settings-form settings-form-green' : 'settings-form'"
     >
       <h3 class="subheader">Basic Info:</h3>
       <ul class="basic-info">
@@ -17,9 +13,7 @@
       </ul>
 
       <h3 class="subheader">Pay Info:</h3>
-      <table
-        :class="formType === 'new' ? 'pay-info info-centered' : 'pay-info'"
-      >
+      <table :class="formType === 'new' ? 'pay-info info-centered' : 'pay-info'">
         <tbody>
           <tr class="table-row">
             <td class="pay-label">
@@ -41,12 +35,7 @@
               <strong><label for="rate">Per:</label></strong>
             </td>
             <td class="pay-input">
-              <select
-                name="rate"
-                id="rate"
-                class="input-info"
-                v-model="newRate"
-              >
+              <select name="rate" id="rate" class="input-info" v-model="newRate">
                 <option value="">--Select One --</option>
                 <option value="hourly">Hour</option>
                 <option value="annualy">Year</option>
@@ -58,12 +47,7 @@
               <strong><label for="frequency">Frequency:</label></strong>
             </td>
             <td class="pay-input">
-              <select
-                name="frequency"
-                id="frequency"
-                class="input-info"
-                v-model="newFrequency"
-              >
+              <select name="frequency" id="frequency" class="input-info" v-model="newFrequency">
                 <option value="">--Select One --</option>
                 <option value="weekly">Weekly</option>
                 <option value="bi-weekly">Bi-Weekly</option>
@@ -92,13 +76,7 @@
               <strong><label for="date">Pay Start Date:</label></strong>
             </td>
             <td class="pay-input">
-              <input
-                type="date"
-                id="date"
-                name="date"
-                class="input-info"
-                v-model="newDate"
-              />
+              <input type="date" id="date" name="date" class="input-info" v-model="newDate" />
             </td>
           </tr>
           <tr class="table-row">
@@ -126,12 +104,7 @@
         </div>
       </div>
       <div v-else class="submit-btn">
-        <input
-          class="btn btn-success"
-          type="submit"
-          id="submit-btn"
-          value="Update Info"
-        />
+        <input class="btn btn-success" type="submit" id="submit-btn" value="Update Info" />
       </div>
 
       <div v-if="duplicate">
@@ -211,7 +184,7 @@ export default {
           if (res.data.message === "Duplicate") {
             this.duplicate = true;
           } else if (res.data.message === "Success") {
-            this.userStore.fill(this.user.sub)
+            this.userStore.fill(this.user.sub);
             this.$emit("close", this.userData);
           }
         })
@@ -219,10 +192,7 @@ export default {
     },
     editInfo() {
       this.loadingSettings = true;
-      Axios.put(
-        `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}`,
-        this.userData
-      )
+      Axios.put(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}`, this.userData)
         .then((res) => {
           if (res.data.message === "Success") {
             this.loadingSettings = false;
@@ -247,7 +217,6 @@ export default {
       }
     },
   },
-
 };
 </script>
 

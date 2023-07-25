@@ -163,12 +163,7 @@ export default defineComponent({
     RouterLink,
   },
   methods: {
-    updateUserInfo(newUserData: {
-      pay: number;
-      rate: string;
-      frequency: string;
-      hours: number;
-    }) {
+    updateUserInfo(newUserData: { pay: number; rate: string; frequency: string; hours: number }) {
       this.showUserForm = false;
       this.userStore.pay = newUserData.pay;
       this.userStore.payRate = newUserData.rate;

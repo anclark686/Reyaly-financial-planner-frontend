@@ -24,36 +24,25 @@
             <td>{{ expense.amount }}</td>
             <td>{{ expense.date }}</td>
             <td v-if="pageType === 'settings'">
-              <button class="emoji-btn" @click="onEditClick(expense, i)">
-                ✏️
-              </button>
+              <button class="emoji-btn" @click="onEditClick(expense, i)">✏️</button>
               |
-              <button class="emoji-btn" @click="preDelete(expense.id, i, expense.name)">
-                ❌
-              </button>
+              <button class="emoji-btn" @click="preDelete(expense.id, i, expense.name)">❌</button>
             </td>
             <td v-if="pageType === 'account'">
               {{ expense.account ? expense.account : "-" }}
             </td>
             <td v-if="pageType === 'account'">
-              <button class="emoji-btn" @click="onAddClick(expense)">
-                ➕
-              </button>
+              <button class="emoji-btn" @click="onAddClick(expense)">➕</button>
             </td>
             <td v-if="pageType === 'accountForm'">
-              <button class="emoji-btn" @click="onRemoveClick(i)">
-                ➖
-              </button>
+              <button class="emoji-btn" @click="onRemoveClick(i)">➖</button>
             </td>
           </tr>
         </tbody>
       </table>
     </section>
 
-    <section
-      class="expense-form-container"
-      v-if="pageType === 'settings' && addNew"
-    >
+    <section class="expense-form-container" v-if="pageType === 'settings' && addNew">
       <ExpenseForm
         @addInfo="addInfo"
         :expense="{ id: '', name: '', amount: 0, date: 0 }"
@@ -74,11 +63,7 @@
     </section>
 
     <section class="button-container" v-else>
-      <button
-        class="btn btn-success"
-        @click="addNew = true"
-        v-if="pageType === 'settings'"
-      >
+      <button class="btn btn-success" @click="addNew = true" v-if="pageType === 'settings'">
         Add New Expense
       </button>
     </section>
@@ -114,7 +99,7 @@ export default defineComponent({
       editInfo: {} as Expense,
       editRow: 0,
       showModal: false,
-      deleteInfo: {} as { id: string, idx: number, title: string },
+      deleteInfo: {} as { id: string; idx: number; title: string },
     };
   },
   components: {
@@ -128,10 +113,7 @@ export default defineComponent({
   },
   methods: {
     addInfo(expenseData: Expense) {
-      Axios.post(
-        `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses`,
-        expenseData
-      )
+      Axios.post(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses`, expenseData)
         .then((res) => {
           if (res.data.message === "Success") {
             this.masterList.push({
@@ -189,9 +171,7 @@ export default defineComponent({
     },
     onDelete(id: string, idx: number) {
       this.showModal = false;
-      Axios.delete(
-        `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses/${id}`
-      )
+      Axios.delete(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses/${id}`)
         .then((res) => {
           if (res.data.message === "Success") {
             this.masterList.splice(idx, 1);
@@ -216,7 +196,7 @@ export default defineComponent({
   },
   mounted() {
     this.sortMasterList();
-  }
+  },
 });
 </script>
 

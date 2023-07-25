@@ -1,35 +1,35 @@
 export interface Expense {
-    id: string,
-    name: string,
-    amount: number,
-    date: number,
-    dateStr?: string | undefined,
-    dateObj?: Date | undefined,
-    account?: string
+  id: string;
+  name: string;
+  amount: number;
+  date: number;
+  dateStr?: string | undefined;
+  dateObj?: Date | undefined;
+  account?: string;
 }
 
 export interface Paycheck {
-    date: string,
-    id: string,
+  date: string;
+  id: string;
 }
 
 export interface Debt {
-    id: string,
-    name: string,
-    type: string,
-    owed: number,
-    limit: number,
-    rate: number,
-    payment: number,
+  id: string;
+  name: string;
+  type: string;
+  owed: number;
+  limit: number;
+  rate: number;
+  payment: number;
 }
 
 export interface Account {
-    id: string,
-    name: string,
-    start: number,
-    total: number,
-    end: number,
-    expenses: Expense[],
+  id: string;
+  name: string;
+  start: number;
+  total: number;
+  end: number;
+  expenses: Expense[];
 }
 
 // export interface User {

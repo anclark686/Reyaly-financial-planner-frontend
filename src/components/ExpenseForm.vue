@@ -1,20 +1,9 @@
 <template>
   <main>
-    <form
-      action="submit"
-      class="expense-form"
-      @submit.prevent="onSubmit"
-      @keydown.enter.prevent=""
-    >
+    <form action="submit" class="expense-form" @submit.prevent="onSubmit" @keydown.enter.prevent="">
       <div class="input-row">
         <label for="expense-name">Expense Name</label>
-        <input
-          type="text"
-          id="expense-name"
-          name="expense-name"
-          v-model="name"
-          ref="name"
-        />
+        <input type="text" id="expense-name" name="expense-name" v-model="name" ref="name" />
       </div>
       <div class="input-row">
         <label for="expense-amount">Amount</label>
@@ -28,7 +17,7 @@
       </div>
       <div class="input-row">
         <label for="expense-date">Due Date</label>
-        <select name="expense-date" id="expense-date" v-model="date"  @keyup.enter="onSubmit">
+        <select name="expense-date" id="expense-date" v-model="date" @keyup.enter="onSubmit">
           <option value="">--Select One --</option>
           <option v-for="num in dateArr" v-bind:key="num" :value="num">
             {{ num }}
@@ -36,21 +25,11 @@
         </select>
       </div>
       <div class="input-row" v-if="type === 'new'">
-        <input
-          type="submit"
-          id="submit-expense"
-          class="btn btn-success"
-          value="Add Expense"
-        />
+        <input type="submit" id="submit-expense" class="btn btn-success" value="Add Expense" />
       </div>
 
       <div class="btn-container" v-if="type === 'edit'">
-        <button
-          class="btn btn-danger edit-btn"
-          @click.prevent="$emit('cancel')"
-        >
-          Cancel
-        </button>
+        <button class="btn btn-danger edit-btn" @click.prevent="$emit('cancel')">Cancel</button>
         <button class="btn btn-success edit-btn">Confirm</button>
       </div>
     </form>
@@ -102,7 +81,7 @@ export default defineComponent({
         if (this.type === "new") {
           this.$emit("addInfo", this.expenseData);
           this.clearInfo();
-          (this.$refs["name"] as any).focus()
+          (this.$refs["name"] as any).focus();
         } else if (this.type === "edit") {
           this.$emit("editInfo", this.expenseData);
         }

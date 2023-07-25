@@ -13,9 +13,7 @@
             <div class="type-row">
               <label for="debt-name">Type</label>
 
-              <button id="info-btn" @click.prevent="showInfoModal = true">
-                ℹ️
-              </button>
+              <button id="info-btn" @click.prevent="showInfoModal = true">ℹ️</button>
             </div>
             <select name="rate" id="rate" class="input-info" v-model="type">
               <option value="">--Select One --</option>
@@ -27,11 +25,7 @@
             <img src="./icons/snowball.png" alt="snowball" class="snow-img" />
           </div>
           <div class="img-container" v-else-if="type === 'avalanche'">
-            <img
-              src="./icons/snow-avalanche.png"
-              alt="avalanche"
-              class="snow-img"
-            />
+            <img src="./icons/snow-avalanche.png" alt="avalanche" class="snow-img" />
           </div>
           <div v-else>
             <div class="snow-img"></div>
@@ -52,12 +46,7 @@
         </section>
 
         <div class="btn-container">
-          <input
-            type="submit"
-            id="submit-debt"
-            class="btn btn-success"
-            value="Calculate!"
-          />
+          <input type="submit" id="submit-debt" class="btn btn-success" value="Calculate!" />
         </div>
       </form>
       <p v-if="invalid" id="warning">Please select a type</p>
@@ -97,24 +86,21 @@
       <h3 class="subheader">Debt Payoff Types</h3>
       <h4>Debt Snowball</h4>
       <p>
-        The debt snowball method builds momentum as you start repaying
-        creditors, like rolling a snowball across the ground. Begin by paying
-        off debts from smallest to largest. List debts by balance and start with
-        the smallest one. Make sure to pay minimums on all other bills and send
-        extra cash to the debt with the smallest balance until it’s paid in
-        full. Repeat this strategy with the other debts. As you pay off
-        balances, you’ll free up more funds for other debts. Plus, it’s
-        encouraging to see progress and can keep you on track to see debts
+        The debt snowball method builds momentum as you start repaying creditors, like rolling a
+        snowball across the ground. Begin by paying off debts from smallest to largest. List debts
+        by balance and start with the smallest one. Make sure to pay minimums on all other bills and
+        send extra cash to the debt with the smallest balance until it’s paid in full. Repeat this
+        strategy with the other debts. As you pay off balances, you’ll free up more funds for other
+        debts. Plus, it’s encouraging to see progress and can keep you on track to see debts
         vanishing.
       </p>
       <br />
       <h4>Debt Avalanche</h4>
       <p>
-        The debt avalanche strategy takes a similar approach but instead orders
-        debts by interest rate. First, you make a list of all your debts from
-        the highest interest rate to the lowest. You then concentrate on paying
-        off the highest-interest debt first while making minimum payments on all
-        the other debt. This cuts back on the amount you’re paying in interest,
+        The debt avalanche strategy takes a similar approach but instead orders debts by interest
+        rate. First, you make a list of all your debts from the highest interest rate to the lowest.
+        You then concentrate on paying off the highest-interest debt first while making minimum
+        payments on all the other debt. This cuts back on the amount you’re paying in interest,
         which also frees up more cash to pay down other debt.
       </p>
       <br />
@@ -207,7 +193,7 @@ export default defineComponent({
           });
         }
       }
-      
+
       this.showPayoff = true;
     },
     onSubmit() {

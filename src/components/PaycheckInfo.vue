@@ -89,10 +89,7 @@ export default defineComponent({
   },
   computed: {
     total() {
-      const total = this.expenseList.reduce(
-        (a: any = {}, b: any = {}) => a + b.amount,
-        0
-      );
+      const total = this.expenseList.reduce((a: any = {}, b: any = {}) => a + b.amount, 0);
       return total;
     },
     remaining() {
@@ -101,11 +98,9 @@ export default defineComponent({
   },
   methods: {
     sortExpenseList() {
-      this.expenseList.sort(
-        (a: any = {} as Expense, b: any = {} as Expense) => {
-          return a.dateObj - b.dateObj;
-        }
-      );
+      this.expenseList.sort((a: any = {} as Expense, b: any = {} as Expense) => {
+        return a.dateObj - b.dateObj;
+      });
     },
     addDates() {
       const dateArr: string[] = this.date?.split("/")!;
@@ -129,9 +124,7 @@ export default defineComponent({
     },
     getPaychecks() {
       const params = `date=${this.date};frequency=${this.frequency}`;
-      Axios.get(
-        `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses?${params}`
-      )
+      Axios.get(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses?${params}`)
         .then((res) => {
           this.expenseList = res.data.data;
           this.sortExpenseList();

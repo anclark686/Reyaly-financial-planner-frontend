@@ -25,13 +25,9 @@
             <td>{{ debt.limit }}</td>
             <td>{{ debt.rate }}</td>
             <td>
-              <button class="emoji-btn" @click="onEditClick(debt, i)">
-                ✏️
-              </button>
+              <button class="emoji-btn" @click="onEditClick(debt, i)">✏️</button>
               |
-              <button class="emoji-btn" @click="onDelete(debt.id, i)">
-                ❌
-              </button>
+              <button class="emoji-btn" @click="onDelete(debt.id, i)">❌</button>
             </td>
           </tr>
         </tbody>
@@ -57,18 +53,11 @@
     </section>
 
     <section class="expense-form-container" v-else-if="edit === true">
-      <DebtForm
-        @cancel="cancelEdit"
-        @editInfo="editDebtInfo"
-        :debt="editInfo"
-        pageType="edit"
-      />
+      <DebtForm @cancel="cancelEdit" @editInfo="editDebtInfo" :debt="editInfo" pageType="edit" />
     </section>
 
     <section class="button-container" v-else>
-      <button class="btn btn-success" @click="addNew = true">
-        Add New Debt
-      </button>
+      <button class="btn btn-success" @click="addNew = true">Add New Debt</button>
     </section>
   </div>
 </template>
@@ -105,10 +94,7 @@ export default defineComponent({
   },
   methods: {
     addInfo(debtData: Debt) {
-      Axios.post(
-        `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/debts`,
-        debtData
-      )
+      Axios.post(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/debts`, debtData)
         .then((res) => {
           if (res.data.message === "Success") {
             this.debtList.push({
@@ -165,9 +151,7 @@ export default defineComponent({
       this.editInfo = {} as Debt;
     },
     onDelete(id: string, idx: number) {
-      Axios.delete(
-        `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/debts/${id}`
-      )
+      Axios.delete(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/debts/${id}`)
         .then((res) => {
           if (res.data.message === "Success") {
             this.debtList.splice(idx, 1);

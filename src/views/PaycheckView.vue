@@ -8,34 +8,18 @@
         <div class="card">
           <div class="card-header">
             <button class="arrow-btn btn" @click="changeDate('previous')">
-              <img
-                src="../components/icons/arrow-left.png"
-                alt="left-arrow"
-                class="arrow-img"
-              />
+              <img src="../components/icons/arrow-left.png" alt="left-arrow" class="arrow-img" />
             </button>
-            <div
-              v-if="loading"
-              class="spinner-border text-success"
-              role="status"
-            >
+            <div v-if="loading" class="spinner-border text-success" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
             <h2 class="subheader" v-else>{{ paycheck }}</h2>
             <button class="arrow-btn btn" @click="changeDate('next')">
-              <img
-                src="../components/icons/arrow-right.png"
-                alt="right-arrow"
-                class="arrow-img"
-              />
+              <img src="../components/icons/arrow-right.png" alt="right-arrow" class="arrow-img" />
             </button>
           </div>
 
-          <PaycheckInfo
-            v-if="showPaycheckCard"
-            :date="paycheck"
-            :frequency="userStore.payFreq"
-          />
+          <PaycheckInfo v-if="showPaycheckCard" :date="paycheck" :frequency="userStore.payFreq" />
         </div>
       </section>
     </main>
@@ -84,16 +68,14 @@ export default defineComponent({
       if (direction === "next") {
         if (this.userStore.pIndex < this.userStore.paychecks.length - 1) {
           this.userStore.pIndex++;
-          const badDateStr =
-            this.userStore.paychecks[this.userStore.pIndex].date;
+          const badDateStr = this.userStore.paychecks[this.userStore.pIndex].date;
           const rawDate = new Date(badDateStr);
           this.paycheck = this.userStore.formatDays(rawDate);
         }
       } else {
         if (this.userStore.pIndex > 0) {
           this.userStore.pIndex--;
-          const badDateStr =
-            this.userStore.paychecks[this.userStore.pIndex].date;
+          const badDateStr = this.userStore.paychecks[this.userStore.pIndex].date;
           const rawDate = new Date(badDateStr);
           this.paycheck = this.userStore.formatDays(rawDate);
         }

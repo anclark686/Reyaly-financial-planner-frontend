@@ -6,11 +6,7 @@
       </header>
       <section class="account-content">
         <section class="master-list-container">
-          <MasterList
-            pageType="account"
-            :expenses="userStore.expenses"
-            @addExpense="addExpense"
-          />
+          <MasterList pageType="account" :expenses="userStore.expenses" @addExpense="addExpense" />
           <p class="link-adjust">
             Click
             <RouterLink to="/settings">here</RouterLink>
@@ -31,11 +27,7 @@
           </div>
           <div v-else class="account-box">
             <div v-if="userStore.accounts.length > 0">
-              <button
-                class="btn btn-success"
-                v-if="!showAccountForm"
-                @click="onNewAcct"
-              >
+              <button class="btn btn-success" v-if="!showAccountForm" @click="onNewAcct">
                 Add New Account
               </button>
               <section class="accordion-container">
@@ -75,10 +67,7 @@
               <div class="content">
                 <div class="nada">
                   <p>No accounts found.</p>
-                  <button
-                    class="btn btn-success"
-                    @click="showAccountForm = true"
-                  >
+                  <button class="btn btn-success" @click="showAccountForm = true">
                     Add New Account
                   </button>
                 </div>

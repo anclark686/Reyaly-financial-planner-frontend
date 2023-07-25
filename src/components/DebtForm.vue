@@ -1,30 +1,14 @@
 <template>
   <main>
-    <form
-      action="submit"
-      class="debt-form"
-      @submit.prevent="onSubmit"
-      @keydown.enter.prevent=""
-    >
+    <form action="submit" class="debt-form" @submit.prevent="onSubmit" @keydown.enter.prevent="">
       <div class="flex-row">
         <div class="input-row">
           <label for="debt-name">Debt Name</label>
-          <input
-            type="text"
-            id="debt-name"
-            name="debt-name"
-            class="input-info"
-            v-model="name"
-          />
+          <input type="text" id="debt-name" name="debt-name" class="input-info" v-model="name" />
         </div>
         <div class="input-row">
           <label for="debt-type">Type</label>
-          <select
-            name="debt-type"
-            id="debt-type"
-            class="input-info"
-            v-model="type"
-          >
+          <select name="debt-type" id="debt-type" class="input-info" v-model="type">
             <option value="">--Select One --</option>
             <option value="credit">Credit Card</option>
             <option value="auto">Auto Loan</option>
@@ -81,21 +65,11 @@
         </div>
       </div>
       <div class="input-row" v-if="pageType === 'new'">
-        <input
-          type="submit"
-          id="submit-debt"
-          class="btn btn-success"
-          value="Add Debt"
-        />
+        <input type="submit" id="submit-debt" class="btn btn-success" value="Add Debt" />
       </div>
 
       <div class="btn-container" v-if="pageType === 'edit'">
-        <button
-          class="btn btn-danger edit-btn"
-          @click.prevent="$emit('cancel')"
-        >
-          Cancel
-        </button>
+        <button class="btn btn-danger edit-btn" @click.prevent="$emit('cancel')">Cancel</button>
         <button class="btn btn-success edit-btn">Confirm</button>
       </div>
     </form>

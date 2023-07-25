@@ -15,13 +15,7 @@
           type="new"
         />
         <div class="btn-container">
-          <button
-            id="close-btn"
-            class="btn btn-success"
-            @click="addNew = false"
-          >
-            Close
-          </button>
+          <button id="close-btn" class="btn btn-success" @click="addNew = false">Close</button>
         </div>
       </section>
       <section class="view-expense-modal" v-if="showData === true">
@@ -47,13 +41,7 @@
           </table>
         </div>
         <div class="btn-container">
-          <button
-            id="close-btn"
-            class="btn btn-success"
-            @click="showData = false"
-          >
-            Close
-          </button>
+          <button id="close-btn" class="btn btn-success" @click="showData = false">Close</button>
         </div>
       </section>
     </main>
@@ -116,10 +104,8 @@ export default defineComponent({
   },
   methods: {
     getMonthAndYear() {
-      const end =
-        this.$refs.cc.getApi().currentData.dateProfile.currentRange.end;
-      const month =
-        end.getUTCMonth() < 10 ? `0${end.getUTCMonth()}` : end.getUTCMonth();
+      const end = this.$refs.cc.getApi().currentData.dateProfile.currentRange.end;
+      const month = end.getUTCMonth() < 10 ? `0${end.getUTCMonth()}` : end.getUTCMonth();
       const year = end.getUTCFullYear();
       return [month, year];
     },
@@ -135,10 +121,7 @@ export default defineComponent({
           expense: expense,
         };
 
-        if (
-          this.calendarOptions.events.filter((e) => e.date === eventObj.date)
-            .length === 0
-        ) {
+        if (this.calendarOptions.events.filter((e) => e.date === eventObj.date).length === 0) {
           this.calendarOptions.events.push(eventObj);
         }
       }
@@ -164,10 +147,7 @@ export default defineComponent({
       }
     },
     addInfo(expenseData) {
-      Axios.post(
-        `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses`,
-        expenseData
-      )
+      Axios.post(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses`, expenseData)
         .then((res) => {
           if (res.data.message === "Success") {
             expenseData.id = res.data.id;
@@ -195,10 +175,7 @@ export default defineComponent({
     await this.userStore.fill(this.user.sub);
     this.gatherDates();
     this.formatPaychecks();
-    this.calendarOptions.events = [
-      ...this.calendarOptions.events,
-      ...this.payDates,
-    ];
+    this.calendarOptions.events = [...this.calendarOptions.events, ...this.payDates];
   },
 });
 </script>

@@ -10,16 +10,10 @@
 
       <div class="right">
         <div class="btn-container">
-          <button
-            class="dark-light-btn btn btn-light"
-            @click="adjDarkLight('light')"
-          >
+          <button class="dark-light-btn btn btn-light" @click="adjDarkLight('light')">
             <img src="./icons/bright.png" alt="sun" class="dark-light-img" />
           </button>
-          <button
-            class="dark-light-btn btn btn-dark"
-            @click="adjDarkLight('dark')"
-          >
+          <button class="dark-light-btn btn btn-dark" @click="adjDarkLight('dark')">
             <img src="./icons/moon.png" alt="sun" class="dark-light-img" />
           </button>
         </div>
@@ -35,28 +29,13 @@
             >
               Menu
             </button>
-            <div
-              class="dropdown-menu dropdown-menu-right"
-              aria-labelledby="dropdownMenuButton"
-            >
-              <RouterLink class="dropdown-item" to="/dashboard">
-                Dashboard
-              </RouterLink>
-              <RouterLink class="dropdown-item" to="/views/calendar">
-                Calendar View
-              </RouterLink>
-              <RouterLink class="dropdown-item" to="/views/paycheck">
-                Paycheck View
-              </RouterLink>
-              <RouterLink class="dropdown-item" to="/views/account">
-                Account View
-              </RouterLink>
-              <RouterLink class="dropdown-item" to="/views/debt">
-                Debt View
-              </RouterLink>
-              <RouterLink class="dropdown-item" to="/settings">
-                Settings
-              </RouterLink>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+              <RouterLink class="dropdown-item" to="/dashboard"> Dashboard </RouterLink>
+              <RouterLink class="dropdown-item" to="/views/calendar"> Calendar View </RouterLink>
+              <RouterLink class="dropdown-item" to="/views/paycheck"> Paycheck View </RouterLink>
+              <RouterLink class="dropdown-item" to="/views/account"> Account View </RouterLink>
+              <RouterLink class="dropdown-item" to="/views/debt"> Debt View </RouterLink>
+              <RouterLink class="dropdown-item" to="/settings"> Settings </RouterLink>
               <div class="dropdown-divider"></div>
               <div class="login-logout dropdown-item" v-if="isAuthenticated">
                 <LogoutButton />
@@ -92,7 +71,7 @@ export default {
   components: {
     LoginButton,
     LogoutButton,
-    RouterLink
+    RouterLink,
   },
   data() {
     return {
@@ -115,7 +94,8 @@ export default {
 <style scoped="">
 .pic-header {
   min-height: 200px;
-  background: linear-gradient(var(--nav-pic), rgba(0, 0, 0, 0.2)),
+  background:
+    linear-gradient(var(--nav-pic), rgba(0, 0, 0, 0.2)),
     url("../assets/money.jpg") center calc(50% - 20%) / cover;
 }
 
@@ -177,7 +157,6 @@ export default {
 .dropdown-item:hover {
   background-color: var(--green-bg);
 }
-
 
 .btn-success {
   background-color: var(--med-green);

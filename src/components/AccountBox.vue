@@ -22,9 +22,7 @@
 
     <div class="button-container">
       <button class="modify-btn" @click="editAcct(account.id)">Edit</button>
-      <button class="modify-btn" @click="preDelete(account.id, account.name)">
-        Delete
-      </button>
+      <button class="modify-btn" @click="preDelete(account.id, account.name)">Delete</button>
     </div>
     <DeleteModal
       v-if="showModal"
@@ -66,8 +64,8 @@ export default defineComponent({
   },
   computed: {
     total() {
-      return this.userStore.getExpenseTotal(this.account.expenses)
-    }
+      return this.userStore.getExpenseTotal(this.account.expenses);
+    },
   },
   methods: {
     editAcct(id: string) {
@@ -78,9 +76,7 @@ export default defineComponent({
       this.deleteInfo = { id: id, title: title };
     },
     deleteAcct(id: string) {
-      Axios.delete(
-        `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/accounts/${id}`
-      )
+      Axios.delete(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/accounts/${id}`)
         .then((res) => {
           this.userStore.accounts = this.userStore.accounts.filter(
             (acct: Account) => acct.id !== id

@@ -1,11 +1,6 @@
 <template>
   <section>
-    <form
-      action="submit"
-      class="account-form"
-      @submit.prevent="onSubmit"
-      @keydown.enter.prevent=""
-    >
+    <form action="submit" class="account-form" @submit.prevent="onSubmit" @keydown.enter.prevent="">
       <table class="account-table">
         <tbody>
           <tr>
@@ -24,9 +19,7 @@
           </tr>
           <tr>
             <td>
-              <strong
-                ><label for="account-limit">Starting Balance: </label></strong
-              >
+              <strong><label for="account-limit">Starting Balance: </label></strong>
             </td>
             <td>
               <input
@@ -44,9 +37,7 @@
       <h4>Expenses</h4>
       <div class="expense-list" v-if="expenseList.length > 0">
         <MasterList pageType="accountForm" :expenses="expenseList" />
-        <button id="clear" class="btn btn-secondary" @click.prevent="clear">
-          Clear
-        </button>
+        <button id="clear" class="btn btn-secondary" @click.prevent="clear">Clear</button>
       </div>
       <div class="expense-list" v-else>
         <p>&lt;-- Click add on an expense to get started!</p>
@@ -55,9 +46,7 @@
         <tbody>
           <tr>
             <td>
-              <strong
-                ><label for="account-name">Total Expenses: </label></strong
-              >
+              <strong><label for="account-name">Total Expenses: </label></strong>
             </td>
             <td>
               <p class="input-info">{{ total }}</p>
@@ -65,9 +54,7 @@
           </tr>
           <tr>
             <td>
-              <strong
-                ><label for="account-limit">Ending Balance: </label></strong
-              >
+              <strong><label for="account-limit">Ending Balance: </label></strong>
             </td>
             <td>
               <p class="input-info">{{ endBalance }}</p>
@@ -76,9 +63,7 @@
         </tbody>
       </table>
       <p v-if="invalid" id="warning">Please ensure all fields are filled.</p>
-      <button class="btn btn-secondary bottom-btn" @click.prevent="cancel">
-        Cancel
-      </button>
+      <button class="btn btn-secondary bottom-btn" @click.prevent="cancel">Cancel</button>
       <input
         v-if="formType === 'new'"
         class="btn btn-success bottom-btn"
@@ -150,8 +135,7 @@ export default defineComponent({
   watch: {
     expense: function (newVal, oldVal) {
       if (
-        this.expenseList.filter((e: any) => e.name === this.expense.name)
-          .length === 0 ||
+        this.expenseList.filter((e: any) => e.name === this.expense.name).length === 0 ||
         this.expenseList.length == 0
       ) {
         this.expenseList.push(this.expense);
@@ -194,9 +178,7 @@ export default defineComponent({
         .catch((err) => console.log(err));
     },
     cancel() {
-      this.account.expenses = this.account.expenses.filter(
-        (i: any) => i.account
-      );
+      this.account.expenses = this.account.expenses.filter((i: any) => i.account);
       this.$emit("cancel");
     },
     onSubmit() {

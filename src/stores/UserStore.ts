@@ -45,11 +45,14 @@ export const useUserStore = defineStore("UserStore", {
             this.date = user.date;
             this.deductions = user.deductions;
 
-            this.expenses = this.matchAccountToExpense(res.data.data.expenses, res.data.data.accounts);
+            this.expenses = this.matchAccountToExpense(
+              res.data.data.expenses,
+              res.data.data.accounts
+            );
             this.paychecks = res.data.data.paychecks;
             this.debts = res.data.data.debts;
             this.accounts = res.data.data.accounts;
-            
+
             this.loading = false;
             console.log(res.data.data);
           }
@@ -61,30 +64,27 @@ export const useUserStore = defineStore("UserStore", {
         .then((res) => {
           this.accounts = res.data.data;
         })
-        .catch((err) => console.log(err))
+        .catch((err) => console.log(err));
     },
     matchAccountToExpense(expenses: Expense[], accounts: Account[]) {
-      const acctObj = {} as any
+      const acctObj = {} as any;
       for (const acct of accounts) {
-        acctObj[acct.id] = acct.name
+        acctObj[acct.id] = acct.name;
       }
 
       for (const expense of expenses) {
         if (expense.account) {
-          expense.account = acctObj[expense.account]
+          expense.account = acctObj[expense.account];
         }
       }
-      return expenses
+      return expenses;
     },
     getExpenseTotal(expenseList: Expense[]) {
-      const total = expenseList.reduce(
-        (a: any = {}, b: any = {}) => a + b.amount,
-        0
-      );
+      const total = expenseList.reduce((a: any = {}, b: any = {}) => a + b.amount, 0);
       return total;
     },
     consoleSomething() {
-      console.log("hello")
+      console.log("hello");
     },
     // addDays(date: string, days: number) {
     //   const result = new Date(date);
@@ -109,18 +109,17 @@ export const useUserStore = defineStore("UserStore", {
             numExpenses: this.expenses.length,
             totalExpenses: `$${this.expenseSum}`,
             startDate: this.formatDays(new Date(this.date)),
-            nextDate: this.nextPayDay
+            nextDate: this.nextPayDay,
           },
-          expenses: this.expenses
-        }
-        
-      }
+          expenses: this.expenses,
+        },
+      };
       Axios.post(`${this.baseUrl}/users/${this.dbUserId}/download`, data)
         .then((res) => {
-          console.log(res)
-        })  
-        .catch((err) => console.log(err))
-    }
+          console.log(res);
+        })
+        .catch((err) => console.log(err));
+    },
   },
 
   getters: {
@@ -141,17 +140,14 @@ export const useUserStore = defineStore("UserStore", {
       return this.date;
     },
     estGross(): number {
-      return this.hours * this.pay
+      return this.hours * this.pay;
     },
     estNet(): number {
-      const afterDeductions = this.estGross - this.deductions
-      return afterDeductions * .75
+      const afterDeductions = this.estGross - this.deductions;
+      return afterDeductions * 0.75;
     },
     expenseSum(): number {
-      const expenseSum = this.expenses.reduce(
-        (a: any = {}, b: any = {}) => a + b.amount,
-        0
-      );
+      const expenseSum = this.expenses.reduce((a: any = {}, b: any = {}) => a + b.amount, 0);
       return expenseSum;
     },
     //   console.log(this.date)

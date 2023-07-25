@@ -4,21 +4,19 @@
       <div class="modal-wrapper">
         <div class="modal-container">
           <div class="modal-header">
-            <h3 name="header"> Are you sure? </h3>
+            <h3 name="header">Are you sure?</h3>
           </div>
           <hr />
           <div class="modal-body">
-            <p name="body"> Are you sure you want to delete </p>
-            <p name="body" id="recipe-title"> {{ name }}?</p>
+            <p name="body">Are you sure you want to delete</p>
+            <p name="body" id="recipe-title">{{ name }}?</p>
           </div>
 
           <div class="modal-footer">
             <button class="modal-btn btn btn-secondary" id="cancel" @click="$emit('close')">
               Cancel
             </button>
-            <button class="modal-btn btn" id="delete" @click="$emit('deleteItem')">
-              Delete
-            </button>
+            <button class="modal-btn btn" id="delete" @click="$emit('deleteItem')">Delete</button>
           </div>
         </div>
       </div>

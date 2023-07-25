@@ -6,8 +6,7 @@ import NavBar from "./components/NavBar.vue";
 import FooterBar from "./components/FooterBar.vue";
 import { useUserStore } from "./stores/UserStore";
 
-const userStore = useUserStore()
-
+const userStore = useUserStore();
 </script>
 
 <template>
@@ -62,7 +61,7 @@ const userStore = useUserStore()
 }
 
 .spinner-border {
-  width: 3rem !important; 
+  width: 3rem !important;
   height: 3rem !important;
 }
 </style>
