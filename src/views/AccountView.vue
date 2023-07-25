@@ -161,11 +161,8 @@ export default defineComponent({
         end: 0,
         expenses: [] as Expense[],
       } as Account;
-      console.log(this.editAccount);
     },
     onEditAcct(accountData: Account) {
-      console.log(`in the edit view`);
-      console.log(accountData)
       this.expense = {} as Expense;
       this.accountFormType = "edit";
       this.editAccount = accountData;

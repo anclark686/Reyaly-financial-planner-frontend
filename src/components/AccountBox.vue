@@ -82,7 +82,6 @@ export default defineComponent({
         `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/accounts/${id}`
       )
         .then((res) => {
-          console.log(res.data)
           this.userStore.accounts = this.userStore.accounts.filter(
             (acct: Account) => acct.id !== id
           );

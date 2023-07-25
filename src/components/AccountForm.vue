@@ -149,8 +149,6 @@ export default defineComponent({
   },
   watch: {
     expense: function (newVal, oldVal) {
-      console.log(this.account.expenses);
-      console.log(this.expenseList);
       if (
         this.expenseList.filter((e: any) => e.name === this.expense.name)
           .length === 0 ||
@@ -175,7 +173,6 @@ export default defineComponent({
         this.acctInfo
       )
         .then((res) => {
-          console.log(res.data);
           this.acctInfo.id = res.data.id;
           this.$emit("close-new");
           this.clearInfo();
@@ -183,14 +180,12 @@ export default defineComponent({
         .catch((err) => console.log(err));
     },
     editAcct() {
-      console.log("in the form edit");
       this.acctInfo.id = this.account.id;
       Axios.put(
         `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/accounts/${this.account.id}`,
         this.acctInfo
       )
         .then((res) => {
-          console.log(res.data);
           if (res.data.message === "Success") {
             this.$emit("close-edit");
             this.clearInfo();
@@ -202,8 +197,6 @@ export default defineComponent({
       this.account.expenses = this.account.expenses.filter(
         (i: any) => i.account
       );
-
-      console.log(this.account.expenses);
       this.$emit("cancel");
     },
     onSubmit() {

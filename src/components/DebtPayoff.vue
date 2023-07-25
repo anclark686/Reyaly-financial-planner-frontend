@@ -207,10 +207,8 @@ export default defineComponent({
           });
         }
       }
-      console.log(this.sortedDebtList);
-
+      
       this.showPayoff = true;
-      console.log(this.debts);
     },
     onSubmit() {
       if (this.type) {

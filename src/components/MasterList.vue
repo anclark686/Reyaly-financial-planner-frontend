@@ -133,7 +133,6 @@ export default defineComponent({
         expenseData
       )
         .then((res) => {
-          console.log(res.data);
           if (res.data.message === "Success") {
             this.masterList.push({
               id: res.data.id,
@@ -162,7 +161,6 @@ export default defineComponent({
         expenseData
       )
         .then((res) => {
-          console.log(res.data);
           if (res.data.message === "Success") {
             this.masterList.splice(this.editRow, 1);
             this.masterList.push({
@@ -195,7 +193,6 @@ export default defineComponent({
         `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses/${id}`
       )
         .then((res) => {
-          console.log(res.data);
           if (res.data.message === "Success") {
             this.masterList.splice(idx, 1);
             this.deleteInfo = { id: "", idx: 0, title: "" };

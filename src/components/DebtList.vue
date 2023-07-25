@@ -110,7 +110,6 @@ export default defineComponent({
         debtData
       )
         .then((res) => {
-          console.log(res.data);
           if (res.data.message === "Success") {
             this.debtList.push({
               id: res.data.id,
@@ -136,13 +135,11 @@ export default defineComponent({
       }
     },
     editDebtInfo(debtData: Debt) {
-      console.log(debtData);
       Axios.put(
         `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/debts/${debtData.id}`,
         debtData
       )
         .then((res) => {
-          console.log(res.data);
           if (res.data.message === "Success") {
             this.debtList.splice(this.editRow, 1);
             this.debtList.push({
@@ -172,7 +169,6 @@ export default defineComponent({
         `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/debts/${id}`
       )
         .then((res) => {
-          console.log(res.data);
           if (res.data.message === "Success") {
             this.debtList.splice(idx, 1);
           } else {

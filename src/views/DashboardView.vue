@@ -126,7 +126,6 @@
         />
         <button @click="handleFormClick">Close Modal</button>
       </div>
-      <button @click="handleIDClick">print id</button>
     </main>
     <div class="spinner-container" v-else>
       <div class="spinner-border text-success loading-spinner spinner-border-lg" role="status">
@@ -171,7 +170,6 @@ export default defineComponent({
       hours: number;
     }) {
       this.showUserForm = false;
-      console.log(newUserData);
       this.userStore.pay = newUserData.pay;
       this.userStore.payRate = newUserData.rate;
       this.userStore.payFreq = newUserData.frequency;
@@ -179,10 +177,6 @@ export default defineComponent({
     },
     handleFormClick() {
       this.showUserForm = !this.showUserForm;
-      console.log(this.showUserForm);
-    },
-    handleIDClick() {
-      console.log(this.userStore.dbUserId);
     },
     downloadExcel() {
       this.userStore.generateJSON(this.user.nickname);

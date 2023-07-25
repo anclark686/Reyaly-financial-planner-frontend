@@ -76,7 +76,6 @@ export default defineComponent({
   },
   computed: {
     firstShown() {
-      console.log();
       return this.userStore.pIndex;
     },
   },

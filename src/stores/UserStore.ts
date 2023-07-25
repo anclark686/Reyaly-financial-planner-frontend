@@ -35,7 +35,6 @@ export const useUserStore = defineStore("UserStore", {
       this.loading = true;
       await Axios.get(`${this.baseUrl}/users/?uid=${authUID}`)
         .then((res) => {
-          console.log(res.data)
           if (res.data.message !== "Not Found") {
             const user = res.data.data.user;
             this.dbUserId = user._id.$oid;
@@ -75,8 +74,6 @@ export const useUserStore = defineStore("UserStore", {
           expense.account = acctObj[expense.account]
         }
       }
-      console.log(acctObj)
-      console.log(expenses)
       return expenses
     },
     getExpenseTotal(expenseList: Expense[]) {

@@ -107,7 +107,6 @@ export default {
     adjDarkLight(color: string) {
       document.cookie = `darkmode=${color}; max-age=31536000;`;
       this.userStore.darkMode = color;
-      console.log(this.userStore.darkMode);
     },
   },
 };

@@ -164,13 +164,11 @@ export default defineComponent({
       }
     },
     addInfo(expenseData) {
-      console.log(expenseData);
       Axios.post(
         `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses`,
         expenseData
       )
         .then((res) => {
-          console.log(res.data);
           if (res.data.message === "Success") {
             expenseData.id = res.data.id;
             const [month, year] = this.getMonthAndYear();

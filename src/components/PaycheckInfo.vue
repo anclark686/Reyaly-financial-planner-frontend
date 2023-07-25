@@ -101,7 +101,6 @@ export default defineComponent({
   },
   methods: {
     sortExpenseList() {
-      console.log(this.expenseList);
       this.expenseList.sort(
         (a: any = {} as Expense, b: any = {} as Expense) => {
           return a.dateObj - b.dateObj;
@@ -134,7 +133,6 @@ export default defineComponent({
         `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses?${params}`
       )
         .then((res) => {
-          console.log(res.data);
           this.expenseList = res.data.data;
           this.sortExpenseList();
           this.addDates();

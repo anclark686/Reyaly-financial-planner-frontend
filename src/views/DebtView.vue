@@ -48,10 +48,7 @@ export default defineComponent({
     };
   },
   async mounted() {
-    console.log(this.user.sub);
     await this.userStore.fill(this.user.sub);
-    console.log("you here?");
-    console.log(this.user.sub);
   },
 });
 </script>
