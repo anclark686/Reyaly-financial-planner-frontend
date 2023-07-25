@@ -172,13 +172,15 @@ export default defineComponent({
         .then((res) => {
           console.log(res.data);
           if (res.data.message === "Success") {
+            expenseData.id = res.data.id;
             const [month, year] = this.getMonthAndYear();
             const day = this.dueDate < 10 ? `0${this.dueDate}` : this.dueDate;
 
             const newDateStr = `${year}-${month}-${day}`;
             const eventObj = {
-              title: `${expenseData.name} - $${expenseData.amount}`,
+              title: `${expenseData.name}`,
               date: newDateStr,
+              expense: expenseData,
             };
 
             this.calendarOptions.events.push(eventObj);
