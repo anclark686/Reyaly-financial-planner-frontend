@@ -46,13 +46,26 @@
           <td>Total Deductions</td>
           <td>${{ userStore.deductions }}</td>
         </tr>
-        <tr class="info-row every-other">
+        <tr class="info-row">
           <td>Est. Take Home Pay:</td>
           <td>${{ userStore.estNet }}</td>
         </tr>
-        <tr class="info-row">
+        <tr class="info-row every-other">
           <td>Expenses Total:</td>
           <td>${{ total }}</td>
+        </tr>
+        <tr class="info-row">
+          <td>Additional Funds:</td>
+          <td>
+            <input
+              type="number"
+              step="0.01"
+              id="funds-amount"
+              name="funds-amount"
+              class="input-info num-input"
+              v-model="additionalFunds"
+            />
+          </td>
         </tr>
         <tr class="info-row every-other">
           <td>Remaining Funds:</td>
@@ -79,6 +92,7 @@ export default defineComponent({
     return {
       userStore: useUserStore(),
       expenseList: [] as Expense[],
+      additionalFunds: 0,
     };
   },
   watch: {
@@ -93,7 +107,7 @@ export default defineComponent({
       return total;
     },
     remaining() {
-      return this.userStore.estNet - this.total;
+      return this.additionalFunds + (this.userStore.estNet - this.total);
     },
   },
   methods: {
@@ -164,5 +178,15 @@ export default defineComponent({
 
 .pay-info-table {
   margin-top: 20px;
+}
+
+.input-info {
+  width: 150px;
+  border-radius: 5px;
+  border: 2px solid black;
+}
+
+.num-input {
+  text-align: right;
 }
 </style>
