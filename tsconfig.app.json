@@ -3,6 +3,7 @@
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "src/**/*.ts", "src/types/*.ts"],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
+    "allowJs": true,
     "composite": true,
     "baseUrl": ".",
     "paths": {
