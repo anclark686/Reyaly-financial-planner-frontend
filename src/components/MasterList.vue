@@ -125,9 +125,6 @@ export default defineComponent({
     expenses: function (newVal, oldVal) {
       this.masterList = this.expenses as Expense[];
     },
-    masterList: function (newVal, oldVal) {
-      this.sortMasterList();
-    },
   },
   methods: {
     addInfo(expenseData: Expense) {
@@ -220,6 +217,9 @@ export default defineComponent({
       });
     },
   },
+  mounted() {
+    this.sortMasterList();
+  }
 });
 </script>
 
