@@ -114,11 +114,12 @@ export const useUserStore = defineStore("UserStore", {
           expenses: this.expenses,
         },
       };
-      Axios.post(`${this.baseUrl}/users/${this.dbUserId}/download`, data)
+      const res = Axios.post(`${this.baseUrl}/users/${this.dbUserId}/download`, data)
         .then((res) => {
-          console.log(res);
+          return res
         })
         .catch((err) => console.log(err));
+      return res
     },
   },
 

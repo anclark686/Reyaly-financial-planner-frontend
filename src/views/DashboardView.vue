@@ -173,12 +173,16 @@ export default defineComponent({
     handleFormClick() {
       this.showUserForm = !this.showUserForm;
     },
-    downloadExcel() {
-      this.userStore.generateJSON(this.user.nickname);
-      let alink = document.createElement("a");
-      const fileName = `${this.user.nickname}-expense-info.xls`;
-      alink.href = `${this.userStore.baseUrl}/${fileName}`;
-      alink.click();
+    async downloadExcel() {
+      await this.userStore.generateJSON(this.user.nickname)
+        .then((res: any) => {
+          let alink = document.createElement("a");
+          const fileName = `${this.user.nickname}-expense-info.xls`;
+          alink.href = `${this.userStore.baseUrl}/${fileName}`;
+          alink.download = fileName;
+          alink.click();
+        })
+ 
     },
   },
   async mounted() {
