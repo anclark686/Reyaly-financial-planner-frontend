@@ -70,6 +70,22 @@
                   </td>
                   <td class="right">${{ userStore.deductions }}</td>
                 </tr>
+
+                <tr class="even">
+                  <td class="left">
+                    <strong>State of Residence:</strong>
+                  </td>
+                  <td class="right">{{ userStore.residence }}</td>
+                </tr>
+                <tr class="odd">
+                  <td class="left">
+                    <strong>Relationship Status:</strong>
+                  </td>
+                  <td class="right">
+                    {{ userStore.relationship === "single" ? "Single" : "Married" }}
+                  </td>
+                </tr>
+
                 <tr class="even">
                   <td class="left">
                     <strong>Est Take Home:</strong>
@@ -122,6 +138,8 @@
           rate=""
           frequency=""
           :hours="0"
+          residence=""
+          relationship=""
           @close="updateUserInfo"
         />
         <button @click="handleFormClick">Close Modal</button>
@@ -174,15 +192,13 @@ export default defineComponent({
       this.showUserForm = !this.showUserForm;
     },
     async downloadExcel() {
-      await this.userStore.generateJSON(this.user.nickname)
-        .then((res: any) => {
-          let alink = document.createElement("a");
-          const fileName = `${this.user.nickname}-expense-info.xls`;
-          alink.href = `${this.userStore.baseUrl}/${fileName}`;
-          alink.download = fileName;
-          alink.click();
-        })
- 
+      await this.userStore.generateJSON(this.user.nickname).then((res: any) => {
+        let alink = document.createElement("a");
+        const fileName = `${this.user.nickname}-expense-info.xls`;
+        alink.href = `${this.userStore.baseUrl}/${fileName}`;
+        alink.download = fileName;
+        alink.click();
+      });
     },
   },
   async mounted() {
@@ -266,12 +282,12 @@ export default defineComponent({
 
 .left {
   text-align: left;
-  padding: 10px;
+  padding: 5px;
 }
 
 .right {
   text-align: right;
-  padding: 10px;
+  padding: 5px;
 }
 
 .even {

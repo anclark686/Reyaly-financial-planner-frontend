@@ -18,7 +18,7 @@
       <div class="input-row">
         <label for="expense-date">Due Date</label>
         <select name="expense-date" id="expense-date" v-model="date" @keyup.enter="onSubmit">
-          <option value="">--Select One --</option>
+          <option value="">--Select One--</option>
           <option v-for="num in dateArr" v-bind:key="num" :value="num">
             {{ num }}
           </option>

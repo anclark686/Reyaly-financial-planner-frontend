@@ -20,6 +20,8 @@
             :hours="userStore.hours"
             :date="userStore.date"
             :deductions="userStore.deductions"
+            :residence="userStore.residence"
+            :relationship="userStore.relationship"
           />
         </div>
       </section>

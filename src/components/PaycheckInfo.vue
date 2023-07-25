@@ -15,7 +15,7 @@
           :class="i % 2 !== 0 ? 'expense-row every-other' : 'expense-row'"
         >
           <td>{{ expense.name }}</td>
-          <td>{{ expense.amount }}</td>
+          <td>${{ expense.amount }}</td>
           <td>{{ expense.dateStr }}</td>
         </tr>
       </tbody>
@@ -45,6 +45,14 @@
         <tr class="info-row every-other">
           <td>Total Deductions</td>
           <td>${{ userStore.deductions }}</td>
+        </tr>
+        <tr class="info-row">
+          <td>Est. Fed Taxes:</td>
+          <td>${{ userStore.estFedTaxes }}</td>
+        </tr>
+        <tr class="info-row every-other">
+          <td>Est. State Taxes:</td>
+          <td>${{ userStore.estLocalTaxes }}</td>
         </tr>
         <tr class="info-row">
           <td>Est. Take Home Pay:</td>

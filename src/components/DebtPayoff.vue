@@ -16,7 +16,7 @@
               <button id="info-btn" @click.prevent="showInfoModal = true">ℹ️</button>
             </div>
             <select name="rate" id="rate" class="input-info" v-model="type">
-              <option value="">--Select One --</option>
+              <option value="">--Select One--</option>
               <option value="snowball">Debt Snowball</option>
               <option value="avalanche">Debt Avalanche</option>
             </select>
