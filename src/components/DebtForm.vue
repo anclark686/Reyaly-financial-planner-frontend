@@ -123,10 +123,10 @@ export default defineComponent({
       if (this.name && this.type) {
         this.invalid = false;
         if (this.pageType === "new") {
-          this.$emit("addInfo", this.debtData);
-          // this.clearInfo();
+          this.$emit("addDebt", this.debtData);
+          this.clearInfo();
         } else if (this.pageType === "edit") {
-          this.$emit("editInfo", this.debtData);
+          this.$emit("editDebt", this.debtData);
         }
       } else {
         this.invalid = true;

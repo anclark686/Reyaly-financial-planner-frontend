@@ -85,7 +85,6 @@
 </template>
 
 <script lang="ts">
-import Axios from "axios";
 import { defineComponent } from "vue";
 
 import { useUserStore } from "../stores/UserStore";
@@ -144,11 +143,11 @@ export default defineComponent({
         expense.dateStr = newDateObj.toDateString();
       }
     },
-    getPaychecks() {
+    async getPaychecks() {
       const params = `date=${this.date};frequency=${this.frequency}`;
-      Axios.get(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses?${params}`)
+      await this.userStore.getPaychecks(params)
         .then((res) => {
-          this.expenseList = res.data.data;
+          this.expenseList = res.data;
           this.sortExpenseList();
           this.addDates();
         })

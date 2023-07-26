@@ -39,7 +39,6 @@ import { defineComponent, type PropType } from "vue";
 import MasterList from "./MasterList.vue";
 import DeleteModal from "./DeleteModal.vue";
 import { useUserStore } from "../stores/UserStore";
-import { type Expense } from "../types";
 import { type Account } from "../types";
 
 export default defineComponent({

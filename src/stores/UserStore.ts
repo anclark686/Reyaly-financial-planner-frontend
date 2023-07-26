@@ -35,6 +35,19 @@ export const useUserStore = defineStore("UserStore", {
 
   actions: {
     // API functions
+    // User API methods
+    async addUser(data: {}) {
+      const res = await API.addUser(data)
+        .then((res) => res)
+        .catch((err) => console.log(err));
+      return res;
+    },
+    async editUser(data: {}) {
+      const res = await API.editUser(this.dbUserId, data)
+        .then((res) => res)
+        .catch((err) => console.log(err));
+      return res;
+    },
     async fill(authUID: String | undefined) {
       this.loading = true;
       await API.getUserInfo(authUID)
@@ -56,6 +69,8 @@ export const useUserStore = defineStore("UserStore", {
             this.debts = res.data.debts;
             this.accounts = res.data.accounts;
 
+            this.loading = false;
+          } else {
             this.loading = false;
           }
         })
@@ -87,6 +102,7 @@ export const useUserStore = defineStore("UserStore", {
         .catch((err) => console.log(err));
       return res;
     },
+    // Account API methods
     async addAcct(data: Account) {
       const res = await API.addAcct(this.dbUserId, data)
         .then((res) => res)
@@ -106,7 +122,51 @@ export const useUserStore = defineStore("UserStore", {
           return res;
         })
         .catch((err) => console.log(err));
-      console.log(res);
+      return res;
+    },
+    // Debt API methods
+    async addDebt(data: Debt) {
+      const res = await API.addDebt(this.dbUserId, data)
+        .then((res) => res)
+        .catch((err) => console.log(err));
+      return res;
+    },
+    async editDebt(data: Debt) {
+      const res = await API.editDebt(this.dbUserId, data)
+        .then((res) => res)
+        .catch((err) => console.log(err));
+      return res;
+    },
+    async deleteDebt(id: string) {
+      const res = await API.deleteDebt(this.dbUserId, id)
+        .then((res) => res)
+        .catch((err) => console.log(err));
+      return res;
+    },
+    // Expense API methods
+    async addExpense(data: Expense) {
+      const res = await API.addExpense(this.dbUserId, data)
+        .then((res) => res)
+        .catch((err) => console.log(err));
+      return res;
+    },
+    async editExpense(data: Expense) {
+      const res = await API.editExpense(this.dbUserId, data)
+        .then((res) => res)
+        .catch((err) => console.log(err));
+      return res;
+    },
+    async deleteExpense(id: string) {
+      const res = await API.deleteExpense(this.dbUserId, id)
+        .then((res) => res)
+        .catch((err) => console.log(err));
+      return res;
+    },
+    // Paycheck API method
+    async getPaychecks(params: string) {
+      const res = await API.getPaychecks(this.dbUserId, params)
+        .then((res) => res)
+        .catch((err) => console.log(err));
       return res;
     },
 

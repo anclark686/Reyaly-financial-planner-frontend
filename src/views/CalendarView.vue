@@ -10,7 +10,7 @@
       <section class="expense-form-modal" v-if="addNew === true">
         <h3 class="subheader">Add Recurring Expense</h3>
         <ExpenseForm
-          @addInfo="addInfo"
+          @addExpense="addExpense"
           :expense="{ id: '', name: '', amount: 0, date: dueDate }"
           type="new"
         />
@@ -146,7 +146,7 @@ export default defineComponent({
         jsConfetti.addConfetti();
       }
     },
-    addInfo(expenseData) {
+    addExpense(expenseData) {
       Axios.post(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses`, expenseData)
         .then((res) => {
           if (res.data.message === "Success") {

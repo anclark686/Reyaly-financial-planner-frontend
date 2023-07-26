@@ -31,20 +31,3 @@ export interface Account {
   end: number;
   expenses: Expense[];
 }
-
-export interface Data {
-    data: any;
-    message: string;
-    status: string;
-}
-
-export interface Dataless {
-  message: string;
-  status: string;
-}
-
-export interface Created {
-  data: any;
-  message: string;
-  status: string;
-}

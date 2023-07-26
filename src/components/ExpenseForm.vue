@@ -79,11 +79,11 @@ export default defineComponent({
       if (this.name && this.date) {
         this.invalid = false;
         if (this.type === "new") {
-          this.$emit("addInfo", this.expenseData);
+          this.$emit("addExpense", this.expenseData);
           this.clearInfo();
           (this.$refs["name"] as any).focus();
         } else if (this.type === "edit") {
-          this.$emit("editInfo", this.expenseData);
+          this.$emit("editExpense", this.expenseData);
         }
       } else {
         this.invalid = true;
