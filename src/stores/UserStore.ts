@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
-import Axios from "axios";
+
+import * as API from "../API/APICalls";
 
 import { type Expense } from "../types";
 import { type Paycheck } from "../types";
@@ -33,12 +34,13 @@ export const useUserStore = defineStore("UserStore", {
   },
 
   actions: {
+    // API functions
     async fill(authUID: String | undefined) {
       this.loading = true;
-      await Axios.get(`${this.baseUrl}/users/?uid=${authUID}`)
+      await API.getUserInfo(authUID)
         .then((res) => {
-          if (res.data.message !== "Not Found") {
-            const user = res.data.data.user;
+          if (res.message !== "Not Found") {
+            const user = res.data.user;
             this.dbUserId = user._id.$oid;
             this.pay = user.pay;
             this.payRate = user.rate;
@@ -49,19 +51,66 @@ export const useUserStore = defineStore("UserStore", {
             this.residence = user.residence;
             this.relationship = user.relationship;
 
-            this.expenses = this.matchAccountToExpense(
-              res.data.data.expenses,
-              res.data.data.accounts
-            );
-            this.paychecks = res.data.data.paychecks;
-            this.debts = res.data.data.debts;
-            this.accounts = res.data.data.accounts;
+            this.expenses = this.matchAccountToExpense(res.data.expenses, res.data.accounts);
+            this.paychecks = res.data.paychecks;
+            this.debts = res.data.debts;
+            this.accounts = res.data.accounts;
 
             this.loading = false;
           }
         })
         .catch((err) => console.log(err));
     },
+    async generateJSON(username: String | undefined) {
+      const data = {
+        data: {
+          userInfo: {
+            username: username,
+            pay: `$${this.pay} ${this.payRate}`,
+            payFreq: this.payFreq,
+            hours: this.hours,
+            deductions: `$${this.deductions}`,
+            residence: this.residence,
+            relationship: this.relationship,
+            gross: `$${this.estGross}`,
+            net: `$${this.estNet}`,
+            numExpenses: this.expenses.length,
+            totalExpenses: `$${this.expenseSum}`,
+            startDate: this.formatDays(new Date(this.date)),
+            nextDate: this.nextPayDay,
+          },
+          expenses: this.expenses,
+        },
+      };
+      const res = await API.sendJson(data, this.dbUserId)
+        .then((res) => res)
+        .catch((err) => console.log(err));
+      return res;
+    },
+    async addAcct(data: Account) {
+      const res = await API.addAcct(this.dbUserId, data)
+        .then((res) => res)
+        .catch((err) => console.log(err));
+      return res;
+    },
+    async editAcct(data: Account) {
+      const res = await API.editAcct(this.dbUserId, data)
+        .then((res) => res)
+        .catch((err) => console.log(err));
+      return res;
+    },
+    async deleteAcct(id: string) {
+      const res = await API.deleteAcct(this.dbUserId, id)
+        .then((res) => {
+          this.accounts = this.accounts.filter((acct: Account) => acct.id !== id);
+          return res;
+        })
+        .catch((err) => console.log(err));
+      console.log(res);
+      return res;
+    },
+
+    // Non API functions
     matchAccountToExpense(expenses: Expense[], accounts: Account[]) {
       const acctObj = {} as any;
       for (const acct of accounts) {
@@ -83,34 +132,7 @@ export const useUserStore = defineStore("UserStore", {
       const usLocale = "en-US";
       return date.toLocaleDateString(usLocale, { timeZone: "UTC" });
     },
-    generateJSON(username: String | undefined) {
-      const data = {
-        data: {
-          userInfo: {
-            username: username,
-            pay: `$${this.pay} ${this.payRate}`,
-            payFreq: this.payFreq,
-            hours: this.hours,
-            deductions: `$${this.deductions}`,
-            residence: this.residence,
-            relationship: this.relationship,
-            gross: `$${this.estGross}`,
-            net: `$${this.estNet}`,
-            numExpenses: this.expenses.length,
-            totalExpenses: `$${this.expenseSum}`,
-            startDate: this.formatDays(new Date(this.date)),
-            nextDate: this.nextPayDay,
-          },
-          expenses: this.expenses,
-        },
-      };
-      const res = Axios.post(`${this.baseUrl}/users/${this.dbUserId}/download`, data)
-        .then((res) => {
-          return res;
-        })
-        .catch((err) => console.log(err));
-      return res;
-    },
+
     getFederalTaxWithholding(): number {
       const fica = 0.0765;
       const estFica = Math.floor(this.afterDeductions * fica);

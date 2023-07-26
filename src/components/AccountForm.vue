@@ -84,7 +84,6 @@
 
 <script lang="ts">
 import { defineComponent, type PropType } from "vue";
-import Axios from "axios";
 
 import { useUserStore } from "../stores/UserStore";
 import MasterList from "./MasterList.vue";
@@ -151,26 +150,19 @@ export default defineComponent({
       this.startBalance = 0;
       this.expenseList = this.account.expenses;
     },
-    addNewAcct() {
-      Axios.post(
-        `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/accounts`,
-        this.acctInfo
-      )
+    async addNewAcct() {
+      await this.userStore.addAcct(this.acctInfo)
         .then((res) => {
-          this.acctInfo.id = res.data.id;
           this.$emit("close-new");
           this.clearInfo();
         })
         .catch((err) => console.log(err));
     },
-    editAcct() {
+    async editAcct() {
       this.acctInfo.id = this.account.id;
-      Axios.put(
-        `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/accounts/${this.account.id}`,
-        this.acctInfo
-      )
+      await this.userStore.editAcct(this.acctInfo)
         .then((res) => {
-          if (res.data.message === "Success") {
+          if (res.message === "Success") {
             this.$emit("close-edit");
             this.clearInfo();
           }

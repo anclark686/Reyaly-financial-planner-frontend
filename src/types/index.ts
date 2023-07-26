@@ -32,11 +32,19 @@ export interface Account {
   expenses: Expense[];
 }
 
-// export interface User {
-//     pay: number;
-//     rate: string;
-//     frequency: string;
-//     hours: number;
-// }
+export interface Data {
+    data: any;
+    message: string;
+    status: string;
+}
 
-// import { type User }from "../types"
+export interface Dataless {
+  message: string;
+  status: string;
+}
+
+export interface Created {
+  data: any;
+  message: string;
+  status: string;
+}
