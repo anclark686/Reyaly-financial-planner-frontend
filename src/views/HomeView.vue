@@ -195,6 +195,7 @@ const { isAuthenticated } = useAuth0();
 
   .demo-summary {
     margin: 20px auto;
+    width: 95%;
   }
 }
 </style>
