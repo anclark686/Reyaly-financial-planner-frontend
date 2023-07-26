@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "vite",
+    "start": "vite preview",
     "dev": "vite",
     "build": "run-p type-check build-only",
-    "preview": "vite preview",
+    "preview": "vite preview --port 5173",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
     "format": "prettier --write './**/*.{js,ts,vue,css,md,json}' --config ./.prettierrc"
