@@ -146,11 +146,12 @@ export default defineComponent({
         jsConfetti.addConfetti();
       }
     },
-    addExpense(expenseData) {
-      Axios.post(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses`, expenseData)
+    async addExpense(expenseData) {
+      await this.userStore.addExpense(expenseData)
         .then((res) => {
-          if (res.data.message === "Success") {
-            expenseData.id = res.data.id;
+          console.log(res)
+          if (res.message === "Success") {
+            expenseData.id = res.id;
             const [month, year] = this.getMonthAndYear();
             const day = this.dueDate < 10 ? `0${this.dueDate}` : this.dueDate;
 
