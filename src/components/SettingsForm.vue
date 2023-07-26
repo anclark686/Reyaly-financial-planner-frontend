@@ -202,7 +202,6 @@
 
 <script lang="ts">
 import { useAuth0 } from "@auth0/auth0-vue";
-import Axios from "axios";
 
 import { useUserStore } from "../stores/UserStore";
 
@@ -260,25 +259,25 @@ export default {
     },
   },
   methods: {
-    addInfo() {
+    async addUser() {
       this.loadingSettings = true;
-      Axios.post(`${this.userStore.baseUrl}/users`, this.userData)
+      await this.userStore.addUser(this.userData)
         .then((res) => {
           this.loadingSettings = false;
-          if (res.data.message === "Duplicate") {
+          if (res.message === "Duplicate") {
             this.duplicate = true;
-          } else if (res.data.message === "Success") {
+          } else if (res.message === "Success") {
             this.userStore.fill(this.user.sub);
             this.$emit("close", this.userData);
           }
         })
         .catch((err) => console.log(err));
     },
-    editInfo() {
+    async editUser() {
       this.loadingSettings = true;
-      Axios.put(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}`, this.userData)
+      await this.userStore.editUser(this.userData)
         .then((res) => {
-          if (res.data.message === "Success") {
+          if (res.message === "Success") {
             this.loadingSettings = false;
             this.success = true;
             setTimeout(() => {
@@ -292,9 +291,9 @@ export default {
       if (this.newPay && this.newRate && this.newFrequency && this.newHours) {
         this.invalid = false;
         if (this.formType === "new") {
-          this.addInfo();
+          this.addUser();
         } else if (this.formType === "update") {
-          this.editInfo();
+          this.editUser();
         }
       } else {
         this.invalid = true;

@@ -10,7 +10,7 @@
       <section class="expense-form-modal" v-if="addNew === true">
         <h3 class="subheader">Add Recurring Expense</h3>
         <ExpenseForm
-          @addInfo="addInfo"
+          @addExpense="addExpense"
           :expense="{ id: '', name: '', amount: 0, date: dueDate }"
           type="new"
         />
@@ -56,7 +56,6 @@
 
 <script>
 import { defineComponent } from "vue";
-import Axios from "axios";
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -146,11 +145,12 @@ export default defineComponent({
         jsConfetti.addConfetti();
       }
     },
-    addInfo(expenseData) {
-      Axios.post(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses`, expenseData)
+    async addExpense(expenseData) {
+      await this.userStore.addExpense(expenseData)
         .then((res) => {
-          if (res.data.message === "Success") {
-            expenseData.id = res.data.id;
+          console.log(res)
+          if (res.message === "Success") {
+            expenseData.id = res.id;
             const [month, year] = this.getMonthAndYear();
             const day = this.dueDate < 10 ? `0${this.dueDate}` : this.dueDate;
 

@@ -44,7 +44,7 @@
 
     <section class="expense-form-container" v-if="pageType === 'settings' && addNew">
       <ExpenseForm
-        @addInfo="addInfo"
+        @addExpense="addExpense"
         :expense="{ id: '', name: '', amount: 0, date: 0 }"
         type="new"
       />
@@ -56,7 +56,7 @@
     <section class="expense-form-container" v-else-if="edit === true">
       <ExpenseForm
         @cancel="cancelEdit"
-        @editInfo="editExpenseInfo"
+        @editExpense="editExpenseInfo"
         :expense="editInfo"
         type="edit"
       />
@@ -78,7 +78,6 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Axios from "axios";
 
 import ExpenseForm from "./ExpenseForm.vue";
 import DeleteModal from "./DeleteModal.vue";
@@ -112,16 +111,12 @@ export default defineComponent({
     },
   },
   methods: {
-    addInfo(expenseData: Expense) {
-      Axios.post(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses`, expenseData)
+    async addExpense(expenseData: Expense) {
+      await this.userStore.addExpense(expenseData)
         .then((res) => {
-          if (res.data.message === "Success") {
-            this.masterList.push({
-              id: res.data.id,
-              name: expenseData.name,
-              amount: expenseData.amount,
-              date: expenseData.date,
-            });
+          if (res.message === "Success") {
+            expenseData.id = res.id,
+            this.masterList.push(expenseData);
             this.sortMasterList();
           } else {
             alert("An error occurred, please try again");
@@ -137,13 +132,10 @@ export default defineComponent({
         this.editRow = idx;
       }
     },
-    editExpenseInfo(expenseData: Expense) {
-      Axios.put(
-        `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses/${expenseData.id}`,
-        expenseData
-      )
+    async editExpenseInfo(expenseData: Expense) {
+      await this.userStore.editExpense(expenseData)
         .then((res) => {
-          if (res.data.message === "Success") {
+          if (res.message === "Success") {
             this.masterList.splice(this.editRow, 1);
             this.masterList.push({
               id: expenseData.id,
@@ -169,11 +161,11 @@ export default defineComponent({
       this.showModal = true;
       this.deleteInfo = { id: id, idx: idx, title: title };
     },
-    onDelete(id: string, idx: number) {
+    async onDelete(id: string, idx: number) {
       this.showModal = false;
-      Axios.delete(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/expenses/${id}`)
+      await this.userStore.deleteExpense(id)
         .then((res) => {
-          if (res.data.message === "Success") {
+          if (res.message === "Success") {
             this.masterList.splice(idx, 1);
             this.deleteInfo = { id: "", idx: 0, title: "" };
           } else {

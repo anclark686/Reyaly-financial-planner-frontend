@@ -35,12 +35,10 @@
 
 <script lang="ts">
 import { defineComponent, type PropType } from "vue";
-import Axios from "axios";
 
 import MasterList from "./MasterList.vue";
 import DeleteModal from "./DeleteModal.vue";
 import { useUserStore } from "../stores/UserStore";
-import { type Expense } from "../types";
 import { type Account } from "../types";
 
 export default defineComponent({
@@ -75,13 +73,9 @@ export default defineComponent({
       this.showModal = true;
       this.deleteInfo = { id: id, title: title };
     },
-    deleteAcct(id: string) {
-      Axios.delete(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/accounts/${id}`)
-        .then((res) => {
-          this.userStore.accounts = this.userStore.accounts.filter(
-            (acct: Account) => acct.id !== id
-          );
-        })
+    async deleteAcct(id: string) {
+      await this.userStore.deleteAcct(id)
+        .then((res) => console.log(res))
         .catch((err) => console.log(err));
     },
   },

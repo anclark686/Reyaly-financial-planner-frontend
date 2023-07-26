@@ -35,7 +35,7 @@
     </section>
     <section class="debt-form-container" v-if="addNew">
       <DebtForm
-        @addInfo="addInfo"
+        @addDebt="addDebt"
         pageType="new"
         :debt="{
           id: '',
@@ -53,7 +53,7 @@
     </section>
 
     <section class="expense-form-container" v-else-if="edit === true">
-      <DebtForm @cancel="cancelEdit" @editInfo="editDebtInfo" :debt="editInfo" pageType="edit" />
+      <DebtForm @cancel="cancelEdit" @editDebt="editDebt" :debt="editInfo" pageType="edit" />
     </section>
 
     <section class="button-container" v-else>
@@ -63,7 +63,6 @@
 </template>
 
 <script lang="ts">
-import Axios from "axios";
 import { defineComponent } from "vue";
 
 import DebtForm from "./DebtForm.vue";
@@ -93,19 +92,12 @@ export default defineComponent({
     },
   },
   methods: {
-    addInfo(debtData: Debt) {
-      Axios.post(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/debts`, debtData)
+    async addDebt(debtData: Debt) {
+      await this.userStore.addDebt(debtData)
         .then((res) => {
-          if (res.data.message === "Success") {
-            this.debtList.push({
-              id: res.data.id,
-              name: debtData.name,
-              type: debtData.type,
-              owed: debtData.owed,
-              limit: debtData.limit,
-              rate: debtData.rate,
-              payment: debtData.payment,
-            });
+          if (res.message === "Success") {
+            debtData.id = res.id
+            this.debtList.push(debtData);
           } else {
             alert("An error occurred, please try again");
           }
@@ -120,23 +112,12 @@ export default defineComponent({
         this.editRow = idx;
       }
     },
-    editDebtInfo(debtData: Debt) {
-      Axios.put(
-        `${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/debts/${debtData.id}`,
-        debtData
-      )
+    async editDebt(debtData: Debt) {
+      await this.userStore.editDebt(debtData)
         .then((res) => {
-          if (res.data.message === "Success") {
+          if (res.message === "Success") {
             this.debtList.splice(this.editRow, 1);
-            this.debtList.push({
-              id: debtData.id,
-              name: debtData.name,
-              type: debtData.type,
-              owed: debtData.owed,
-              limit: debtData.limit,
-              rate: debtData.rate,
-              payment: debtData.payment,
-            });
+            this.debtList.push(debtData);
             this.edit = false;
             this.editInfo = {} as Debt;
             this.editRow = 0;
@@ -150,10 +131,10 @@ export default defineComponent({
       this.edit = false;
       this.editInfo = {} as Debt;
     },
-    onDelete(id: string, idx: number) {
-      Axios.delete(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}/debts/${id}`)
+    async onDelete(id: string, idx: number) {
+      await this.userStore.deleteDebt(id)
         .then((res) => {
-          if (res.data.message === "Success") {
+          if (res.message === "Success") {
             this.debtList.splice(idx, 1);
           } else {
             alert("An error occurred, please try again");

@@ -31,12 +31,3 @@ export interface Account {
   end: number;
   expenses: Expense[];
 }
-
-// export interface User {
-//     pay: number;
-//     rate: string;
-//     frequency: string;
-//     hours: number;
-// }
-
-// import { type User }from "../types"

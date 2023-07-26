@@ -160,6 +160,7 @@ const { isAuthenticated } = useAuth0();
   margin: 10px;
   padding: 10px;
   background-color: var(--white-black);
+  width: 500px;
 }
 
 .every-other {
