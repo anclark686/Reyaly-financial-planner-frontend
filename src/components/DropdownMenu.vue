@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { RouterLink, RouterView } from "vue-router";
+import { RouterLink } from "vue-router";
 import { useAuth0 } from "@auth0/auth0-vue";
 
 import LoginButton from "./LoginButton.vue";
@@ -35,6 +35,7 @@ export default {
   },
 
   components: {
+    RouterLink,
     LoginButton,
     LogoutButton,
   },

@@ -103,7 +103,7 @@ export default defineComponent({
     };
   },
   watch: {
-    date: function (newVal, oldVal) {
+    date: function () {
       this.getPaychecks();
       this.addDates();
     },

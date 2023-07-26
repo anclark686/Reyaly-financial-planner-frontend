@@ -85,8 +85,8 @@
 <script lang="ts">
 import { defineComponent, type PropType } from "vue";
 
-import { useUserStore } from "../stores/UserStore";
 import MasterList from "./MasterList.vue";
+import { useUserStore } from "../stores/UserStore";
 import { type Expense } from "../types";
 import { type Account } from "../types";
 

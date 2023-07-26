@@ -87,13 +87,13 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from "vue";
 import { useAuth0 } from "@auth0/auth0-vue";
 
 import MasterList from "../components/MasterList.vue";
 import AccountBox from "../components/AccountBox.vue";
 import AccountForm from "../components/AccountForm.vue";
 import { useUserStore } from "../stores/UserStore";
-import { defineComponent } from "vue";
 import { type Expense } from "../types";
 import { type Account } from "../types";
 

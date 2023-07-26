@@ -118,6 +118,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+
 import { type Debt } from "../types";
 
 export default defineComponent({

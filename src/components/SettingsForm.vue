@@ -201,11 +201,12 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from "vue";
 import { useAuth0 } from "@auth0/auth0-vue";
 
 import { useUserStore } from "../stores/UserStore";
 
-export default {
+export default defineComponent({
   setup() {
     const { user } = useAuth0();
 
@@ -302,7 +303,7 @@ export default {
       }
     },
   },
-};
+});
 </script>
 
 <style scoped>

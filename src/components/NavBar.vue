@@ -55,6 +55,7 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from "vue";
 import { RouterLink } from "vue-router";
 import { useAuth0 } from "@auth0/auth0-vue";
 
@@ -62,7 +63,7 @@ import LoginButton from "./LoginButton.vue";
 import LogoutButton from "./LogoutButton.vue";
 import { useUserStore } from "../stores/UserStore";
 
-export default {
+export default defineComponent({
   setup() {
     const { user, isAuthenticated } = useAuth0();
 
@@ -91,10 +92,10 @@ export default {
       this.userStore.darkMode = color;
     },
   },
-};
+});
 </script>
 
-<style scoped="">
+<style scoped>
 .pic-header {
   min-height: 200px;
   background:
