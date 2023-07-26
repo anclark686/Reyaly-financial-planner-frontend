@@ -28,6 +28,7 @@ export const useUserStore = defineStore("UserStore", {
       paychecks: [] as Paycheck[],
       accounts: [] as Account[],
       debts: [] as Debt[],
+      baseUrl: "https://reyaly-financial-backend-983411f48872.herokuapp.com",
       loading: false,
     };
   },
