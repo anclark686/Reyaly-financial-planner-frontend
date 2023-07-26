@@ -145,7 +145,8 @@ export default defineComponent({
     },
     async getPaychecks() {
       const params = `date=${this.date};frequency=${this.frequency}`;
-      await this.userStore.getPaychecks(params)
+      await this.userStore
+        .getPaychecks(params)
         .then((res) => {
           this.expenseList = res.data;
           this.sortExpenseList();

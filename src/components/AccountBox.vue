@@ -74,7 +74,8 @@ export default defineComponent({
       this.deleteInfo = { id: id, title: title };
     },
     async deleteAcct(id: string) {
-      await this.userStore.deleteAcct(id)
+      await this.userStore
+        .deleteAcct(id)
         .then((res) => console.log(res))
         .catch((err) => console.log(err));
     },

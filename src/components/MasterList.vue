@@ -112,11 +112,11 @@ export default defineComponent({
   },
   methods: {
     async addExpense(expenseData: Expense) {
-      await this.userStore.addExpense(expenseData)
+      await this.userStore
+        .addExpense(expenseData)
         .then((res) => {
           if (res.message === "Success") {
-            expenseData.id = res.id,
-            this.masterList.push(expenseData);
+            (expenseData.id = res.id), this.masterList.push(expenseData);
             this.sortMasterList();
           } else {
             alert("An error occurred, please try again");
@@ -133,7 +133,8 @@ export default defineComponent({
       }
     },
     async editExpenseInfo(expenseData: Expense) {
-      await this.userStore.editExpense(expenseData)
+      await this.userStore
+        .editExpense(expenseData)
         .then((res) => {
           if (res.message === "Success") {
             this.masterList.splice(this.editRow, 1);
@@ -163,7 +164,8 @@ export default defineComponent({
     },
     async onDelete(id: string, idx: number) {
       this.showModal = false;
-      await this.userStore.deleteExpense(id)
+      await this.userStore
+        .deleteExpense(id)
         .then((res) => {
           if (res.message === "Success") {
             this.masterList.splice(idx, 1);

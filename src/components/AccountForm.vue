@@ -151,7 +151,8 @@ export default defineComponent({
       this.expenseList = this.account.expenses;
     },
     async addNewAcct() {
-      await this.userStore.addAcct(this.acctInfo)
+      await this.userStore
+        .addAcct(this.acctInfo)
         .then((res) => {
           this.$emit("close-new");
           this.clearInfo();
@@ -160,7 +161,8 @@ export default defineComponent({
     },
     async editAcct() {
       this.acctInfo.id = this.account.id;
-      await this.userStore.editAcct(this.acctInfo)
+      await this.userStore
+        .editAcct(this.acctInfo)
         .then((res) => {
           if (res.message === "Success") {
             this.$emit("close-edit");

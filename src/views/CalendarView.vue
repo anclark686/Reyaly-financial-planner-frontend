@@ -146,9 +146,10 @@ export default defineComponent({
       }
     },
     async addExpense(expenseData) {
-      await this.userStore.addExpense(expenseData)
+      await this.userStore
+        .addExpense(expenseData)
         .then((res) => {
-          console.log(res)
+          console.log(res);
           if (res.message === "Success") {
             expenseData.id = res.id;
             const [month, year] = this.getMonthAndYear();

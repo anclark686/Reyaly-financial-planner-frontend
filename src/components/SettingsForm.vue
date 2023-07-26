@@ -261,7 +261,8 @@ export default {
   methods: {
     async addUser() {
       this.loadingSettings = true;
-      await this.userStore.addUser(this.userData)
+      await this.userStore
+        .addUser(this.userData)
         .then((res) => {
           this.loadingSettings = false;
           if (res.message === "Duplicate") {
@@ -275,7 +276,8 @@ export default {
     },
     async editUser() {
       this.loadingSettings = true;
-      await this.userStore.editUser(this.userData)
+      await this.userStore
+        .editUser(this.userData)
         .then((res) => {
           if (res.message === "Success") {
             this.loadingSettings = false;

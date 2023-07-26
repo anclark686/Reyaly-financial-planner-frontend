@@ -72,5 +72,3 @@ export const deleteExpense = (dbUserId: string, id: string): Promise<any> => {
 export const getPaychecks = (dbUserId: string, params: string): Promise<any> => {
   return Axios.get(`${baseUrl}/${dbUserId}/expenses?${params}`).then((res) => res.data);
 };
-
-

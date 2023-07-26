@@ -93,10 +93,11 @@ export default defineComponent({
   },
   methods: {
     async addDebt(debtData: Debt) {
-      await this.userStore.addDebt(debtData)
+      await this.userStore
+        .addDebt(debtData)
         .then((res) => {
           if (res.message === "Success") {
-            debtData.id = res.id
+            debtData.id = res.id;
             this.debtList.push(debtData);
           } else {
             alert("An error occurred, please try again");
@@ -113,7 +114,8 @@ export default defineComponent({
       }
     },
     async editDebt(debtData: Debt) {
-      await this.userStore.editDebt(debtData)
+      await this.userStore
+        .editDebt(debtData)
         .then((res) => {
           if (res.message === "Success") {
             this.debtList.splice(this.editRow, 1);
@@ -132,7 +134,8 @@ export default defineComponent({
       this.editInfo = {} as Debt;
     },
     async onDelete(id: string, idx: number) {
-      await this.userStore.deleteDebt(id)
+      await this.userStore
+        .deleteDebt(id)
         .then((res) => {
           if (res.message === "Success") {
             this.debtList.splice(idx, 1);
