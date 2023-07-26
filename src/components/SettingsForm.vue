@@ -276,10 +276,8 @@ export default {
     },
     editInfo() {
       this.loadingSettings = true;
-      console.log(this.userData);
       Axios.put(`${this.userStore.baseUrl}/users/${this.userStore.dbUserId}`, this.userData)
         .then((res) => {
-          console.log(res.data);
           if (res.data.message === "Success") {
             this.loadingSettings = false;
             this.success = true;

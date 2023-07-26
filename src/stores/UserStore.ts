@@ -58,7 +58,6 @@ export const useUserStore = defineStore("UserStore", {
             this.accounts = res.data.data.accounts;
 
             this.loading = false;
-            console.log(res.data.data);
           }
         })
         .catch((err) => console.log(err));
@@ -112,54 +111,6 @@ export const useUserStore = defineStore("UserStore", {
         .catch((err) => console.log(err));
       return res;
     },
-    // getFederalTaxWithholding(): number {
-    //   const fica = 0.0765;
-    //   // this.afterDeductions
-    //   let fedIncome: number
-
-    //   if (this.relationship === "single") {
-    //     if (this.estGross < 142) {
-    //       fedIncome = 0
-    //     } else if (this.estGross > 142 && this.estGross < 509) {
-    //       fedIncome = 0 + ((this.estGross - 142 - 159.60) * 0.1)
-    //     } else if (this.estGross > 509 && this.estGross < 1631) {
-    //       fedIncome = 36.7 + ((this.estGross - 509 - 159.60) * 0.12)
-    //     } else if (this.estGross > 1631 && this.estGross < 3315) {
-    //       fedIncome = 171.35 + ((this.estGross - 1631 - 159.60) * 0.22)
-    //     } else if (this.estGross > 3315 && this.estGross < 6200) {
-    //       fedIncome = 541.82 + ((this.estGross - 3315 - 159.60) * 0.24)
-    //     } else if (this.estGross > 6200 && this.estGross < 7835) {
-    //       fedIncome = 1234.22 + ((this.estGross - 6200 - 159.60) * 0.32)
-    //     } else if (this.estGross > 7835 && this.estGross < 19373) {
-    //       fedIncome = 1757.42 + ((this.estGross - 7835 - 159.60) * 0.35)
-    //     } else {
-    //       fedIncome = 5795.72 + ((this.estGross - 19373 - 159.60) * 0.37)
-    //     }
-    //   } else {
-    //     if (this.estGross < 444) {
-    //       fedIncome = 0
-    //     } else if (this.estGross > 444 && this.estGross < 1177) {
-    //       fedIncome = 0 + ((this.estGross - 440 - 159.60) * 0.1)
-    //     } else if (this.estGross > 1177 && this.estGross < 3421) {
-    //       fedIncome = 73.3 + ((this.estGross - 1177 - 159.60) * 0.12)
-    //     } else if (this.estGross > 3421 && this.estGross < 6790) {
-    //       fedIncome = 342.58 + ((this.estGross - 3421 - 159.60) * 0.22)
-    //     } else if (this.estGross > 6790 && this.estGross < 12560) {
-    //       fedIncome = 1083.76 + ((this.estGross - 6790 - 159.60) * 0.24)
-    //     } else if (this.estGross > 12560 && this.estGross < 15829) {
-    //       fedIncome = 2468.56 + ((this.estGross - 12560 - 159.60) * 0.32)
-    //     } else if (this.estGross > 15829 && this.estGross < 23521) {
-    //       fedIncome = 3514.64 + ((this.estGross - 15829 - 159.60) * 0.35)
-    //     } else {
-    //       fedIncome = 6206.84 + ((this.estGross - 23521 - 159.60) * 0.37)
-    //     }
-    //   }
-    //   const estFica = this.afterDeductions * fica;
-    //   const estFedTaxes = Math.floor(fedIncome + estFica);
-    //   console.log(`estFica = ${estFica}`)
-    //   console.log(`estFedTaxes = ${estFedTaxes}`)
-    //   return estFedTaxes
-    // },
     getFederalTaxWithholding(): number {
       const fica = 0.0765;
       const estFica = Math.floor(this.afterDeductions * fica);
@@ -219,10 +170,9 @@ export const useUserStore = defineStore("UserStore", {
           estIncomeTax = Math.floor(fedIncomeAnnual / 12);
           break;
       }
-      console.log(`estIncomeTax ${estIncomeTax}`);
+
       const estFedTaxes = estIncomeTax + estFica;
-      console.log(`estFica = ${estFica}`);
-      console.log(`estFedTaxes = ${estFedTaxes}`);
+
       return estFedTaxes;
     },
     getLocalTaxWithholding(): number {
@@ -350,8 +300,9 @@ export const useUserStore = defineStore("UserStore", {
           percentage = 0;
           break;
       }
+
       const estStateTaxes = Math.floor(this.afterDeductions * percentage);
-      console.log(`estStateTaxes = ${estStateTaxes}`);
+
       return estStateTaxes;
     },
   },
