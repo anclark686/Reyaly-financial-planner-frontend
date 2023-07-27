@@ -141,7 +141,6 @@
           relationship=""
           @close="updateUserInfo"
         />
-        <button @click="handleFormClick">Close Modal</button>
       </div>
     </main>
     <div class="spinner-container" v-else>
