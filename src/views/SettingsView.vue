@@ -30,7 +30,7 @@
       <div class="spinner-border text-success loading-spinner" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
-      <h1>Loading...</h1>
+      <h1 class="loading">Loading...</h1>
     </div>
   </section>
 </template>
@@ -94,6 +94,10 @@ export default defineComponent({
   padding: 30px;
   text-align: left;
   height: fit-content;
+}
+
+.loading {
+  color: var(--text-color);
 }
 
 @media (max-width: 1000px) {

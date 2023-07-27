@@ -147,7 +147,7 @@
       <div class="spinner-border text-success loading-spinner spinner-border-lg" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
-      <h1>Loading...</h1>
+      <h1 class="loading">Loading...</h1>
     </div>
   </section>
 </template>
@@ -319,6 +319,10 @@ export default defineComponent({
 
 .instructions {
   margin-bottom: 20px;
+}
+
+.loading {
+  color: var(--text-color);
 }
 
 @media (max-width: 1000px) {

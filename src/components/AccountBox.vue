@@ -112,6 +112,7 @@ export default defineComponent({
   border-radius: 5px;
   width: 80px;
   margin: 5px;
+  color: var(--text-color);
 }
 
 @media (max-width: 1000px) {

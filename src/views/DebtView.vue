@@ -17,7 +17,7 @@
       <div class="spinner-border text-success loading-spinner" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
-      <h1>Loading...</h1>
+      <h1 class="loading">Loading...</h1>
     </div>
   </section>
 </template>
@@ -83,6 +83,10 @@ export default defineComponent({
   border: 2px solid black;
 }
 
+.loading {
+  color: var(--text-color);
+}
+
 @media (max-width: 1000px) {
   .debt-list-container {
     width: 90%;
@@ -95,8 +99,7 @@ export default defineComponent({
     margin: 20px;
     padding: 10px;
   }
-}
-@media (max-width: 1000px) {
+  
   .page-header {
     font-size: 2.5rem;
   }

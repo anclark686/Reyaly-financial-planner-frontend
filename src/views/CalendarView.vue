@@ -49,7 +49,7 @@
       <div class="spinner-border text-success loading-spinner" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
-      <h1>Loading...</h1>
+      <h1 class="loading">Loading...</h1>
     </div>
   </section>
 </template>
@@ -228,6 +228,10 @@ export default defineComponent({
 
 .expense-label {
   text-align: left;
+}
+
+.loading {
+  color: var(--text-color);
 }
 
 table {

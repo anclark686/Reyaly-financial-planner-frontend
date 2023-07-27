@@ -81,7 +81,7 @@
       <div class="spinner-border text-success loading-spinner" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
-      <h1>Loading...</h1>
+      <h1 class="loading">Loading...</h1>
     </div>
   </section>
 </template>
@@ -260,6 +260,10 @@ export default defineComponent({
 #submit-btn,
 .loading-spinner {
   margin: 20px;
+}
+
+.loading {
+  color: var(--text-color);
 }
 
 @media (max-width: 1000px) {
