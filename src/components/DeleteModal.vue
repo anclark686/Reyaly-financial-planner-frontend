@@ -25,10 +25,9 @@
 </template>
 
 <script lang="ts">
-
 export default {
   props: {
-    name: String,
+    name: { type: String, required: true },
   },
   methods: {
     onClickButton(event: any) {

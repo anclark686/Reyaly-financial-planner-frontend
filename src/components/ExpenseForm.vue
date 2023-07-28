@@ -42,9 +42,8 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
-    pageType: String,
     expense: { type: Object, required: true },
-    type: String,
+    type: { type: String, required: true },
   },
   data() {
     return {

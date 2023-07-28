@@ -201,10 +201,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, type PropType } from "vue";
 import { useAuth0 } from "@auth0/auth0-vue";
 
 import { useUserStore } from "../stores/UserStore";
+import { type User } from "../types";
 
 export default defineComponent({
   setup() {
@@ -215,27 +216,23 @@ export default defineComponent({
     };
   },
   props: {
-    formType: String,
-    pay: Number,
-    rate: String,
-    frequency: String,
-    hours: Number,
-    date: String,
-    deductions: Number,
-    residence: String,
-    relationship: String,
+    formType: { type: String, required: true },
+    userInfo: {
+      type: Object as PropType<User>,
+      required: true,
+    },
   },
   data() {
     return {
       userStore: useUserStore(),
-      newPay: this.pay,
-      newRate: this.rate,
-      newFrequency: this.frequency,
-      newHours: this.hours,
-      newDate: this.date,
-      newDeductions: this.deductions,
-      newResidence: this.residence,
-      newRelationship: this.relationship,
+      newPay: this.userInfo.pay,
+      newRate: this.userInfo.rate,
+      newFrequency: this.userInfo.frequency,
+      newHours: this.userInfo.hours,
+      newDate: this.userInfo.date,
+      newDeductions: this.userInfo.deductions,
+      newResidence: this.userInfo.residence,
+      newRelationship: this.userInfo.relationship,
       invalid: false,
       duplicate: false,
       loadingSettings: false,

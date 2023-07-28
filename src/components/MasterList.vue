@@ -22,7 +22,8 @@
           >
             <td>{{ expense.name }}</td>
             <td>${{ expense.amount }}</td>
-            <td>{{ expense.date }}</td>
+            <td v-if="pageType !== 'accountNotifications'">{{ expense.date }}</td>
+            <td v-else>{{ expense.dateStr }}</td>
             <td v-if="pageType === 'settings'">
               <button class="emoji-btn" @click="onEditClick(expense, i)">✏️</button>
               |
@@ -86,7 +87,7 @@ import { type Expense } from "../types";
 
 export default defineComponent({
   props: {
-    pageType: String,
+    pageType: { type: String, required: true },
     expenses: Array,
   },
   data() {

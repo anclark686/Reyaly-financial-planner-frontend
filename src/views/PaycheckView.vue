@@ -114,7 +114,7 @@ export default defineComponent({
   margin: 0 5px;
   color: white;
   padding: 0px;
-  background-color: white;
+  background-color: #f9f9f9;
 }
 
 .arrow-img {

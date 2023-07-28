@@ -82,7 +82,7 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
-    pageType: String,
+    pageType: { type: String, required: true },
     debt: { type: Object, required: true },
   },
   data() {

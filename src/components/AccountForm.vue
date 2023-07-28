@@ -96,7 +96,7 @@ export default defineComponent({
       type: Object as PropType<Expense>,
       required: true,
     },
-    formType: String,
+    formType: { type: String, required: true },
     account: {
       type: Object as PropType<Account>,
       required: true,

@@ -1,3 +1,14 @@
+export interface User {
+  pay: number;
+  rate: string;
+  frequency: string;
+  hours: number;
+  date: string;
+  deductions: number;
+  residence: string;
+  relationship: string;
+}
+
 export interface Expense {
   id: string;
   name: string;

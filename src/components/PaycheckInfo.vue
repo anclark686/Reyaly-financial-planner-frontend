@@ -92,8 +92,8 @@ import { type Expense } from "../types";
 
 export default defineComponent({
   props: {
-    date: String,
-    frequency: String,
+    date: { type: String, required: true },
+    frequency: { type: String, required: true },
   },
   data() {
     return {
@@ -105,12 +105,11 @@ export default defineComponent({
   watch: {
     date: function () {
       this.getPaychecks();
-      this.addDates();
     },
   },
   computed: {
     total() {
-      const total = this.expenseList.reduce((a: any = {}, b: any = {}) => a + b.amount, 0);
+      const total = this.userStore.getExpenseTotal(this.expenseList);
       return total;
     },
     remaining() {
@@ -118,39 +117,14 @@ export default defineComponent({
     },
   },
   methods: {
-    sortExpenseList() {
-      this.expenseList.sort((a: any = {} as Expense, b: any = {} as Expense) => {
-        return a.dateObj - b.dateObj;
-      });
-    },
-    addDates() {
-      const dateArr: string[] = this.date?.split("/")!;
-
-      for (const expense of this.expenseList) {
-        let month = Number(dateArr[0]);
-        let year = Number(dateArr[2]);
-        if (expense.date < Number(dateArr[1])) {
-          if (month < 12) {
-            month++;
-          } else {
-            month = 1;
-            year++;
-          }
-        }
-
-        const newDateObj = new Date(`${month}/${expense.date}/${year}`);
-        expense.dateObj = newDateObj;
-        expense.dateStr = newDateObj.toDateString();
-      }
-    },
     async getPaychecks() {
       const params = `date=${this.date};frequency=${this.frequency}`;
       await this.userStore
         .getPaychecks(params)
         .then((res) => {
           this.expenseList = res.data;
-          this.addDates();
-          this.sortExpenseList();
+          this.userStore.addConvertedDates(this.expenseList, this.date);
+          this.userStore.sortExpenseDateList(this.expenseList);
         })
         .catch((err) => console.log(err));
     },

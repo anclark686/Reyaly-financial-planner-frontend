@@ -2,6 +2,20 @@
   <section class="page-content">
     <main class="dashboard" v-if="!userStore.loading">
       <h1 class="page-header">Dashboard</h1>
+      <section class="notif-container" v-if="showNotifications === true">
+        <div class="notif-header">
+          <h2>Notifications</h2>
+          <button class="emoji-btn" @click="showNotifications = false">➖</button>
+        </div>
+
+        <NotificationModal :date="date" frequency="weekly" />
+      </section>
+      <section class="notif-container" v-else>
+        <div class="notif-header">
+          <h2>Notifications</h2>
+          <button class="emoji-btn" @click="showNotifications = true">➕</button>
+        </div>
+      </section>
       <section class="main-dashboard">
         <section class="view-boxes">
           <RouterLink to="/views/calendar" class="view-box">
@@ -131,16 +145,7 @@
           <h5>Looks like it's your first time here!</h5>
           <h5>Enter the info below to get started.</h5>
         </div>
-        <SettingsForm
-          formType="new"
-          :pay="0"
-          rate=""
-          frequency=""
-          :hours="0"
-          residence=""
-          relationship=""
-          @close="updateUserInfo"
-        />
+        <SettingsForm formType="new" :userInfo="blankAccount" @close="updateUserInfo" />
       </div>
     </main>
     <div class="spinner-container" v-else>
@@ -158,7 +163,9 @@ import { useAuth0 } from "@auth0/auth0-vue";
 import { defineComponent } from "vue";
 
 import SettingsForm from "../components/SettingsForm.vue";
+import NotificationModal from "../components/NotificationModal.vue";
 import { useUserStore } from "../stores/UserStore";
+import { type User } from "../types";
 
 export default defineComponent({
   setup() {
@@ -172,11 +179,24 @@ export default defineComponent({
     return {
       userStore: useUserStore(),
       showUserForm: false,
+      showNotifications: true,
+      date: new Date().toLocaleDateString(),
+      blankAccount: {
+        pay: 0,
+        rate: "",
+        frequency: "",
+        hours: 0,
+        date: "",
+        deductions: 0,
+        residence: "",
+        relationship: "",
+      } as User,
     };
   },
   components: {
     SettingsForm,
     RouterLink,
+    NotificationModal,
   },
   methods: {
     updateUserInfo(newUserData: { pay: number; rate: string; frequency: string; hours: number }) {
@@ -214,6 +234,22 @@ export default defineComponent({
   justify-content: space-around;
   flex-wrap: wrap;
 }
+
+.notif-container {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.notif-header {
+  display: flex;
+  justify-content: center;
+}
+
+.emoji-btn {
+  border: none;
+  background-color: inherit;
+}
+
 .view-boxes {
   width: 50%;
   margin: 50px 0;

@@ -11,18 +11,7 @@
         </div>
 
         <div class="form-container">
-          <SettingsForm
-            v-if="userStore.pay"
-            formType="update"
-            :pay="userStore.pay"
-            :rate="userStore.payRate"
-            :frequency="userStore.payFreq"
-            :hours="userStore.hours"
-            :date="userStore.date"
-            :deductions="userStore.deductions"
-            :residence="userStore.residence"
-            :relationship="userStore.relationship"
-          />
+          <SettingsForm v-if="userStore.pay" formType="update" :userInfo="userInfo" />
         </div>
       </section>
     </main>
@@ -42,6 +31,7 @@ import { useAuth0 } from "@auth0/auth0-vue";
 import MasterList from "../components/MasterList.vue";
 import SettingsForm from "../components/SettingsForm.vue";
 import { useUserStore } from "../stores/UserStore";
+import { type User } from "../types";
 
 export default defineComponent({
   setup() {
@@ -59,6 +49,21 @@ export default defineComponent({
     return {
       userStore: useUserStore(),
     };
+  },
+  computed: {
+    userInfo() {
+      const userInfo = {
+        pay: this.userStore.pay,
+        rate: this.userStore.payRate,
+        frequency: this.userStore.payFreq,
+        hours: this.userStore.hours,
+        date: this.userStore.date,
+        deductions: this.userStore.deductions,
+        residence: this.userStore.residence,
+        relationship: this.userStore.relationship,
+      } as User;
+      return userInfo;
+    },
   },
   async mounted() {
     await this.userStore.fill(this.user.sub);

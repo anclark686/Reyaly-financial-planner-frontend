@@ -23,7 +23,7 @@
             <td>{{ debt.type }}</td>
             <td>${{ debt.owed }}</td>
             <td>${{ debt.limit }}</td>
-            <td>{{ debt.rate }}</td>
+            <td>{{ debt.rate }}%</td>
             <td>
               <button class="emoji-btn" @click="onEditClick(debt, i)">✏️</button>
               |

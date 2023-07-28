@@ -99,7 +99,7 @@ export default defineComponent({
     margin: 20px;
     padding: 10px;
   }
-  
+
   .page-header {
     font-size: 2.5rem;
   }
