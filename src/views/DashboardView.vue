@@ -66,7 +66,7 @@
                 </tr>
                 <tr class="odd">
                   <td class="left">
-                    <strong># of Deductions:</strong>
+                    <strong>Deductions:</strong>
                   </td>
                   <td class="right">${{ userStore.deductions }}</td>
                 </tr>
