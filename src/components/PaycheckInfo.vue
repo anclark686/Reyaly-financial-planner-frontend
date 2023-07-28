@@ -149,8 +149,8 @@ export default defineComponent({
         .getPaychecks(params)
         .then((res) => {
           this.expenseList = res.data;
-          this.sortExpenseList();
           this.addDates();
+          this.sortExpenseList();
         })
         .catch((err) => console.log(err));
     },
