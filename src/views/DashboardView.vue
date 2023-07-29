@@ -391,8 +391,12 @@ export default defineComponent({
     font-size: 2.5rem;
   }
 
+  .notif-container {
+    width: 90%;
+  }
+
   .view-boxes {
-    width: 75%;
+    width: 95%;
   }
   .view-box {
     width: 90%;

@@ -87,7 +87,7 @@ export default defineComponent({
     };
   },
   watch: {
-    debts: function (newVal, oldVal) {
+    debts: function () {
       this.debtList = this.debts as Debt[];
     },
   },
@@ -186,7 +186,12 @@ export default defineComponent({
     font-size: 1.5rem;
   }
   .debt-table {
-    width: 97%;
+    width: 99%;
+    font-size: .9rem;
+  }
+
+  .emoji-btn {
+    padding: 2px;
   }
 }
 </style>

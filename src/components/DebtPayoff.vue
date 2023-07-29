@@ -328,5 +328,10 @@ export default defineComponent({
   .btn {
     font-size: 1.5rem;
   }
+
+  .info-modal {
+    width: 90%;
+    left: 5%;
+  }
 }
 </style>
