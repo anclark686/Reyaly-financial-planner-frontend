@@ -58,6 +58,7 @@ const userStore = useUserStore();
   text-align: center;
   height: 100%;
   font-size: large;
+  color: var(--text-color);
 }
 
 .spinner-border {

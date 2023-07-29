@@ -34,9 +34,21 @@
             <h2>Debt View</h2>
           </RouterLink>
 
+          <RouterLink to="/views/savings" class="view-box">
+            <h2>Savings View</h2>
+          </RouterLink>
+
+          <RouterLink to="/views/savings" class="view-box">
+            <h2>Stocks View</h2>
+          </RouterLink>
+
           <button class="view-box" @click="downloadExcel">
             <h2>Export Excel</h2>
           </button>
+
+          <RouterLink to="/views/savings" class="view-box">
+            <h2>Currency Converter</h2>
+          </RouterLink>
         </section>
 
         <section class="settings-container">
@@ -237,8 +249,12 @@ export default defineComponent({
 
 .notif-container {
   text-align: center;
-  margin-top: 30px;
   color: var(--text-color);
+  border-radius: 15px;
+  border: 2px solid black;
+  width: 50%;
+  margin: 30px auto 0 auto;
+  background-color: var(--green-bg);
 }
 
 .notif-header {
@@ -253,7 +269,7 @@ export default defineComponent({
 
 .view-boxes {
   width: 50%;
-  margin: 50px 0;
+  margin: 70px 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -263,14 +279,14 @@ export default defineComponent({
 
 .view-box {
   background-color: var(--btn-main);
-  min-width: 300px;
+  min-width: 375px;
   width: 40%;
-  height: 100px;
+  height: 70px;
   text-align: center;
   border-radius: 15px;
   border: 2px solid black;
   color: var(--dk-green);
-  margin: 20px;
+  margin: 5px;
   text-decoration: none;
 }
 
@@ -278,9 +294,13 @@ export default defineComponent({
   background-color: var(--btn-hover);
 }
 
+.view-box:active {
+  transform: translateY(2px);
+}
+
 .view-box h2 {
   margin: auto;
-  padding: 27px;
+  padding: 15px;
   color: white;
   text-decoration: none;
 }

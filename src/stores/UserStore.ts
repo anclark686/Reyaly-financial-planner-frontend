@@ -169,6 +169,17 @@ export const useUserStore = defineStore("UserStore", {
         .catch((err) => console.log(err));
       return res;
     },
+    // Savings API method
+    async getSavings() {
+      this.loading = true;
+      const res = await API.getSavings()
+        .then((res) => {
+          this.loading = false;
+          return res
+        })
+        .catch((err) => console.log(err));
+      return res;
+    },
 
     // Non API functions
     matchAccountToExpense(expenses: Expense[], accounts: Account[]) {

@@ -42,3 +42,11 @@ export interface Account {
   end: number;
   expenses: Expense[];
 }
+
+export interface SavingsAccount {
+  name: string;
+  rate: string;
+  percentage: number;
+  min: string;
+  link: string;
+}
