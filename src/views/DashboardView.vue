@@ -238,6 +238,7 @@ export default defineComponent({
 .notif-container {
   text-align: center;
   margin-top: 30px;
+  color: var(--text-color);
 }
 
 .notif-header {
