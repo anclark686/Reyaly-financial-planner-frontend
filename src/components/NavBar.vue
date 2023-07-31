@@ -171,22 +171,31 @@ export default defineComponent({
   border: 2px solid black;
 }
 @media (max-width: 1000px) {
+  .brand {
+    margin: auto;
+  }
+  
   .brand-header {
     font-size: 2rem;
+    text-align: center;
   }
 
   .btn {
-    font-size: 2rem;
+    font-size: 1rem;
+  }
+
+  .right {
+    margin: auto;
   }
 
   .dark-light-btn {
-    width: 70px;
-    height: 70px;
+    width: 45px;
+    height: 45px;
   }
 
   .dark-light-img {
-    height: 50px;
-    width: 50px;
+    height: 35px;
+    width: 35px;
   }
   .dropdown-item {
     font-size: 1.5rem;

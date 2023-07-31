@@ -2,7 +2,7 @@
   <section class="calculator-container">
     <header>
       <h2 class="subheader">Savings Calculator</h2>
-      <p>Use this calculator to forecast interest earned after one year.</p>
+      <p>Use this calculator to forecast interest earned after a period of time.</p>
     </header>
 
     <main class="form-container">

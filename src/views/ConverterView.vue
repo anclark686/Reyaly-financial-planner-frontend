@@ -75,8 +75,6 @@ export default defineComponent({
 @media (max-width: 1000px) {
   .converter-container {
     width: 90%;
-    margin: 20px;
-    padding: 10px;
   }
 }
 </style>
