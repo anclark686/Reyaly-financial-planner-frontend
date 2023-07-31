@@ -142,14 +142,10 @@ export default defineComponent({
       }
       const baseTotal = this.start * yearsRate;
       const baseInterest = baseTotal - this.start;
-      console.log(`baseTotal ${baseTotal}`);
 
       const additionalBase = this.deposits * (this.time * 12);
       const additionalTotal = (this.deposits * 12 * (yearsRate - 1)) / percentage;
       const additionalInterest = additionalTotal - additionalBase;
-      console.log(`additionalBase ${additionalBase}`);
-      console.log(`additionalTotal ${additionalTotal}`);
-      console.log(`additionalInterest ${additionalInterest}`);
 
       this.interest = Math.round((baseInterest + additionalInterest) * 100) / 100;
       this.newbal = Math.round((baseTotal + additionalTotal) * 100) / 100;

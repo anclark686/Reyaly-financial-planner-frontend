@@ -48,7 +48,6 @@ export default defineComponent({
     await this.userStore
       .getSavings()
       .then((res) => {
-        console.log(res);
         this.savingsList = res.data;
         this.savingsList.sort((a: any = {} as SavingsAccount, b: any = {} as SavingsAccount) => {
           return b.percentage - a.percentage;

@@ -149,7 +149,6 @@ export default defineComponent({
       await this.userStore
         .addExpense(expenseData)
         .then((res) => {
-          console.log(res);
           if (res.message === "Success") {
             expenseData.id = res.id;
             const [month, year] = this.getMonthAndYear();
