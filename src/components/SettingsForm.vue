@@ -229,7 +229,7 @@ export default defineComponent({
       newRate: this.userInfo.rate,
       newFrequency: this.userInfo.frequency,
       newHours: this.userInfo.hours,
-      newDate: this.userInfo.date,
+      newDate: this.userInfo.date ? this.userInfo.date : new Date().toISOString().substring(0, 10),
       newDeductions: this.userInfo.deductions,
       newResidence: this.userInfo.residence,
       newRelationship: this.userInfo.relationship,
@@ -288,7 +288,14 @@ export default defineComponent({
         .catch((err) => console.log(err));
     },
     onSubmit() {
-      if (this.newPay && this.newRate && this.newFrequency && this.newHours) {
+      if (
+        this.newPay &&
+        this.newRate &&
+        this.newFrequency &&
+        this.newHours &&
+        this.newResidence &&
+        this.newRelationship
+      ) {
         this.invalid = false;
         if (this.formType === "new") {
           this.addUser();

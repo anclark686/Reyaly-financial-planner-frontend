@@ -2,6 +2,9 @@ import { defineStore } from "pinia";
 
 import * as API from "../API/APICalls";
 
+import * as stateData from '../data/state_percentages.json';
+import * as currencyData from "../data/currencies.json";
+
 import { type Expense } from "../types";
 import { type Paycheck } from "../types";
 import { type Debt } from "../types";
@@ -30,6 +33,7 @@ export const useUserStore = defineStore("UserStore", {
       debts: [] as Debt[],
       baseUrl: "https://reyaly-financial-backend-983411f48872.herokuapp.com",
       loading: false,
+      currencies: currencyData.currencies,
     };
   },
 
@@ -180,6 +184,17 @@ export const useUserStore = defineStore("UserStore", {
         .catch((err) => console.log(err));
       return res;
     },
+    // Currency API method
+    async getCurrencyInfo(want: string, have: string, amount: number) {
+      this.loading = true;
+      const res = await API.getCurrencyInfo(want, have, amount)
+        .then((res) => {
+          this.loading = false;
+          return res
+        })
+        .catch((err) => console.log(err));
+      return res;
+    },
 
     // Non API functions
     matchAccountToExpense(expenses: Expense[], accounts: Account[]) {
@@ -294,130 +309,8 @@ export const useUserStore = defineStore("UserStore", {
       return estFedTaxes;
     },
     getLocalTaxWithholding(): number {
-      let percentage: number;
-
-      switch (this.residence) {
-        case "AL" || "MS" || "NH" || "KY" || "OH" || "OK":
-          percentage = 0.05;
-          break;
-        case "AZ":
-          percentage = 0.0454;
-          break;
-        case "AR":
-          percentage = 0.069;
-          break;
-        case "CA":
-          percentage = 0.133;
-          break;
-        case "CO":
-          percentage = 0.0463;
-          break;
-        case "CT":
-          percentage = 0.0699;
-          break;
-        case "DE":
-          percentage = 0.066;
-          break;
-        case "DC":
-          percentage = 0.0895;
-          break;
-        case "GA":
-          percentage = 0.0575;
-          break;
-        case "HI":
-          percentage = 0.11;
-          break;
-        case "ID":
-          percentage = 0.0693;
-          break;
-        case "IL":
-          percentage = 0.0495;
-          break;
-        case "IN":
-          percentage = 0.0323;
-          break;
-        case "IA":
-          percentage = 0.0853;
-          break;
-        case "KS":
-          percentage = 0.057;
-          break;
-        case "LA":
-          percentage = 0.06;
-          break;
-        case "ME":
-          percentage = 0.0715;
-          break;
-        case "MD":
-          percentage = 0.0575;
-          break;
-        case "MA":
-          percentage = 0.0505;
-          break;
-        case "MI":
-          percentage = 0.0425;
-          break;
-        case "MN":
-          percentage = 0.0985;
-          break;
-        case "M0":
-          percentage = 0.054;
-          break;
-        case "MT":
-          percentage = 0.069;
-          break;
-        case "NE":
-          percentage = 0.0684;
-          break;
-        case "NJ":
-          percentage = 0.1075;
-          break;
-        case "NM":
-          percentage = 0.049;
-          break;
-        case "NY":
-          percentage = 0.0882;
-          break;
-        case "NC":
-          percentage = 0.0525;
-          break;
-        case "ND":
-          percentage = 0.029;
-          break;
-        case "OR":
-          percentage = 0.099;
-          break;
-        case "PA":
-          percentage = 0.0307;
-          break;
-        case "RI":
-          percentage = 0.0599;
-          break;
-        case "SC":
-          percentage = 0.07;
-          break;
-        case "TN":
-          percentage = 0.02;
-          break;
-        case "UT":
-          percentage = 0.0495;
-          break;
-        case "VT":
-          percentage = 0.0875;
-          break;
-        case "VA":
-          percentage = 0.0575;
-          break;
-        case "WV":
-          percentage = 0.065;
-          break;
-        case "WI":
-          percentage = 0.0765;
-          break;
-        default:
-          percentage = 0;
-          break;
-      }
+      // https://taxfoundation.org/state-income-tax-rates-2023/
+      let percentage = stateData[this.residence as keyof typeof stateData];
 
       const estStateTaxes = Math.floor(this.afterDeductions * percentage);
 

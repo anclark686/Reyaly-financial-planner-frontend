@@ -50,3 +50,15 @@ export interface SavingsAccount {
   min: string;
   link: string;
 }
+
+export interface ConversionData {
+  new_amount: number,
+  new_currency: string,
+  old_amount: number,
+  old_currency: string,
+}
+
+export interface ExchangeData {
+  currency_pair: string,
+  exchange_rate: number,
+}

@@ -33,13 +33,14 @@
               Menu
             </button>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-              <RouterLink class="dropdown-item" to="/dashboard"> Dashboard </RouterLink>
-              <RouterLink class="dropdown-item" to="/views/calendar"> Calendar View </RouterLink>
-              <RouterLink class="dropdown-item" to="/views/paycheck"> Paycheck View </RouterLink>
-              <RouterLink class="dropdown-item" to="/views/account"> Account View </RouterLink>
-              <RouterLink class="dropdown-item" to="/views/debt"> Debt View </RouterLink>
+              <RouterLink class="dropdown-item" to="/dashboard" v-if="isAuthenticated"> Dashboard </RouterLink>
+              <RouterLink class="dropdown-item" to="/views/calendar" v-if="isAuthenticated"> Calendar View </RouterLink>
+              <RouterLink class="dropdown-item" to="/views/paycheck" v-if="isAuthenticated"> Paycheck View </RouterLink>
+              <RouterLink class="dropdown-item" to="/views/account" v-if="isAuthenticated"> Account View </RouterLink>
+              <RouterLink class="dropdown-item" to="/views/debt" v-if="isAuthenticated"> Debt View </RouterLink>
               <RouterLink class="dropdown-item" to="/views/savings"> Savings View </RouterLink>
-              <RouterLink class="dropdown-item" to="/settings"> Settings </RouterLink>
+              <RouterLink class="dropdown-item" to="/views/converter"> Currency Converter </RouterLink>
+              <RouterLink class="dropdown-item" to="/settings" v-if="isAuthenticated"> Settings </RouterLink>
               <div class="dropdown-divider"></div>
               <div class="login-logout dropdown-item" v-if="isAuthenticated">
                 <LogoutButton />
@@ -66,10 +67,9 @@ import { useUserStore } from "../stores/UserStore";
 
 export default defineComponent({
   setup() {
-    const { user, isAuthenticated } = useAuth0();
+    const { isAuthenticated } = useAuth0();
 
     return {
-      user,
       isAuthenticated,
     };
   },
@@ -108,9 +108,6 @@ export default defineComponent({
   background-color: var(--dk-green);
   width: 100%;
   padding: 10px 20px;
-  /* display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between; */
 }
 
 .brand {

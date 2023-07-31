@@ -38,10 +38,6 @@
             <h2>Savings View</h2>
           </RouterLink>
 
-          <RouterLink to="/views/savings" class="view-box">
-            <h2>Stocks View</h2>
-          </RouterLink>
-
           <button class="view-box" @click="downloadExcel">
             <h2>Export Excel</h2>
           </button>
@@ -281,7 +277,7 @@ export default defineComponent({
   background-color: var(--btn-main);
   min-width: 375px;
   width: 40%;
-  height: 70px;
+  height: 80px;
   text-align: center;
   border-radius: 15px;
   border: 2px solid black;
@@ -300,7 +296,7 @@ export default defineComponent({
 
 .view-box h2 {
   margin: auto;
-  padding: 15px;
+  padding: 18px;
   color: white;
   text-decoration: none;
 }

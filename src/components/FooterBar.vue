@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <p>Back to <RouterLink to="/dashboard">Dashboard</RouterLink></p>
+    <p v-if="isAuthenticated">Back to <RouterLink to="/dashboard">Dashboard</RouterLink></p>
     <div class="footerLinks">
       <a href="https://www.ancportfolio.link" className="social-icon">Portfolio</a>
       <a href="https://github.com/anclark686" target="_blank" rel="noreferrer">
@@ -17,8 +17,16 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { RouterLink } from "vue-router";
+import { useAuth0 } from "@auth0/auth0-vue";
 
 export default defineComponent({
+  setup() {
+    const { isAuthenticated } = useAuth0();
+
+    return {
+      isAuthenticated,
+    };
+  },
   components: {
     RouterLink,
   },

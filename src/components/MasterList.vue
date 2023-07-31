@@ -107,7 +107,7 @@ export default defineComponent({
     DeleteModal,
   },
   watch: {
-    expenses: function (newVal, oldVal) {
+    expenses: function () {
       this.masterList = this.expenses as Expense[];
     },
   },

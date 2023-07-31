@@ -1,5 +1,5 @@
 <template>
-  <section class="settings-container">
+  <section class="calculator-container">
     <header>
       <h2 class="subheader">Savings Calculator</h2>
       <p>Use this calculator to forecast interest earned after one year.</p>
@@ -89,7 +89,7 @@
 
             <tr class="table-row">
               <td class="calc-label">
-                <strong><label for="rate">Interest Accrued:</label></strong>
+                <strong>Interest Accrued:</strong>
               </td>
               <td class="calc-input">
                 <div class="output-info">
@@ -99,7 +99,7 @@
             </tr>
             <tr class="table-row">
               <td class="calc-label">
-                <strong><label for="rate">New Balance:</label></strong>
+                <strong>New Balance:</strong>
               </td>
               <td class="calc-input">
                 <div class="output-info">
@@ -133,12 +133,12 @@ export default defineComponent({
     clearInfo() {},
     calculateSavings() {
       const percentage = this.rate / 100;
-      let yearsRate: number
+      let yearsRate: number;
 
       if (this.compunding === "monthly") {
         yearsRate = Math.pow(1 + percentage / 12, 12 * this.time);
       } else {
-        yearsRate = Math.pow(1+ (percentage * 1) , this.time)
+        yearsRate = Math.pow(1 + percentage * 1, this.time);
       }
       const baseTotal = this.start * yearsRate;
       const baseInterest = baseTotal - this.start;

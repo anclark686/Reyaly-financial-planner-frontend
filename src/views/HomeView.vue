@@ -2,12 +2,17 @@
   <main class="main-content">
     <h1 class="header">Reyaly Financial Planner</h1>
     <p class="summary">The all in one solution to organizing your finances</p>
-    <section class="get-started" v-if="!isAuthenticated">
+    <section class="get-started" v-if="!isAuthenticated && !isLoading">
       <p class="cta">Log in to get started!</p>
-      <div class="login-btn btn btn-success">
+      <div class="login-btn btn btn-lg btn-success">
         <LoginButton />
       </div>
     </section>
+    <div v-else-if="isLoading" class="small-spinner-container">
+      <div class="spinner-border text-success loading-spinner" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
     <section class="get-started" v-else>
       <p class="cta">Head over to your Dashboard to get started!</p>
       <RouterLink to="/dashboard">
@@ -17,7 +22,19 @@
 
     <section class="demo">
       <h2 class="demo-header">Here's what's inside!</h2>
-      <section class="left-align demo-item">
+
+      <p class="summary">Try our Savings Calculator and Currency Converter, no account needed!</p>
+      
+      <div class="no-account">
+        <RouterLink to="/views/savings" class="view-box">
+            <h2>Savings View</h2>
+          </RouterLink>
+        <RouterLink to="/views/savings" class="view-box">
+            <h2>Currency Converter</h2>
+          </RouterLink>
+      </div>
+
+      <section class="left-align demo-item fade-in full-width">
         <img alt="" src="../assets/master-list.png" class="demo-pic" />
         <div class="demo-text-content">
           <h3 class="text-header">The Master List</h3>
@@ -28,7 +45,7 @@
           </p>
         </div>
       </section>
-      <section class="right-align demo-item">
+      <section class="right-align demo-item fade-in full-width">
         <div class="demo-text-content">
           <h3 class="text-header">The Calendar View</h3>
           <p class="demo-summary every-other">
@@ -39,7 +56,7 @@
         </div>
         <img alt="The Calendar View" src="../assets/calendar-view.png" class="demo-pic" />
       </section>
-      <section class="left-align demo-item">
+      <section class="left-align demo-item fade-in full-width">
         <img alt="The Paycheck View" src="../assets/paycheck-view.png" class="demo-pic" />
         <div class="demo-text-content">
           <h3 class="text-header">The Paycheck View</h3>
@@ -49,7 +66,7 @@
           </p>
         </div>
       </section>
-      <section class="right-align demo-item">
+      <section class="right-align demo-item fade-in full-width">
         <div class="demo-text-content">
           <h3 class="text-header">The Account View</h3>
           <p class="demo-summary every-other">
@@ -60,7 +77,7 @@
         </div>
         <img alt="The Account View" src="../assets/account-view.png" class="demo-pic" />
       </section>
-      <section class="left-align demo-item">
+      <section class="left-align demo-item fade-in full-width">
         <img alt="The Debt View" src="../assets/debt-view.png" class="demo-pic" />
         <div class="demo-text-content">
           <h3 class="text-header">The Debt View</h3>
@@ -70,7 +87,7 @@
           </p>
         </div>
       </section>
-      <section class="right-align demo-item">
+      <section class="right-align demo-item fade-in full-width">
         <div class="demo-text-content">
           <h3 class="text-header">Export Excel</h3>
           <p class="demo-summary every-other">
@@ -87,10 +104,40 @@
 <script setup lang="ts">
 import { useAuth0 } from "@auth0/auth0-vue";
 import { RouterLink } from "vue-router";
+import { onMounted, onUnmounted } from "vue";
 
 import LoginButton from "../components/LoginButton.vue";
 
-const { isAuthenticated } = useAuth0();
+const { isAuthenticated, isLoading } = useAuth0();
+let fadeInElements: HTMLElement[] = [];
+
+const handleScroll = () => {
+  for (var i = 0; i < fadeInElements.length; i++) {
+    var elem = fadeInElements[i];
+    if (isElemVisible(elem)) {
+      elem.style.opacity = "1";
+      elem.style.transform = "scale(1)";
+      fadeInElements.splice(i, 1); // only allow it to run once
+    }
+  }
+};
+
+const isElemVisible = (el: HTMLElement) => {
+  var rect = el.getBoundingClientRect();
+  var elemTop = rect.top + 200; // 200 = buffer
+  var elemBottom = rect.bottom;
+  return elemTop < window.innerHeight && elemBottom >= 0;
+};
+
+onMounted(() => {
+  fadeInElements = Array.from(document.getElementsByClassName("fade-in") as HTMLCollectionOf<HTMLElement>);
+  document.addEventListener("scroll", handleScroll);
+  handleScroll();
+});
+
+onUnmounted(() => {
+  document.removeEventListener("scroll", handleScroll);
+});
 </script>
 
 <style scoped>
@@ -116,6 +163,14 @@ const { isAuthenticated } = useAuth0();
   font-size: larger;
 }
 
+.small-spinner-container {
+  margin-top: 20px;
+}
+
+.btn {
+  margin-top: 10px;
+}
+
 .login-btn {
   color: white;
 }
@@ -130,8 +185,53 @@ const { isAuthenticated } = useAuth0();
   margin-top: 100px;
 }
 
+.no-account {
+  width: 75%;
+  margin: 20px auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.view-box {
+  background-color: var(--btn-main);
+  min-width: 375px;
+  width: 40%;
+  height: 80px;
+  text-align: center;
+  border-radius: 15px;
+  border: 2px solid black;
+  color: var(--dk-green);
+  margin: 5px;
+  text-decoration: none;
+}
+
+.view-box:hover {
+  background-color: var(--btn-hover);
+}
+
+.view-box:active {
+  transform: translateY(2px);
+}
+
+.view-box h2 {
+  margin: auto;
+  padding: 18px;
+  color: white;
+  text-decoration: none;
+}
+
 .demo-item {
   width: 70%;
+  padding: 20px;
+}
+
+.fade-in {
+  margin-bottom: 50px;
+  opacity: 0;
+  transition: 0.3s all ease-out;
+  transform: scale(0.8);
+  box-sizing: border-box;
   padding: 20px;
 }
 

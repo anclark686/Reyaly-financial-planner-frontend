@@ -33,7 +33,9 @@ export const addAcct = (dbUserId: string, data: Account): Promise<any> => {
 };
 
 export const editAcct = (dbUserId: string, data: Account): Promise<any> => {
-  return Axios.put(`${baseUrl}/users/${dbUserId}/accounts/${data.id}`, data).then((res) => res.data);
+  return Axios.put(`${baseUrl}/users/${dbUserId}/accounts/${data.id}`, data).then(
+    (res) => res.data
+  );
 };
 
 export const deleteAcct = (dbUserId: string, id: string): Promise<any> => {
@@ -61,7 +63,9 @@ export const addExpense = (dbUserId: string, data: Expense): Promise<any> => {
 };
 
 export const editExpense = (dbUserId: string, data: Expense): Promise<any> => {
-  return Axios.put(`${baseUrl}/users/${dbUserId}/expenses/${data.id}`, data).then((res) => res.data);
+  return Axios.put(`${baseUrl}/users/${dbUserId}/expenses/${data.id}`, data).then(
+    (res) => res.data
+  );
 };
 
 export const deleteExpense = (dbUserId: string, id: string): Promise<any> => {
@@ -69,11 +73,20 @@ export const deleteExpense = (dbUserId: string, id: string): Promise<any> => {
 };
 
 // Paycheck Routes
+
 export const getPaychecks = (dbUserId: string, params: string): Promise<any> => {
   return Axios.get(`${baseUrl}/users/${dbUserId}/expenses?${params}`).then((res) => res.data);
 };
 
 // Savings Route
+
 export const getSavings = (): Promise<any> => {
   return Axios.get(`${baseUrl}/savings`).then((res) => res.data);
+};
+
+// Currency Route
+
+export const getCurrencyInfo = (want: string, have: string, amount: number): Promise<any> => {
+  const params = `have=${have}&want=${want}&amount=${amount}`
+  return Axios.get(`${baseUrl}/converter?${params}`).then((res) => res.data);
 };

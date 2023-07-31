@@ -132,7 +132,7 @@ export default defineComponent({
     },
   },
   watch: {
-    expense: function (newVal, oldVal) {
+    expense: function () {
       if (
         this.expenseList.filter((e: any) => e.name === this.expense.name).length === 0 ||
         this.expenseList.length == 0
