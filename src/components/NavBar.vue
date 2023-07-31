@@ -33,6 +33,7 @@
               Menu
             </button>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+              <RouterLink class="dropdown-item" to="/" v-if="!isAuthenticated"> Home </RouterLink>
               <RouterLink class="dropdown-item" to="/dashboard" v-if="isAuthenticated"> Dashboard </RouterLink>
               <RouterLink class="dropdown-item" to="/views/calendar" v-if="isAuthenticated"> Calendar View </RouterLink>
               <RouterLink class="dropdown-item" to="/views/paycheck" v-if="isAuthenticated"> Paycheck View </RouterLink>

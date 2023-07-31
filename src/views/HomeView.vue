@@ -29,7 +29,7 @@
         <RouterLink to="/views/savings" class="view-box">
             <h2>Savings View</h2>
           </RouterLink>
-        <RouterLink to="/views/savings" class="view-box">
+        <RouterLink to="/views/converter" class="view-box">
             <h2>Currency Converter</h2>
           </RouterLink>
       </div>

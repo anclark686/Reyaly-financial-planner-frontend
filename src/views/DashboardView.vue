@@ -42,7 +42,7 @@
             <h2>Export Excel</h2>
           </button>
 
-          <RouterLink to="/views/savings" class="view-box">
+          <RouterLink to="/views/converter" class="view-box">
             <h2>Currency Converter</h2>
           </RouterLink>
         </section>
