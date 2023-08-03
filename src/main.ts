@@ -21,7 +21,6 @@ app.use(
     authorizationParams: {
       // redirect_uri: "http://localhost:5173/dashboard",
       redirect_uri: "https://main.d1r7v6lmapahca.amplifyapp.com/dashboard",
-      // redirect_uri: "https://reyaly-financial-planner.netlify.app",
     },
   })
 );
