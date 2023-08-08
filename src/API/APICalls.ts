@@ -7,36 +7,34 @@ import { type Expense } from "../types";
 // const baseUrl = "http://127.0.0.1:3000";
 const baseUrl = "https://reyaly-financial-backend-983411f48872.herokuapp.com";
 
-Axios.interceptors.response.use((res) => {
-  if (res.status === 404) {
-    console.log("Not Found")
-  };
-  return res;
-}, (err) => {
-  if (err.response && err.response.data) {
-    return Promise.reject(err.response.data);
+Axios.interceptors.response.use(
+  (res) => {
+    if (res.status === 404) {
+      console.log("Not Found");
+    }
+    return res;
+  },
+  (err) => {
+    if (err.response && err.response.data) {
+      return Promise.reject(err.response.data);
+    }
+    return Promise.reject(err.message);
   }
-  return Promise.reject(err.message)
-})
+);
 
 // User Routes
 
 export const addUser = (data: {}): Promise<any> => {
-  return Axios.post(`${baseUrl}/users`, data)
-    .then((res) => res.data)
-    .catch((err) => err);
+  return Axios.post(`${baseUrl}/users`, data).then((res) => res.data);
 };
 
 export const editUser = (dbUserId: string, data: {}): Promise<any> => {
-  return Axios.put(`${baseUrl}/users/${dbUserId}`, data)
-    .then((res) => res.data)
-    .catch((err) => err);
+  return Axios.put(`${baseUrl}/users/${dbUserId}`, data).then((res) => res.data);
 };
 
 export const getUserInfo = (authUID: string | undefined): Promise<any> => {
   return Axios.get(`${baseUrl}/users/${authUID}`).then((res) => res.data);
 };
-
 
 // Generate Excel
 export const sendJson = (data: {}, id: string): Promise<any> => {
@@ -104,6 +102,6 @@ export const getSavings = (): Promise<any> => {
 // Currency Route
 
 export const getCurrencyInfo = (want: string, have: string, amount: number): Promise<any> => {
-  const params = `have=${have}&want=${want}&amount=${amount}`
+  const params = `have=${have}&want=${want}&amount=${amount}`;
   return Axios.get(`${baseUrl}/converter?${params}`).then((res) => res.data);
 };
