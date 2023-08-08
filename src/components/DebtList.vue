@@ -1,6 +1,23 @@
 <template>
   <div class="debt-list">
     <h3 class="subheader">Debt List</h3>
+    <div class="sort-container">
+      <label for="sort-value">Sort By:</label>
+      <select 
+        name="sort-value"
+        id="sort-value"
+        class="input-info"
+        v-model="sortVal"
+        @change="sortDebts"
+      >
+        <option value="">--Select One--</option>
+        <option value="name">Creditor</option>
+        <option value="type">Type</option>
+        <option value="owed">Owed</option>
+        <option value="limit">Limit</option>
+        <option value="rate">APR</option>
+      </select>
+    </div>
     <section class="debt-container">
       <table class="debt-table" v-if="debts?.length !== 0">
         <thead class="debt-table-header">
@@ -84,6 +101,7 @@ export default defineComponent({
       edit: false,
       editInfo: {} as Debt,
       editRow: 0,
+      sortVal: "",
     };
   },
   watch: {
@@ -92,6 +110,17 @@ export default defineComponent({
     },
   },
   methods: {
+    sortDebts() {
+      if (this.sortVal === "name" || this.sortVal === "type") {
+        this.debtList = this.debtList.sort((a: any = {}, b: any = {}) => {
+        return a[this.sortVal].localeCompare(b[this.sortVal]);
+      });
+      } else {
+        this.debtList = this.debtList.sort((a: any = {}, b: any = {}) => {
+        return a[this.sortVal] - b[this.sortVal];
+      });
+      }
+    },
     async addDebt(debtData: Debt) {
       await this.userStore
         .addDebt(debtData)
@@ -150,6 +179,13 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.input-info {
+  margin: 0 5px;
+  width: 150px;
+  border-radius: 5px;
+  border: 2px solid black;
+}
+
 .debt-table {
   width: 100%;
   margin: 20px auto;
