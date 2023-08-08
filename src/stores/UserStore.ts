@@ -17,6 +17,7 @@ export const useUserStore = defineStore("UserStore", {
         .split("; ")
         .find((row) => row.startsWith("darkmode="))
         ?.split("=")[1],
+      noUser: false,
       dbUserId: "",
       pay: 0,
       payRate: "",
@@ -56,8 +57,8 @@ export const useUserStore = defineStore("UserStore", {
       this.loading = true;
       await API.getUserInfo(authUID)
         .then((res) => {
-          console.log(res)
           if (res.message !== "Not Found") {
+            this.noUser = false;
             const user = res.data.user;
             this.dbUserId = user._id.$oid;
             this.pay = user.pay;
@@ -79,7 +80,11 @@ export const useUserStore = defineStore("UserStore", {
             this.loading = false;
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          this.loading = false;
+          this.noUser = true;
+          console.log(err)
+        });
     },
     async generateJSON(username: String | undefined) {
       const data = {

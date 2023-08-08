@@ -31,14 +31,17 @@ export default defineComponent({
   methods: {
     async getPaychecks() {
       const params = `date=${this.date};frequency=${this.frequency}`;
-      await this.userStore
-        .getPaychecks(params)
-        .then((res) => {
-          this.expenseList = res.data;
-          this.userStore.addConvertedDates(this.expenseList, this.date);
-          this.userStore.sortExpenseDateList(this.expenseList);
-        })
-        .catch((err) => console.log(err));
+      if (this.userStore.dbUserId) {
+        await this.userStore
+          .getPaychecks(params)
+          .then((res) => {
+            this.expenseList = res.data;
+            this.userStore.addConvertedDates(this.expenseList, this.date);
+            this.userStore.sortExpenseDateList(this.expenseList);
+          })
+          .catch((err) => console.log(err));
+      }
+
     },
   },
   mounted() {

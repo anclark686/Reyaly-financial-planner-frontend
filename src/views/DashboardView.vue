@@ -2,7 +2,8 @@
   <section class="page-content">
     <main class="dashboard" v-if="!userStore.loading">
       <h1 class="page-header">Dashboard</h1>
-      <section class="notif-container" v-if="showNotifications === true">
+      <div class="notification-container" v-if="!userStore.noUser">
+        <section class="notif-container" v-if="showNotifications === true">
         <div class="notif-header">
           <h2>Notifications</h2>
           <button class="emoji-btn" @click="showNotifications = false">➖</button>
@@ -16,7 +17,8 @@
           <button class="emoji-btn" @click="showNotifications = true">➕</button>
         </div>
       </section>
-      <section class="main-dashboard">
+      </div>
+      <section class="main-dashboard" v-if="!userStore.noUser">
         <section class="view-boxes">
           <RouterLink to="/views/calendar" class="view-box">
             <h2>Calendar View</h2>
@@ -229,7 +231,7 @@ export default defineComponent({
   },
   async mounted() {
     await this.userStore.fill(this.user.sub);
-    if (!this.userStore.dbUserId) {
+    if (this.userStore.noUser) {
       this.showUserForm = true;
     }
   },
