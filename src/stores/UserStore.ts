@@ -31,7 +31,6 @@ export const useUserStore = defineStore("UserStore", {
       paychecks: [] as Paycheck[],
       accounts: [] as Account[],
       debts: [] as Debt[],
-      baseUrl: "https://reyaly-financial-backend-983411f48872.herokuapp.com",
       loading: false,
       currencies: currencyData.currencies,
     };
@@ -52,10 +51,11 @@ export const useUserStore = defineStore("UserStore", {
         .catch((err) => console.log(err));
       return res;
     },
-    async fill(authUID: String | undefined) {
+    async fill(authUID: string | undefined) {
       this.loading = true;
       await API.getUserInfo(authUID)
         .then((res) => {
+          console.log(res)
           if (res.message !== "Not Found") {
             const user = res.data.user;
             this.dbUserId = user._id.$oid;

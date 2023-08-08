@@ -10,16 +10,17 @@ const baseUrl = "https://reyaly-financial-backend-983411f48872.herokuapp.com";
 // User Routes
 
 export const addUser = (data: {}): Promise<any> => {
-  return Axios.post(baseUrl, data).then((res) => res.data);
+  return Axios.post(`${baseUrl}/users`, data).then((res) => res.data);
 };
 
 export const editUser = (dbUserId: string, data: {}): Promise<any> => {
   return Axios.put(`${baseUrl}/users/${dbUserId}`, data).then((res) => res.data);
 };
 
-export const getUserInfo = (authUID: String | undefined): Promise<any> => {
-  return Axios.get(`${baseUrl}/users/?uid=${authUID}`).then((res) => res.data);
+export const getUserInfo = (authUID: string | undefined): Promise<any> => {
+  return Axios.get(`${baseUrl}/users/${authUID}`).then((res) => res.data);
 };
+
 
 // Generate Excel
 export const sendJson = (data: {}, id: string): Promise<any> => {
