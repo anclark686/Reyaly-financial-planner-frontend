@@ -4,19 +4,19 @@
       <h1 class="page-header">Dashboard</h1>
       <div class="notification-container" v-if="!userStore.noUser">
         <section class="notif-container" v-if="showNotifications === true">
-        <div class="notif-header">
-          <h2>Notifications</h2>
-          <button class="emoji-btn" @click="showNotifications = false">➖</button>
-        </div>
+          <div class="notif-header">
+            <h2>Notifications</h2>
+            <button class="emoji-btn" @click="showNotifications = false">➖</button>
+          </div>
 
-        <NotificationModal :date="date" frequency="weekly" />
-      </section>
-      <section class="notif-container" v-else>
-        <div class="notif-header">
-          <h2>Notifications</h2>
-          <button class="emoji-btn" @click="showNotifications = true">➕</button>
-        </div>
-      </section>
+          <NotificationModal :date="date" frequency="weekly" />
+        </section>
+        <section class="notif-container" v-else>
+          <div class="notif-header">
+            <h2>Notifications</h2>
+            <button class="emoji-btn" @click="showNotifications = true">➕</button>
+          </div>
+        </section>
       </div>
       <section class="main-dashboard" v-if="!userStore.noUser">
         <section class="view-boxes">

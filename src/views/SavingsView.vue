@@ -11,7 +11,7 @@
         </div>
 
         <div class="sa-container">
-          <SavingsAccounts :savingsAccountList="savingsList" :date="dateFetched"/>
+          <SavingsAccounts :savingsAccountList="savingsList" :date="dateFetched" />
         </div>
       </section>
     </main>
@@ -53,7 +53,6 @@ export default defineComponent({
           return b.percentage - a.percentage;
         });
         this.dateFetched = res.fetched;
-
       })
       .catch((err) => console.log(err));
   },
@@ -91,7 +90,6 @@ export default defineComponent({
   border: 2px solid black;
   padding: 30px;
 }
-
 
 @media (max-width: 1000px) {
   .page-header {

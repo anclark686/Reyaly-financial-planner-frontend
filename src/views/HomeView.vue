@@ -24,14 +24,14 @@
       <h2 class="demo-header">Here's what's inside!</h2>
 
       <p class="summary">Try our Savings Calculator and Currency Converter, no account needed!</p>
-      
+
       <div class="no-account">
         <RouterLink to="/views/savings" class="view-box">
-            <h2>Savings View</h2>
-          </RouterLink>
+          <h2>Savings View</h2>
+        </RouterLink>
         <RouterLink to="/views/converter" class="view-box">
-            <h2>Currency Converter</h2>
-          </RouterLink>
+          <h2>Currency Converter</h2>
+        </RouterLink>
       </div>
 
       <section class="left-align demo-item fade-in full-width">
@@ -130,7 +130,9 @@ const isElemVisible = (el: HTMLElement) => {
 };
 
 onMounted(() => {
-  fadeInElements = Array.from(document.getElementsByClassName("fade-in") as HTMLCollectionOf<HTMLElement>);
+  fadeInElements = Array.from(
+    document.getElementsByClassName("fade-in") as HTMLCollectionOf<HTMLElement>
+  );
   document.addEventListener("scroll", handleScroll);
   handleScroll();
 });

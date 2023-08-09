@@ -3,7 +3,7 @@
     <h3 class="subheader">Debt List</h3>
     <div class="sort-container">
       <label for="sort-value">Sort By:</label>
-      <select 
+      <select
         name="sort-value"
         id="sort-value"
         class="input-info"
@@ -113,12 +113,12 @@ export default defineComponent({
     sortDebts() {
       if (this.sortVal === "name" || this.sortVal === "type") {
         this.debtList = this.debtList.sort((a: any = {}, b: any = {}) => {
-        return a[this.sortVal].localeCompare(b[this.sortVal]);
-      });
+          return a[this.sortVal].localeCompare(b[this.sortVal]);
+        });
       } else {
         this.debtList = this.debtList.sort((a: any = {}, b: any = {}) => {
-        return a[this.sortVal] - b[this.sortVal];
-      });
+          return a[this.sortVal] - b[this.sortVal];
+        });
       }
     },
     async addDebt(debtData: Debt) {
@@ -223,7 +223,7 @@ export default defineComponent({
   }
   .debt-table {
     width: 99%;
-    font-size: .9rem;
+    font-size: 0.9rem;
   }
 
   .emoji-btn {

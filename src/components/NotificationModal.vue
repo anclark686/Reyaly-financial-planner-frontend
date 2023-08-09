@@ -41,7 +41,6 @@ export default defineComponent({
           })
           .catch((err) => console.log(err));
       }
-
     },
   },
   mounted() {

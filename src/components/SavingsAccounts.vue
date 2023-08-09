@@ -25,7 +25,13 @@
       </tbody>
     </table>
 
-    <a href="https://www.nerdwallet.com/best/banking/savings-rates" class="source" target="_blank" rel="noopener noreferrer">Source</a>
+    <a
+      href="https://www.nerdwallet.com/best/banking/savings-rates"
+      class="source"
+      target="_blank"
+      rel="noopener noreferrer"
+      >Source</a
+    >
   </section>
 </template>
 
@@ -46,7 +52,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
 .save-account-table {
   width: 100%;
   margin: 20px auto;

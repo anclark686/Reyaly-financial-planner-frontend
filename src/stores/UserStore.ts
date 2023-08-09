@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 
 import * as API from "../API/APICalls";
 
-import * as stateData from '../data/state_percentages.json';
+import * as stateData from "../data/state_percentages.json";
 import * as currencyData from "../data/currencies.json";
 
 import { type Expense } from "../types";
@@ -83,7 +83,7 @@ export const useUserStore = defineStore("UserStore", {
         .catch((err) => {
           this.loading = false;
           this.noUser = true;
-          console.log(err)
+          console.log(err);
         });
     },
     async generateJSON(username: String | undefined) {
@@ -185,7 +185,7 @@ export const useUserStore = defineStore("UserStore", {
       const res = await API.getSavings()
         .then((res) => {
           this.loading = false;
-          return res
+          return res;
         })
         .catch((err) => console.log(err));
       return res;
@@ -196,7 +196,7 @@ export const useUserStore = defineStore("UserStore", {
       const res = await API.getCurrencyInfo(want, have, amount)
         .then((res) => {
           this.loading = false;
-          return res
+          return res;
         })
         .catch((err) => console.log(err));
       return res;

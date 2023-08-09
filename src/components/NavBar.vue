@@ -34,14 +34,28 @@
             </button>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
               <RouterLink class="dropdown-item" to="/" v-if="!isAuthenticated"> Home </RouterLink>
-              <RouterLink class="dropdown-item" to="/dashboard" v-if="isAuthenticated"> Dashboard </RouterLink>
-              <RouterLink class="dropdown-item" to="/views/calendar" v-if="isAuthenticated"> Calendar View </RouterLink>
-              <RouterLink class="dropdown-item" to="/views/paycheck" v-if="isAuthenticated"> Paycheck View </RouterLink>
-              <RouterLink class="dropdown-item" to="/views/account" v-if="isAuthenticated"> Account View </RouterLink>
-              <RouterLink class="dropdown-item" to="/views/debt" v-if="isAuthenticated"> Debt View </RouterLink>
+              <RouterLink class="dropdown-item" to="/dashboard" v-if="isAuthenticated">
+                Dashboard
+              </RouterLink>
+              <RouterLink class="dropdown-item" to="/views/calendar" v-if="isAuthenticated">
+                Calendar View
+              </RouterLink>
+              <RouterLink class="dropdown-item" to="/views/paycheck" v-if="isAuthenticated">
+                Paycheck View
+              </RouterLink>
+              <RouterLink class="dropdown-item" to="/views/account" v-if="isAuthenticated">
+                Account View
+              </RouterLink>
+              <RouterLink class="dropdown-item" to="/views/debt" v-if="isAuthenticated">
+                Debt View
+              </RouterLink>
               <RouterLink class="dropdown-item" to="/views/savings"> Savings View </RouterLink>
-              <RouterLink class="dropdown-item" to="/views/converter"> Currency Converter </RouterLink>
-              <RouterLink class="dropdown-item" to="/settings" v-if="isAuthenticated"> Settings </RouterLink>
+              <RouterLink class="dropdown-item" to="/views/converter">
+                Currency Converter
+              </RouterLink>
+              <RouterLink class="dropdown-item" to="/settings" v-if="isAuthenticated">
+                Settings
+              </RouterLink>
               <div class="dropdown-divider"></div>
               <div class="login-logout dropdown-item" v-if="isAuthenticated">
                 <LogoutButton />
@@ -174,7 +188,7 @@ export default defineComponent({
   .brand {
     margin: auto;
   }
-  
+
   .brand-header {
     font-size: 2rem;
     text-align: center;
