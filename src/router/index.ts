@@ -69,9 +69,6 @@ const router = createRouter({
     { path: "/404", component: ErrorView },
     { path: "/:catchAll(.*)", redirect: "/404" },
   ],
-  scrollBehavior (to, from, savedPosition) {
-    return { top: 0, behavior: 'instant'  }
-  }
 });
 
 export default router;
