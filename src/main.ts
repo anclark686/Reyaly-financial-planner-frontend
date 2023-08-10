@@ -19,8 +19,8 @@ app.use(
     domain: domain,
     clientId: clientId,
     authorizationParams: {
-      // redirect_uri: "http://localhost:5173/dashboard",
-      redirect_uri: "https://www.reyaly-financial-planner.link/dashboard",
+      redirect_uri: "http://localhost:5173/dashboard",
+      // redirect_uri: "https://www.reyaly-financial-planner.link/dashboard",
     },
   })
 );

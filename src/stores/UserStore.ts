@@ -25,9 +25,17 @@ export const useUserStore = defineStore("UserStore", {
       hours: 0,
       date: "",
       deductions: 0,
+      income: 0,
+      pay2: 0,
+      payRate2: "",
+      payFreq2: "",
+      hours2: 0,
+      date2: "",
+      deductions2: 0,
       residence: "",
       relationship: "",
       pIndex: 0,
+      pIndex2: 0,
       expenses: [] as Expense[],
       paychecks: [] as Paycheck[],
       accounts: [] as Account[],
@@ -70,6 +78,15 @@ export const useUserStore = defineStore("UserStore", {
             this.residence = user.residence;
             this.relationship = user.relationship;
 
+            this.income = user.income;
+            if (user.income > 1) {
+              this.pay2 = user.pay2;
+              this.payRate2 = user.rate2;
+              this.payFreq2 = user.frequency2;
+              this.hours2 = user.hours2;
+              this.date2 = user.date2;
+            }
+
             this.expenses = this.matchAccountToExpense(res.data.expenses, res.data.accounts);
             this.paychecks = res.data.paychecks;
             this.debts = res.data.debts;
@@ -97,8 +114,8 @@ export const useUserStore = defineStore("UserStore", {
             deductions: `$${this.deductions}`,
             residence: this.residence,
             relationship: this.relationship,
-            gross: `$${this.estGross}`,
-            net: `$${this.estNet}`,
+            // gross: `$${this.estGross}`,
+            // net: `$${this.estNet}`,
             numExpenses: this.expenses.length,
             totalExpenses: `$${this.expenseSum}`,
             startDate: this.formatDays(new Date(this.date)),
@@ -250,15 +267,14 @@ export const useUserStore = defineStore("UserStore", {
       });
     },
 
-    getFederalTaxWithholding(): number {
+    getFederalTaxWithholding(num: number): number {
       const fica = 0.0765;
-      const estFica = Math.floor(this.afterDeductions * fica);
+      const estFica = Math.floor(this.getAfterDeductions(num) * fica);
 
-      const annual = this.estAnnual;
       let fedIncomeAnnual: number;
 
       if (this.relationship === "single") {
-        const annual = this.estAnnual - 12950;
+        const annual = this.getEstAnnual(num) > 0 ? this.getEstAnnual(num) - 12950 : 0;
         if (annual < 11000) {
           fedIncomeAnnual = annual * 0.1;
         } else if (annual > 11001 && annual < 44725) {
@@ -275,7 +291,7 @@ export const useUserStore = defineStore("UserStore", {
           fedIncomeAnnual = 174238.25 + (annual - 578125) * 0.37;
         }
       } else {
-        const annual = this.estAnnual - 25900;
+        const annual = this.getEstAnnual(num) - 25900;
         if (annual < 22000) {
           fedIncomeAnnual = annual * 0.1;
         } else if (annual > 22001 && annual < 89450) {
@@ -314,13 +330,51 @@ export const useUserStore = defineStore("UserStore", {
 
       return estFedTaxes;
     },
-    getLocalTaxWithholding(): number {
+    getLocalTaxWithholding(num: number): number {
       // https://taxfoundation.org/state-income-tax-rates-2023/
       let percentage = stateData[this.residence as keyof typeof stateData];
-
-      const estStateTaxes = Math.floor(this.afterDeductions * percentage);
+      
+      const estStateTaxes = Math.floor(this.getAfterDeductions(num) * percentage);
 
       return estStateTaxes;
+    },
+    getEstAnnual(num: number): number {
+      const payRate = num === 1 ? this.payRate : this.payRate2;
+      const pay =  num === 1 ? this.pay : this.pay2;
+
+      let estAnnual: number;
+      if (payRate === "hourly") {
+        estAnnual = 40 * pay * 52;
+      } else {
+        estAnnual = pay;
+      }
+      return estAnnual;
+    },
+    getEstGross(num: number): number {
+      const payRate = num === 1 ? this.payRate : this.payRate2;
+      const pay =  num === 1 ? this.pay : this.pay2;
+      const hours = num === 1 ? this.hours : this.hours2;
+
+      let estGross: number;
+      if (payRate === "hourly") {
+        estGross = hours * pay;
+      } else {
+        const hourly = Math.round((this.pay / 52 / 40) * 100) / 100;
+        estGross = hours * hourly;
+      }
+      return Math.floor(estGross);
+    },
+    getAfterDeductions(num: number): number {
+      const deductions = num === 1 ? this.deductions : this.deductions2;
+      return this.getEstGross(num) - deductions;
+    },
+    getEstNet(num: number): number {
+      const afterTaxes =
+        this.getAfterDeductions(num) -
+        this.getLocalTaxWithholding(num) -
+        this.getFederalTaxWithholding(num);
+
+      return Math.floor(afterTaxes);
     },
   },
 
@@ -341,41 +395,7 @@ export const useUserStore = defineStore("UserStore", {
       }
       return this.date;
     },
-    estGross(): number {
-      let estGross: number;
-      if (this.payRate === "hourly") {
-        estGross = this.hours * this.pay;
-      } else {
-        const hourly = Math.round((this.pay / 52 / 40) * 100) / 100;
-        estGross = this.hours * hourly;
-      }
-      return Math.floor(estGross);
-    },
-    estAnnual(): number {
-      let estAnnual: number;
-      if (this.payRate === "hourly") {
-        estAnnual = 40 * this.pay * 52;
-      } else {
-        estAnnual = this.pay;
-      }
-      return estAnnual;
-    },
-    afterDeductions(): number {
-      return this.estGross - this.deductions;
-    },
-    estFedTaxes(): number {
-      const userStore = useUserStore();
-      return userStore.getFederalTaxWithholding();
-    },
-    estLocalTaxes(): number {
-      const userStore = useUserStore();
-      return userStore.getLocalTaxWithholding();
-    },
-    estNet(): number {
-      const afterTaxes = this.afterDeductions - this.estLocalTaxes - this.estFedTaxes;
 
-      return Math.floor(afterTaxes);
-    },
     expenseSum(): number {
       const expenseSum = this.expenses.reduce((a: any = {}, b: any = {}) => a + b.amount, 0);
       return expenseSum;

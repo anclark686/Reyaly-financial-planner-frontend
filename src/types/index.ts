@@ -4,6 +4,12 @@ export interface User {
   frequency: string;
   hours: number;
   date: string;
+  income: number;
+  pay2: number;
+  rate2: string;
+  frequency2: string;
+  hours2: number;
+  date2: string;
   deductions: number;
   residence: string;
   relationship: string;

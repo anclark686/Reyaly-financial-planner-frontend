@@ -6,20 +6,61 @@
       </header>
       <section>
         <div class="card">
-          <div class="card-header">
-            <button class="arrow-btn btn" @click="changeDate('previous')">
-              <img src="../components/icons/arrow-left.png" alt="left-arrow" class="arrow-img" />
-            </button>
-            <div v-if="loading" class="spinner-border text-success" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-            <h2 class="subheader" v-else>{{ paycheck }}</h2>
-            <button class="arrow-btn btn" @click="changeDate('next')">
-              <img src="../components/icons/arrow-right.png" alt="right-arrow" class="arrow-img" />
-            </button>
-          </div>
+          <PaycheckInfo v-if="showPaycheckCard && !multIncome" :number="1" />
 
-          <PaycheckInfo v-if="showPaycheckCard" :date="paycheck" :frequency="userStore.payFreq" />
+          <section v-else-if="showPaycheckCard && multIncome" class="accordion-container">
+            <div class="accordion" id="account-accordion">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="heading1">
+                  <button
+                    class="accordion-button collapsed accordion-header"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#collapse1"
+                    aria-controls="collapse1"
+                  >
+                    Paycheck 1
+                  </button>
+                </h2>
+                <div
+                  id="collapse1"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="heading1"
+                  data-parent="account-accordion"
+                >
+                  <div class="accordion-body">
+                    <PaycheckInfo :number="1" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion" id="account-accordion">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="heading2">
+                  <button
+                    class="accordion-button collapsed accordion-header"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#collapse2"
+                    aria-controls="collapse2"
+                  >
+                    Paycheck 2
+                  </button>
+                </h2>
+                <div
+                  id="collapse2"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="heading2"
+                  data-parent="account-accordion"
+                >
+                  <div class="accordion-body">
+                    <PaycheckInfo :number="2" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
       </section>
     </main>
@@ -54,41 +95,12 @@ export default defineComponent({
     return {
       userStore: useUserStore(),
       showPaycheckCard: false,
-      paycheck: "",
-      loading: false,
+      multIncome: true,
     };
   },
-  computed: {
-    firstShown() {
-      return this.userStore.pIndex;
-    },
-  },
-  methods: {
-    changeDate(direction: string) {
-      if (direction === "next") {
-        if (this.userStore.pIndex < this.userStore.paychecks.length - 1) {
-          this.userStore.pIndex++;
-          const badDateStr = this.userStore.paychecks[this.userStore.pIndex].date;
-          const rawDate = new Date(badDateStr);
-          this.paycheck = this.userStore.formatDays(rawDate);
-        }
-      } else {
-        if (this.userStore.pIndex > 0) {
-          this.userStore.pIndex--;
-          const badDateStr = this.userStore.paychecks[this.userStore.pIndex].date;
-          const rawDate = new Date(badDateStr);
-          this.paycheck = this.userStore.formatDays(rawDate);
-        }
-      }
-    },
-  },
+  methods: {},
   async mounted() {
-    this.loading = true;
     await this.userStore.fill(this.user.sub);
-    const badDateStr = this.userStore.paychecks[this.userStore.pIndex].date;
-    const rawDate = new Date(badDateStr);
-    this.paycheck = this.userStore.formatDays(rawDate);
-    this.loading = false;
     this.showPaycheckCard = true;
   },
 });
@@ -125,6 +137,31 @@ export default defineComponent({
 
 .loading {
   color: var(--text-color);
+}
+
+.accordion-button:focus,
+.accordion-button:focus-visible {
+  border-color: var(--med-green);
+  box-shadow: none;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: var(--green-bg);
+  border-color: var(--med-green);
+  color: var(--text-color);
+  border: 1px solid var(--black-white);
+}
+
+.accordion-button.collapsed,
+.accordion-body {
+  background-color: var(--white-black);
+  color: var(--text-color);
+  border: 1px solid var(--black-white);
+}
+
+.accordion {
+  --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='green'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='green'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
 }
 
 @media (max-width: 1000px) {

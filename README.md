@@ -47,7 +47,7 @@ https://reyaly-financial-planner.link
   - https://github.com/anclark686/Reyaly-financial-planner-backend
 - Vite used as the bundler
 - MongoDB as the database
-- Deployed view AWS Amplify: https://reyaly-financial-planner.link
+- Deployed via AWS Amplify: https://reyaly-financial-planner.link
 
 ### Version Info
 
