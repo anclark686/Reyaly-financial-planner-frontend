@@ -40,13 +40,13 @@
             <h2>Savings View</h2>
           </RouterLink>
 
-          <button class="view-box" @click="downloadExcel">
-            <h2>Export Excel</h2>
-          </button>
-
           <RouterLink to="/views/converter" class="view-box">
             <h2>Currency Converter</h2>
           </RouterLink>
+
+          <button class="view-box" @click="downloadExcel">
+            <h2>Export Excel</h2>
+          </button>
         </section>
 
         <section class="settings-container">

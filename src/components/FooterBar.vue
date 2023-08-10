@@ -4,10 +4,10 @@
     <div class="footerLinks">
       <a href="https://www.ancportfolio.link" className="social-icon">Portfolio</a>
       <a href="https://github.com/anclark686" target="_blank" rel="noreferrer">
-        <img alt="" src="./icons/github.png" class="social-icon" />
+        <img alt="github" src="./icons/github.png" class="social-icon" />
       </a>
       <a href="https://www.linkedin.com/in/anclark686/" target="_blank" rel="noreferrer">
-        <img alt="" src="./icons/linkedin.png" class="social-icon" />
+        <img alt="linkedin" src="./icons/linkedin.png" class="social-icon" />
       </a>
     </div>
     <p>&copy; Reyaly Tech 2023</p>
