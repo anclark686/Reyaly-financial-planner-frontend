@@ -129,6 +129,8 @@ const isElemVisible = (el: HTMLElement) => {
   return elemTop < window.innerHeight && elemBottom >= 0;
 };
 
+type ScrollBehavior = "auto" | "instant" | "smooth";
+
 onMounted(() => {
   window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   fadeInElements = Array.from(
