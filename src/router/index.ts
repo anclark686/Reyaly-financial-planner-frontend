@@ -70,11 +70,7 @@ const router = createRouter({
     { path: "/:catchAll(.*)", redirect: "/404" },
   ],
   scrollBehavior (to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition
-    } else {
-      return { top: 0, behavior: 'instant' }
-    }
+    return { top: 0, behavior: 'instant'  }
   }
 });
 
