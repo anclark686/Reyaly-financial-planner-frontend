@@ -20,7 +20,7 @@ app.use(
     clientId: clientId,
     authorizationParams: {
       // redirect_uri: "http://localhost:5173/dashboard",
-      redirect_uri: "https://main.d1r7v6lmapahca.amplifyapp.com/dashboard",
+      redirect_uri: "https://www.reyaly-financial-planner.link/dashboard",
     },
   })
 );
