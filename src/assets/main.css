@@ -1,4 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@400;700&display=swap");
+html {
+  scroll-behavior: auto !important;
+}
 
 :root {
   --light-bg: rgba(252, 251, 251, 1);

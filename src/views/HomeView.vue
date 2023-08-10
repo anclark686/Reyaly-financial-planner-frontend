@@ -129,10 +129,8 @@ const isElemVisible = (el: HTMLElement) => {
   return elemTop < window.innerHeight && elemBottom >= 0;
 };
 
-type ScrollBehavior = "auto" | "instant" | "smooth";
-
 onMounted(() => {
-  window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  window.scrollTo({ top: 0, left: 0});
   fadeInElements = Array.from(
     document.getElementsByClassName("fade-in") as HTMLCollectionOf<HTMLElement>
   );
@@ -146,6 +144,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+
 .main-content {
   text-align: center;
   color: var(--text-color);
