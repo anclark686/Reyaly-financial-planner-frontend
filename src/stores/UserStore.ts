@@ -25,7 +25,7 @@ export const useUserStore = defineStore("UserStore", {
       hours: 0,
       date: "",
       deductions: 0,
-      income: 0,
+      income: 1,
       pay2: 0,
       payRate2: "",
       payFreq2: "",
@@ -38,6 +38,7 @@ export const useUserStore = defineStore("UserStore", {
       pIndex2: 0,
       expenses: [] as Expense[],
       paychecks: [] as Paycheck[],
+      paychecks2: [] as Paycheck[],
       accounts: [] as Account[],
       debts: [] as Debt[],
       baseUrl: "https://reyaly-financial-backend-983411f48872.herokuapp.com",
@@ -78,7 +79,7 @@ export const useUserStore = defineStore("UserStore", {
             this.residence = user.residence;
             this.relationship = user.relationship;
 
-            this.income = user.income;
+            this.income = 1;
             if (user.income > 1) {
               this.pay2 = user.pay2;
               this.payRate2 = user.rate2;
@@ -89,6 +90,7 @@ export const useUserStore = defineStore("UserStore", {
 
             this.expenses = this.matchAccountToExpense(res.data.expenses, res.data.accounts);
             this.paychecks = res.data.paychecks;
+            this.paychecks2 = res.data.paychecks2;
             this.debts = res.data.debts;
             this.accounts = res.data.accounts;
 

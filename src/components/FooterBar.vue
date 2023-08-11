@@ -53,7 +53,7 @@ footer a:visited {
   margin: 5px;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
   footer {
     font-size: 1.5rem;
   }

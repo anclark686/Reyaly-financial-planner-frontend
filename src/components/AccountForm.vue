@@ -225,7 +225,7 @@ export default defineComponent({
   margin-top: 20px;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
   .subheader {
     font-size: 1rem;
   }

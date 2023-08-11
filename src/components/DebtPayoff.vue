@@ -314,7 +314,7 @@ export default defineComponent({
   margin-top: 20px;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
   .inputs {
     display: flex;
     flex-direction: column;

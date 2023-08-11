@@ -145,7 +145,7 @@ export default defineComponent({
   margin-top: 20px;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
   .btn {
     font-size: 1.5rem;
   }

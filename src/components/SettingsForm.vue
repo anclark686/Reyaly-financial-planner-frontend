@@ -267,7 +267,7 @@ export default defineComponent({
             this.duplicate = true;
           } else if (res.message === "Success") {
             this.userStore.fill(this.user.sub);
-            this.$emit("close", this.userData);
+            this.$emit("close");
           }
         })
         .catch((err) => console.log(err));
@@ -378,7 +378,7 @@ td {
   margin-top: 20px;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
   .subheader {
     font-size: 2.5rem;
   }

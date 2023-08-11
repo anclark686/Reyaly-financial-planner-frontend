@@ -187,6 +187,6 @@ label {
   text-align: center;
   margin: 0px auto;
 }
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
 }
 </style>

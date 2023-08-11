@@ -237,7 +237,7 @@ table {
   margin: auto;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
   .page-header {
     font-size: 2.5rem;
   }

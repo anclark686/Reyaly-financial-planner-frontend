@@ -87,7 +87,7 @@ export default defineComponent({
   color: var(--text-color);
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
   .debt-list-container {
     width: 90%;
     margin: 20px;

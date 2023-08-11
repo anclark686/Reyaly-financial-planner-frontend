@@ -184,7 +184,7 @@ export default defineComponent({
   background-color: var(--med-green);
   border: 2px solid black;
 }
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
   .brand {
     margin: auto;
   }

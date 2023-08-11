@@ -20,7 +20,7 @@
       </div>
       <section class="main-dashboard" v-if="!userStore.noUser">
         <section class="view-boxes">
-          <RouterLink to="/views/calendar" class="view-box">
+          <RouterLink to="/views/calendar" class="view-box" id="top">
             <h2>Calendar View</h2>
           </RouterLink>
 
@@ -44,7 +44,7 @@
             <h2>Currency Converter</h2>
           </RouterLink>
 
-          <button class="view-box" @click="downloadExcel">
+          <button class="view-box" @click="downloadExcel" id="bottom">
             <h2>Export Excel</h2>
           </button>
         </section>
@@ -65,38 +65,6 @@
                 </tr>
                 <tr class="even">
                   <td class="left">
-                    <strong>Pay:</strong>
-                  </td>
-                  <td class="right">
-                    ${{ userStore.pay }}
-                    {{ userStore.payRate === "hourly" ? "/hr" : "/year" }}
-                  </td>
-                </tr>
-                <tr class="odd">
-                  <td class="left">
-                    <strong>Pay Frequency:</strong>
-                  </td>
-                  <td class="right">
-                    {{ userStore.payFreq }}
-                  </td>
-                </tr>
-                <tr class="even">
-                  <td class="left">
-                    <strong>Paycheck Hours:</strong>
-                  </td>
-                  <td class="right">
-                    {{ userStore.hours }}
-                  </td>
-                </tr>
-                <tr class="odd">
-                  <td class="left">
-                    <strong>Deductions:</strong>
-                  </td>
-                  <td class="right">${{ userStore.deductions }}</td>
-                </tr>
-
-                <tr class="even">
-                  <td class="left">
                     <strong>State of Residence:</strong>
                   </td>
                   <td class="right">{{ userStore.residence }}</td>
@@ -109,14 +77,7 @@
                     {{ userStore.relationship === "single" ? "Single" : "Married" }}
                   </td>
                 </tr>
-
                 <tr class="even">
-                  <td class="left">
-                    <strong>Est Take Home:</strong>
-                  </td>
-                  <td class="right">${{ userStore.estNet }}</td>
-                </tr>
-                <tr class="odd">
                   <td class="left">
                     <strong># of Expenses:</strong>
                   </td>
@@ -124,13 +85,13 @@
                     {{ userStore.expenses.length }}
                   </td>
                 </tr>
-                <tr class="even">
+                <tr class="odd">
                   <td class="left">
                     <strong>Expense Total:</strong>
                   </td>
                   <td class="right">${{ userStore.expenseSum }}</td>
                 </tr>
-                <tr class="odd">
+                <tr class="even">
                   <td class="left">
                     <strong>Next Payday:</strong>
                   </td>
@@ -140,6 +101,42 @@
                 </tr>
               </tbody>
             </table>
+            
+            <h3 class="subheader">Pay Info:</h3>
+            <div class="pay-info-single" v-if="userStore.income === 2">
+              <PayTable 
+                :number="1"
+                type="single"
+                :pay="userStore.pay"
+                :rate="userStore.payRate"
+                :frequency="userStore.payFreq"
+                :hours="userStore.hours"
+                :deductions="userStore.deductions"
+                :net="userStore.getEstNet(1)"
+              />
+            </div>
+            <div class="pay-info-double" v-else>
+              <PayTable 
+                :number="1"
+                type="double"
+                :pay="userStore.pay"
+                :rate="userStore.payRate"
+                :frequency="userStore.payFreq"
+                :hours="userStore.hours"
+                :deductions="userStore.deductions"
+                :net="userStore.getEstNet(1)"
+              />
+              <PayTable 
+                :number="2"
+                type="double"
+                :pay="userStore.pay2"
+                :rate="userStore.payRate2"
+                :frequency="userStore.payFreq2"
+                :hours="userStore.hours2"
+                :deductions="userStore.deductions2"
+                :net="userStore.getEstNet(2)"
+              />
+            </div>
           </div>
 
           <p class="link-adjust">
@@ -155,7 +152,7 @@
           <h5>Looks like it's your first time here!</h5>
           <h5>Enter the info below to get started.</h5>
         </div>
-        <SettingsForm formType="new" :userInfo="blankAccount" @close="updateUserInfo" />
+        <SettingsForm formType="new" :userInfo="blankAccount" @close="showUserForm = false" />
       </div>
     </main>
     <div class="spinner-container" v-else>
@@ -174,6 +171,7 @@ import { defineComponent } from "vue";
 
 import SettingsForm from "../components/SettingsForm.vue";
 import NotificationModal from "../components/NotificationModal.vue";
+import PayTable from "../components/PayTable.vue"
 import { useUserStore } from "../stores/UserStore";
 import { type User } from "../types";
 
@@ -204,18 +202,12 @@ export default defineComponent({
     };
   },
   components: {
-    SettingsForm,
     RouterLink,
+    SettingsForm,
     NotificationModal,
+    PayTable,
   },
   methods: {
-    updateUserInfo(newUserData: { pay: number; rate: string; frequency: string; hours: number }) {
-      this.showUserForm = false;
-      this.userStore.pay = newUserData.pay;
-      this.userStore.payRate = newUserData.rate;
-      this.userStore.payFreq = newUserData.frequency;
-      this.userStore.hours = newUserData.hours;
-    },
     handleFormClick() {
       this.showUserForm = !this.showUserForm;
     },
@@ -273,6 +265,7 @@ export default defineComponent({
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  height: fit-content;
 }
 
 .view-box {
@@ -284,8 +277,16 @@ export default defineComponent({
   border-radius: 15px;
   border: 2px solid black;
   color: var(--dk-green);
-  margin: 5px;
+  margin: 15px;
   text-decoration: none;
+}
+
+#top {
+  margin-top: 5px;
+}
+
+#bottom {
+  margin-bottom: 0px;
 }
 
 .view-box:hover {
@@ -315,7 +316,7 @@ export default defineComponent({
 }
 
 .user-info {
-  margin: 50px;
+  margin: 25px;
 }
 
 .subheader {
@@ -345,6 +346,11 @@ export default defineComponent({
 
 .even {
   background-color: var(--green-bg);
+}
+
+.pay-info-double {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .link-adjust {
@@ -380,7 +386,7 @@ export default defineComponent({
   color: var(--text-color);
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
   .page-header {
     font-size: 2.5rem;
   }

@@ -271,7 +271,7 @@ onUnmounted(() => {
   background-color: var(--green-bg);
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
   .header {
     font-size: 2.5rem;
   }
