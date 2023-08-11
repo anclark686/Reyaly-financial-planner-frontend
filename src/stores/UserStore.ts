@@ -67,6 +67,7 @@ export const useUserStore = defineStore("UserStore", {
       await API.getUserInfo(authUID)
         .then((res) => {
           if (res.message !== "Not Found") {
+            console.log(res)
             this.noUser = false;
             const user = res.data.user;
             this.dbUserId = user._id.$oid;
@@ -79,13 +80,14 @@ export const useUserStore = defineStore("UserStore", {
             this.residence = user.residence;
             this.relationship = user.relationship;
 
-            this.income = 1;
+            this.income = user.income;
             if (user.income > 1) {
               this.pay2 = user.pay2;
               this.payRate2 = user.rate2;
               this.payFreq2 = user.frequency2;
               this.hours2 = user.hours2;
               this.date2 = user.date2;
+              this.deductions2 = user.deductions2;
             }
 
             this.expenses = this.matchAccountToExpense(res.data.expenses, res.data.accounts);
@@ -222,6 +224,15 @@ export const useUserStore = defineStore("UserStore", {
     },
 
     // Non API functions
+    deleteSecondIncome() {
+      this.income = 1;
+      this.pay2 = 0;
+      this.payRate2 = "";
+      this.payFreq2 = "";
+      this.hours2 = 0;
+      this.date2 = "";
+      this.deductions2 = 0;
+    },
     matchAccountToExpense(expenses: Expense[], accounts: Account[]) {
       const acctObj = {} as any;
       for (const acct of accounts) {

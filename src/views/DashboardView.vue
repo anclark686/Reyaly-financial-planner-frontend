@@ -103,7 +103,7 @@
             </table>
             
             <h3 class="subheader">Pay Info:</h3>
-            <div class="pay-info-single" v-if="userStore.income === 2">
+            <div class="pay-info-single" v-if="userStore.income === 1">
               <PayTable 
                 :number="1"
                 type="single"
@@ -186,7 +186,7 @@ export default defineComponent({
   data() {
     return {
       userStore: useUserStore(),
-      showUserForm: true,
+      showUserForm: false,
       showNotifications: true,
       date: new Date().toLocaleDateString(),
       blankAccount: {
@@ -198,6 +198,7 @@ export default defineComponent({
         hours: 0,
         date: "",
         deductions: 0,
+        income: 1,
         pay2: 0,
         rate2: "",
         frequency2: "",
@@ -264,7 +265,7 @@ export default defineComponent({
 }
 
 .view-boxes {
-  width: 50%;
+  width: 40%;
   margin: 70px 0;
   display: flex;
   flex-direction: column;
@@ -312,7 +313,7 @@ export default defineComponent({
 
 .settings-container {
   min-width: 400px;
-  width: 40%;
+  width: 50%;
   background-color: var(--white-black);
   color: var(--text-color);
   border-radius: 15px;
@@ -402,14 +403,14 @@ export default defineComponent({
   }
 
   .notif-container {
-    width: 90%;
+    width: 75%;
   }
 
   .view-boxes {
-    width: 95%;
+    width: 755%;
   }
   .view-box {
-    width: 90%;
+    width: 30%;
     margin: 10px;
   }
 
@@ -418,7 +419,7 @@ export default defineComponent({
   }
 
   .settings-container {
-    width: 95%;
+    width: 75%;
     margin: 20px;
   }
 
@@ -434,6 +435,32 @@ export default defineComponent({
   }
   .link-adjust {
     font-size: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .notif-container {
+    width: 90%;
+  }
+
+  .view-boxes {
+    width: 95%;
+  }
+  .view-box {
+    width: 90%;
+    margin: 10px;
+  }
+
+  .settings-container {
+    width: 95%;
+    margin: 20px;
+  }
+
+  .info-table {
+    width: 95%;
+    margin: 0 auto;
+    font-size: 1rem;
+    border: 2px solid black;
   }
 }
 </style>

@@ -29,6 +29,7 @@ export interface Expense {
 
 export interface Paycheck {
   date: string;
+  income: number;
   id: string;
 }
 
@@ -69,4 +70,15 @@ export interface ConversionData {
 export interface ExchangeData {
   currency_pair: string;
   exchange_rate: number;
+}
+
+export interface PayData {
+  number: number;
+  formType: string;
+  pay: number;
+  rate: string;
+  frequency: string;
+  hours: number;
+  date: string;
+  deductions: number;
 }

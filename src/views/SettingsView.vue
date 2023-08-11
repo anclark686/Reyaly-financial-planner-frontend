@@ -61,6 +61,7 @@ export default defineComponent({
         hours: this.userStore.hours,
         date: this.userStore.date,
         deductions: this.userStore.deductions,
+        income: this.userStore.income,
         pay2: this.userStore.pay2,
         rate2: this.userStore.payRate2,
         frequency2: this.userStore.payFreq2,

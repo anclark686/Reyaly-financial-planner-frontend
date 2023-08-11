@@ -117,12 +117,13 @@
         :hours="userInfo.hours"
         :date="userInfo.date"
         :deductions="userInfo.deductions"
+        @form="addPayInfo"
       />
 
-      <div v-if="showSecond || userInfo.pay2">
+      <div v-if="showSecond">
         <h5 class="additional">Additional source of income</h5>
         <div class="remove-btn">
-          <button class="btn btn-danger btn-sm" @click.prevent="showSecond = false">Remove X</button>
+          <button class="btn btn-danger btn-sm" @click.prevent="showModal = true">Remove X</button>
         </div>
         <PayForm
           :number="2"
@@ -133,6 +134,7 @@
           :hours="userInfo.hours2"
           :date="userInfo.date2"
           :deductions="userInfo.deductions2"
+          @form="addPayInfo"
         />
       </div>
 
@@ -164,6 +166,12 @@
         <p id="success">Changes Successfully Saved!</p>
       </div>
     </form>
+    <DeleteModal
+      v-if="showModal"
+      @close="showModal = false"
+      @deleteItem="onDeleteSecond()"
+      name="Additional source of income"
+    />
   </div>
 </template>
 
@@ -174,7 +182,9 @@ import { RouterLink } from "vue-router";
 
 import { useUserStore } from "../stores/UserStore";
 import { type User } from "../types";
+import { type PayData } from "../types";
 import PayForm from "./PayForm.vue";
+import DeleteModal from "./DeleteModal.vue";
 
 export default defineComponent({
   setup() {
@@ -194,6 +204,7 @@ export default defineComponent({
   components: {
     RouterLink,
     PayForm,
+    DeleteModal,
   },
   data() {
     return {
@@ -205,24 +216,53 @@ export default defineComponent({
       loadingSettings: false,
       success: false,
       showSecond: false,
+      showModal: false,
+      userWithPay: {
+        username: "",
+        uid: "",
+        residence: this.userInfo.residence,
+        relationship: this.userInfo.relationship,
+        pay: this.userInfo.pay,
+        rate: this.userInfo.rate,
+        frequency: this.userInfo.frequency,
+        hours: this.userInfo.hours,
+        date: this.userInfo.date,
+        income: this.userInfo.income,
+        deductions: this.userInfo.deductions,
+        pay2: this.userInfo.pay2,
+        rate2: this.userInfo.rate2,
+        frequency2: this.userInfo.frequency2,
+        hours2: this.userInfo.hours2,
+        date2: this.userInfo.date2,
+        deductions2: this.userInfo.deductions2,
+      },
     };
   },
-  computed: {
-    userData() {
-      const userData = {
-        username: this.user.nickname,
-        uid: this.user.sub,
-        residence: this.newResidence,
-        relationship: this.newRelationship,
-      };
-      return userData;
-    },
-  },
   methods: {
+    addPayInfo(userPayData: PayData) {
+      this.invalid = false;
+      if (userPayData.number === 1) {
+        this.userWithPay.pay = userPayData.pay;
+        this.userWithPay.rate = userPayData.rate;
+        this.userWithPay.frequency = userPayData.frequency;
+        this.userWithPay.hours = userPayData.hours;
+        this.userWithPay.date = userPayData.date;
+        this.userWithPay.deductions = userPayData.deductions;
+      } else {
+        this.userWithPay.income = 2;
+        this.userWithPay.pay2 = userPayData.pay;
+        this.userWithPay.rate2 = userPayData.rate;
+        this.userWithPay.frequency2 = userPayData.frequency;
+        this.userWithPay.hours2 = userPayData.hours;
+        this.userWithPay.date2 = userPayData.date;
+        this.userWithPay.deductions2 = userPayData.deductions;
+      }
+      console.log(this.userWithPay)
+    },
     async addUser() {
       this.loadingSettings = true;
       await this.userStore
-        .addUser(this.userData)
+        .addUser(this.userWithPay)
         .then((res) => {
           this.loadingSettings = false;
           if (res.message === "Duplicate") {
@@ -237,7 +277,7 @@ export default defineComponent({
     async editUser() {
       this.loadingSettings = true;
       await this.userStore
-        .editUser(this.userData)
+        .editUser(this.userWithPay)
         .then((res) => {
           if (res.message === "Success") {
             this.loadingSettings = false;
@@ -249,15 +289,38 @@ export default defineComponent({
         })
         .catch((err) => console.log(err));
     },
+    onDeleteSecond() {
+      this.showSecond = false;
+      this.showModal = false;
+      this.userStore.deleteSecondIncome();
+      this.userWithPay.income = 1;
+      this.userWithPay.pay2 = 0;
+      this.userWithPay.rate2 = "";
+      this.userWithPay.frequency2 = "";
+      this.userWithPay.hours2 = 0;
+      this.userWithPay.date2 = "";
+      this.userWithPay.deductions2 = 0;
+    },
+    validateInfo() {
+      console.log(this.userWithPay.income)
+      for (const [key, value] of Object.entries(this.userWithPay)) {
+        if (!value && !key.includes("2")) {
+          return false;
+        }
+        if (!value && key.includes("2") && this.userWithPay.income === 2 && key !== "deductions2") {
+          return false;
+        }
+      }
+      return true;
+    },
     onSubmit() {
-      if (
-        // this.newPay &&
-        // this.newRate &&
-        // this.newFrequency &&
-        // this.newHours &&
-        this.newResidence &&
-        this.newRelationship
-      ) {
+      this.userWithPay.username = this.user.nickname!;
+      this.userWithPay.uid = this.user.sub!;
+      this.userWithPay.residence = this.newResidence;
+      this.userWithPay.relationship = this.newRelationship;
+      console.log(this.userWithPay);
+      console.log(this.validateInfo());
+      if (this.validateInfo()) {
         this.invalid = false;
         if (this.formType === "new") {
           this.addUser();
@@ -268,6 +331,11 @@ export default defineComponent({
         this.invalid = true;
       }
     },
+  },
+  mounted() {
+    if (this.userInfo.income == 2) {
+      this.showSecond = true;
+    }
   },
 });
 </script>

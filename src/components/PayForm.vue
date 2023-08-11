@@ -76,7 +76,6 @@
             name="deductions"
             class="input-info"
             v-model="newDeductions"
-            @keyup.enter="onSubmit"
           />
         </td>
       </tr>
@@ -110,8 +109,9 @@ export default defineComponent({
     };
   },
   computed: {
-    userData() {
+    userPayData() {
       const userPayData = {
+        number: this.number,
         pay: this.newPay,
         rate: this.newRate,
         frequency: this.newFrequency,
@@ -122,11 +122,19 @@ export default defineComponent({
       return userPayData;
     },
   },
+  watch: {
+    userPayData: function () {
+      this.$emit("form", this.userPayData)
+    }
+  },
   methods: {
     onSubmit() {
       console.log("hey");
     },
   },
+  // mounted() {
+  //   console.log(this.userPayData)
+  // }
 });
 </script>
 

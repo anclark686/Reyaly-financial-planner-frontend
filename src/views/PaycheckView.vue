@@ -6,9 +6,21 @@
       </header>
       <section>
         <div class="card">
-          <PaycheckInfo v-if="showPaycheckCard && !multIncome" :number="1" />
+          <PaycheckExpenses
+            v-if="showPaycheckCard && userStore.income === 1"
+            :number="1"
+            @dateChange1="sendExpenseList"
+          />
+          <PaycheckInfo
+            v-if="showPaycheckCard && userStore.income === 1"
+            :number="1"
+            :expenseList="expenseList1"
+          />
 
-          <section v-else-if="showPaycheckCard && multIncome" class="accordion-container">
+          <section
+            v-else-if="showPaycheckCard && userStore.income === 2"
+            class="accordion-container"
+          >
             <div class="accordion" id="account-accordion">
               <div class="accordion-item">
                 <h2 class="accordion-header" id="heading1">
@@ -29,7 +41,8 @@
                   data-parent="account-accordion"
                 >
                   <div class="accordion-body">
-                    <PaycheckInfo :number="1" />
+                    <PaycheckExpenses :number="1" @dateChange1="sendExpenseList" />
+                    <PaycheckInfo :number="1" :expenseList="expenseList1" />
                   </div>
                 </div>
               </div>
@@ -55,7 +68,34 @@
                   data-parent="account-accordion"
                 >
                   <div class="accordion-body">
-                    <PaycheckInfo :number="2" />
+                    <PaycheckExpenses :number="2" @dateChange2="sendExpenseList" />
+                    <PaycheckInfo :number="2" :expenseList="expenseList2" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion" id="account-accordion">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="heading2">
+                  <button
+                    class="accordion-button collapsed accordion-header"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#collapse3"
+                    aria-controls="collapse3"
+                  >
+                    Combined Info
+                  </button>
+                </h2>
+                <div
+                  id="collapse3"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="heading3"
+                  data-parent="account-accordion"
+                >
+                  <div class="accordion-body">
+                    <PaycheckExpenses :number="3" @dateChange2="sendExpenseList" />
                   </div>
                 </div>
               </div>
@@ -77,8 +117,11 @@
 import { useAuth0 } from "@auth0/auth0-vue";
 import { defineComponent } from "vue";
 
+import PaycheckExpenses from "../components/PaycheckExpenses.vue";
 import PaycheckInfo from "../components/PaycheckInfo.vue";
+import CombinedPay from "../components/CombinedPay.vue";
 import { useUserStore } from "../stores/UserStore";
+import { type Expense } from "../types";
 
 export default defineComponent({
   setup() {
@@ -89,16 +132,29 @@ export default defineComponent({
     };
   },
   components: {
+    PaycheckExpenses,
     PaycheckInfo,
+    CombinedPay,
   },
   data() {
     return {
       userStore: useUserStore(),
       showPaycheckCard: false,
-      multIncome: true,
+      expenseList1: [] as Expense[],
+      expenseList2: [] as Expense[],
     };
   },
-  methods: {},
+  methods: {
+    sendExpenseList({ num, list }: { num: number; list: Expense[] }) {
+      console.log(num);
+      console.log(list);
+      if (num === 1) {
+        this.expenseList1 = list;
+      } else {
+        this.expenseList2 = list;
+      }
+    },
+  },
   async mounted() {
     await this.userStore.fill(this.user.sub);
     this.showPaycheckCard = true;
