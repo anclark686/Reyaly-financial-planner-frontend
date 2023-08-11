@@ -239,8 +239,4 @@ export default defineComponent({
   border-radius: 5px;
   border: 2px solid black;
 }
-
-.num-input {
-  text-align: right;
-}
 </style>

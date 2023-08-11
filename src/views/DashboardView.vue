@@ -186,18 +186,24 @@ export default defineComponent({
   data() {
     return {
       userStore: useUserStore(),
-      showUserForm: false,
+      showUserForm: true,
       showNotifications: true,
       date: new Date().toLocaleDateString(),
       blankAccount: {
+        residence: "",
+        relationship: "",
         pay: 0,
         rate: "",
         frequency: "",
         hours: 0,
         date: "",
         deductions: 0,
-        residence: "",
-        relationship: "",
+        pay2: 0,
+        rate2: "",
+        frequency2: "",
+        hours2: 0,
+        date2: "",
+        deductions2: 0,
       } as User,
     };
   },

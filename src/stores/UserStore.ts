@@ -26,7 +26,7 @@ export const useUserStore = defineStore("UserStore", {
       date: "",
       deductions: 0,
       income: 1,
-      pay2: 0,
+      pay2: 60,
       payRate2: "",
       payFreq2: "",
       hours2: 0,

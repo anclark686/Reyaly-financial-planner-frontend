@@ -211,10 +211,6 @@ export default defineComponent({
   border: 2px solid black;
 }
 
-.num-input {
-  text-align: right;
-}
-
 .bottom-btn {
   margin: 5px;
 }

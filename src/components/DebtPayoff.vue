@@ -236,10 +236,6 @@ export default defineComponent({
   background-color: inherit;
 }
 
-.num-input {
-  text-align: right;
-}
-
 .img-container {
   align-self: center;
   border-radius: 5px;

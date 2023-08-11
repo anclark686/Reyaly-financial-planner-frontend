@@ -7,98 +7,30 @@
       :class="formType === 'new' ? 'settings-form settings-form-green' : 'settings-form'"
     >
       <h3 class="subheader">Basic Info:</h3>
-      <ul class="basic-info">
-        <li><strong>Username:</strong> {{ user.nickname }}</li>
-        <li><strong>Email Address:</strong> {{ user.email }}</li>
-      </ul>
-
-      <h3 class="subheader">Pay Info:</h3>
-      <table :class="formType === 'new' ? 'pay-info info-centered' : 'pay-info'">
+      <table :class="formType === 'new' ? 'basic-info info-centered' : 'basic-info'">
         <tbody>
           <tr class="table-row">
-            <td class="pay-label">
-              <strong><label for="pay">Pay Rate:</label></strong>
+            <td class="basic-label">
+              <strong>Username:</strong>
             </td>
-            <td class="pay-input">
-              <input
-                type="number"
-                step="0.01"
-                id="pay"
-                name="pay"
-                class="input-info"
-                v-model="newPay"
-              />
+            <td>
+              {{ user.nickname }}
             </td>
           </tr>
           <tr class="table-row">
-            <td class="pay-label">
-              <strong><label for="rate">Per:</label></strong>
+            <td class="basic-label">
+              <strong>Email Address:</strong>
             </td>
-            <td class="pay-input">
-              <select name="rate" id="rate" class="input-info" v-model="newRate">
-                <option value="">--Select One--</option>
-                <option value="hourly">Hour</option>
-                <option value="annualy">Year</option>
-              </select>
+            <td>
+              {{ user.email }}
             </td>
           </tr>
+
           <tr class="table-row">
-            <td class="pay-label">
-              <strong><label for="frequency">Frequency:</label></strong>
-            </td>
-            <td class="pay-input">
-              <select name="frequency" id="frequency" class="input-info" v-model="newFrequency">
-                <option value="">--Select One--</option>
-                <option value="weekly">Weekly</option>
-                <option value="bi-weekly">Bi-Weekly</option>
-                <option value="monthly">Monthly</option>
-                <option value="bi-monthly">Bi-Monthly</option>
-              </select>
-            </td>
-          </tr>
-          <tr class="table-row">
-            <td class="pay-label">
-              <strong><label for="hours">Hours per Paycheck:</label></strong>
-            </td>
-            <td class="pay-input">
-              <input
-                type="number"
-                step="0.01"
-                id="hours"
-                name="hours"
-                class="input-info"
-                v-model="newHours"
-              />
-            </td>
-          </tr>
-          <tr class="table-row">
-            <td class="pay-label">
-              <strong><label for="date">Pay Start Date:</label></strong>
-            </td>
-            <td class="pay-input">
-              <input type="date" id="date" name="date" class="input-info" v-model="newDate" />
-            </td>
-          </tr>
-          <tr class="table-row">
-            <td class="pay-label">
-              <strong><label for="deductions">Deductions:</label></strong>
-            </td>
-            <td class="pay-input">
-              <input
-                type="number"
-                id="deductions"
-                name="deductions"
-                class="input-info"
-                v-model="newDeductions"
-                @keyup.enter="onSubmit"
-              />
-            </td>
-          </tr>
-          <tr class="table-row">
-            <td class="pay-label">
+            <td class="basic-label">
               <strong><label for="residence">State:</label></strong>
             </td>
-            <td class="pay-input">
+            <td class="basic-input">
               <select name="residence" id="residence" class="input-info" v-model="newResidence">
                 <option value="">--Select One--</option>
                 <option value="AL">Alabama</option>
@@ -156,10 +88,10 @@
             </td>
           </tr>
           <tr class="table-row">
-            <td class="relationship-label">
+            <td class="basic-label">
               <strong><label for="relationship">Single or Married:</label></strong>
             </td>
-            <td class="pay-input">
+            <td class="basic-input">
               <select
                 name="relationship"
                 id="relationship"
@@ -174,6 +106,41 @@
           </tr>
         </tbody>
       </table>
+
+      <h3 class="subheader">Pay Info:</h3>
+      <PayForm
+        :number="1"
+        :formType="formType"
+        :pay="userInfo.pay"
+        :rate="userInfo.rate"
+        :frequency="userInfo.frequency"
+        :hours="userInfo.hours"
+        :date="userInfo.date"
+        :deductions="userInfo.deductions"
+      />
+
+      <div v-if="showSecond || userInfo.pay2">
+        <h5 class="additional">Additional source of income</h5>
+        <div class="remove-btn">
+          <button class="btn btn-danger btn-sm" @click.prevent="showSecond = false">Remove X</button>
+        </div>
+        <PayForm
+          :number="2"
+          :formType="formType"
+          :pay="userInfo.pay2"
+          :rate="userInfo.rate2"
+          :frequency="userInfo.frequency2"
+          :hours="userInfo.hours2"
+          :date="userInfo.date2"
+          :deductions="userInfo.deductions2"
+        />
+      </div>
+
+      <div class="add-new-btn" v-else>
+        <button class="btn btn-success" @click.prevent="showSecond = true" id="add">
+          + Additional Income
+        </button>
+      </div>
 
       <p v-if="invalid" id="warning">Please ensure all fields are filled.</p>
       <div v-if="loadingSettings" class="small-spinner-container">
@@ -203,9 +170,11 @@
 <script lang="ts">
 import { defineComponent, type PropType } from "vue";
 import { useAuth0 } from "@auth0/auth0-vue";
+import { RouterLink } from "vue-router";
 
 import { useUserStore } from "../stores/UserStore";
 import { type User } from "../types";
+import PayForm from "./PayForm.vue";
 
 export default defineComponent({
   setup() {
@@ -222,21 +191,20 @@ export default defineComponent({
       required: true,
     },
   },
+  components: {
+    RouterLink,
+    PayForm,
+  },
   data() {
     return {
       userStore: useUserStore(),
-      newPay: this.userInfo.pay,
-      newRate: this.userInfo.rate,
-      newFrequency: this.userInfo.frequency,
-      newHours: this.userInfo.hours,
-      newDate: this.userInfo.date ? this.userInfo.date : new Date().toISOString().substring(0, 10),
-      newDeductions: this.userInfo.deductions,
       newResidence: this.userInfo.residence,
       newRelationship: this.userInfo.relationship,
       invalid: false,
       duplicate: false,
       loadingSettings: false,
       success: false,
+      showSecond: false,
     };
   },
   computed: {
@@ -244,12 +212,6 @@ export default defineComponent({
       const userData = {
         username: this.user.nickname,
         uid: this.user.sub,
-        pay: this.newPay,
-        rate: this.newRate,
-        frequency: this.newFrequency,
-        hours: this.newHours,
-        date: this.newDate,
-        deductions: this.newDeductions,
         residence: this.newResidence,
         relationship: this.newRelationship,
       };
@@ -289,10 +251,10 @@ export default defineComponent({
     },
     onSubmit() {
       if (
-        this.newPay &&
-        this.newRate &&
-        this.newFrequency &&
-        this.newHours &&
+        // this.newPay &&
+        // this.newRate &&
+        // this.newFrequency &&
+        // this.newHours &&
         this.newResidence &&
         this.newRelationship
       ) {
@@ -348,10 +310,20 @@ td {
   border: 2px solid black;
 }
 
-#pay,
-#hours,
-#deductions {
-  text-align: right;
+.additional {
+  margin: 15px auto 0 auto;
+}
+
+.x-out {
+  background-color: inherit;
+  border-radius: 5px;
+  margin: 5px auto;
+  top: 0;
+  right: 0;
+}
+
+#add {
+  margin-top: 10px;
 }
 
 #warning {
@@ -361,7 +333,8 @@ td {
 }
 
 .submit-btn,
-.small-spinner-container {
+.small-spinner-container,
+.add-new-btn {
   margin: 50px;
   text-align: center;
   margin: 0px auto;

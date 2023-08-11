@@ -155,10 +155,6 @@ export default defineComponent({
   border: 2px solid black;
 }
 
-.num-input {
-  text-align: right;
-}
-
 .input-row label {
   color: var(--text-color);
   margin-bottom: 0;

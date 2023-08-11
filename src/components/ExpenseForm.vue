@@ -122,10 +122,6 @@ export default defineComponent({
   border: 2px solid black;
 }
 
-#expense-amount {
-  text-align: right;
-}
-
 #submit-expense {
   margin-top: 10px;
 }

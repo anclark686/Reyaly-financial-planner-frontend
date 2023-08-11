@@ -16,7 +16,7 @@
             <button class="modal-btn btn btn-secondary" id="cancel" @click="$emit('close')">
               Cancel
             </button>
-            <button class="modal-btn btn" id="delete" @click="$emit('deleteItem')">Delete</button>
+            <button class="modal-btn btn btn-danger" id="delete" @click="$emit('deleteItem')">Delete</button>
           </div>
         </div>
       </div>
@@ -92,10 +92,6 @@ export default {
   width: 100px;
   margin: 20px 10px;
   border-radius: 5px;
-}
-
-#delete {
-  background-color: var(--red);
 }
 
 .modal-enter {

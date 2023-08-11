@@ -155,7 +155,6 @@ export default defineComponent({
       this.clearInfo();
     },
   },
-  async mounted() {},
 });
 </script>
 
