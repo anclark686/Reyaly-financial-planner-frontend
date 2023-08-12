@@ -29,5 +29,6 @@ export default defineComponent({
 #login {
   background-color: inherit;
   border: none;
+  color: var(--text-color);
 }
 </style>
