@@ -25,11 +25,20 @@ export const useUserStore = defineStore("UserStore", {
       hours: 0,
       date: "",
       deductions: 0,
+      income: 1,
+      pay2: 0,
+      payRate2: "",
+      payFreq2: "",
+      hours2: 0,
+      date2: "",
+      deductions2: 0,
       residence: "",
       relationship: "",
       pIndex: 0,
+      pIndex2: 0,
       expenses: [] as Expense[],
       paychecks: [] as Paycheck[],
+      paychecks2: [] as Paycheck[],
       accounts: [] as Account[],
       debts: [] as Debt[],
       baseUrl: "https://reyaly-financial-backend-983411f48872.herokuapp.com",
@@ -70,8 +79,19 @@ export const useUserStore = defineStore("UserStore", {
             this.residence = user.residence;
             this.relationship = user.relationship;
 
+            this.income = user.income;
+            if (user.income > 1) {
+              this.pay2 = user.pay2;
+              this.payRate2 = user.rate2;
+              this.payFreq2 = user.frequency2;
+              this.hours2 = user.hours2;
+              this.date2 = user.date2;
+              this.deductions2 = user.deductions2;
+            }
+
             this.expenses = this.matchAccountToExpense(res.data.expenses, res.data.accounts);
             this.paychecks = res.data.paychecks;
+            this.paychecks2 = res.data.paychecks2;
             this.debts = res.data.debts;
             this.accounts = res.data.accounts;
 
@@ -91,18 +111,27 @@ export const useUserStore = defineStore("UserStore", {
         data: {
           userInfo: {
             username: username,
-            pay: `$${this.pay} ${this.payRate}`,
-            payFreq: this.payFreq,
-            hours: this.hours,
-            deductions: `$${this.deductions}`,
-            residence: this.residence,
-            relationship: this.relationship,
-            gross: `$${this.estGross}`,
-            net: `$${this.estNet}`,
+            income: this.income,
             numExpenses: this.expenses.length,
             totalExpenses: `$${this.expenseSum}`,
-            startDate: this.formatDays(new Date(this.date)),
             nextDate: this.nextPayDay,
+            monthly: `$${this.getMonthlyTakeHome()}`,
+            pay: `$${this.pay} ${this.payRate}`,
+            frequency: this.payFreq,
+            hours: this.hours,
+            gross: `$${this.getEstGross(1)}`,
+            deductions: `$${this.deductions}`,
+            fed: `$${this.getFederalTaxWithholding(1)}`,
+            local: `$${this.getLocalTaxWithholding(1)}`,
+            net: `$${this.getEstNet(1)}`,
+            pay2: `$${this.pay2} ${this.payRate2}`,
+            frequency2: this.payFreq2,
+            hours2: this.hours2,
+            gross2: `$${this.getEstGross(2)}`,
+            deductions2: `$${this.deductions2}`,
+            fed2: `$${this.getFederalTaxWithholding(2)}`,
+            local2: `$${this.getLocalTaxWithholding(2)}`,
+            net2: `$${this.getEstNet(2)}`,
           },
           expenses: this.expenses,
         },
@@ -203,6 +232,15 @@ export const useUserStore = defineStore("UserStore", {
     },
 
     // Non API functions
+    deleteSecondIncome() {
+      this.income = 1;
+      this.pay2 = 0;
+      this.payRate2 = "";
+      this.payFreq2 = "";
+      this.hours2 = 0;
+      this.date2 = "";
+      this.deductions2 = 0;
+    },
     matchAccountToExpense(expenses: Expense[], accounts: Account[]) {
       const acctObj = {} as any;
       for (const acct of accounts) {
@@ -250,15 +288,14 @@ export const useUserStore = defineStore("UserStore", {
       });
     },
 
-    getFederalTaxWithholding(): number {
+    getFederalTaxWithholding(num: number): number {
       const fica = 0.0765;
-      const estFica = Math.floor(this.afterDeductions * fica);
+      const estFica = Math.floor(this.getAfterDeductions(num) * fica);
 
-      const annual = this.estAnnual;
       let fedIncomeAnnual: number;
 
       if (this.relationship === "single") {
-        const annual = this.estAnnual - 12950;
+        const annual = this.getEstAnnual(num) > 0 ? this.getEstAnnual(num) - 12950 : 0;
         if (annual < 11000) {
           fedIncomeAnnual = annual * 0.1;
         } else if (annual > 11001 && annual < 44725) {
@@ -275,7 +312,7 @@ export const useUserStore = defineStore("UserStore", {
           fedIncomeAnnual = 174238.25 + (annual - 578125) * 0.37;
         }
       } else {
-        const annual = this.estAnnual - 25900;
+        const annual = this.getEstAnnual(num) - 25900;
         if (annual < 22000) {
           fedIncomeAnnual = annual * 0.1;
         } else if (annual > 22001 && annual < 89450) {
@@ -314,68 +351,127 @@ export const useUserStore = defineStore("UserStore", {
 
       return estFedTaxes;
     },
-    getLocalTaxWithholding(): number {
+    getLocalTaxWithholding(num: number): number {
       // https://taxfoundation.org/state-income-tax-rates-2023/
       let percentage = stateData[this.residence as keyof typeof stateData];
 
-      const estStateTaxes = Math.floor(this.afterDeductions * percentage);
+      const estStateTaxes = Math.floor(this.getAfterDeductions(num) * percentage);
 
       return estStateTaxes;
+    },
+    getEstAnnual(num: number): number {
+      const payRate = num === 1 ? this.payRate : this.payRate2;
+      const pay = num === 1 ? this.pay : this.pay2;
+
+      let estAnnual: number;
+      if (payRate === "hourly") {
+        estAnnual = 40 * pay * 52;
+      } else {
+        estAnnual = pay;
+      }
+      return estAnnual;
+    },
+    getEstGross(num: number): number {
+      const payRate = num === 1 ? this.payRate : this.payRate2;
+      const pay = num === 1 ? this.pay : this.pay2;
+      const hours = num === 1 ? this.hours : this.hours2;
+
+      let estGross: number;
+      if (payRate === "hourly") {
+        estGross = hours * pay;
+      } else {
+        const hourly = Math.round((this.pay / 52 / 40) * 100) / 100;
+        estGross = hours * hourly;
+      }
+      return Math.floor(estGross);
+    },
+    getAfterDeductions(num: number): number {
+      const deductions = num === 1 ? this.deductions : this.deductions2;
+      return this.getEstGross(num) - deductions;
+    },
+    getEstNet(num: number): number {
+      const afterTaxes =
+        this.getAfterDeductions(num) -
+        this.getLocalTaxWithholding(num) -
+        this.getFederalTaxWithholding(num);
+
+      return Math.floor(afterTaxes);
+    },
+    getMonthlyTakeHome() {
+      let takeHome1: number;
+      let takeHome2: number;
+
+      const estNet1 = this.getEstNet(1);
+      const estNet2 = this.getEstNet(2);
+
+      if (this.payFreq === "weekly") {
+        takeHome1 = Math.floor((estNet1 * 52) / 12);
+      } else if (this.payFreq === "bi-weekly") {
+        takeHome1 = Math.floor((estNet1 * 26) / 12);
+      } else if (this.payFreq === "bi-monthly") {
+        takeHome1 = estNet1 * 2;
+      } else {
+        takeHome1 = estNet1;
+      }
+
+      if (this.payFreq2 === "weekly") {
+        takeHome2 = Math.floor((estNet2 * 52) / 12);
+      } else if (this.payFreq2 === "bi-weekly") {
+        takeHome2 = Math.floor((estNet2 * 26) / 12);
+      } else if (this.payFreq2 === "bi-monthly") {
+        takeHome2 = estNet2 * 2;
+      } else {
+        takeHome2 = estNet2;
+      }
+      return takeHome1 + takeHome2;
     },
   },
 
   getters: {
     nextPayDay(): string {
       const userStore = useUserStore();
-      const today = new Date();
+      const now = new Date();
+      const todayUTC = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+      let potential1 = new Date("2999-12-31");
+      let potential2 = new Date("2999-12-31");
+
       for (const [i, paycheck] of this.paychecks.entries()) {
         const payDate = new Date(paycheck.date);
-
-        if (today === payDate) {
+        
+        if (todayUTC === payDate) {
           this.pIndex = i;
-          return userStore.formatDays(today);
-        } else if (today < payDate) {
+          potential1 = todayUTC;
+          break;
+        } else if (todayUTC < payDate) {
+          
           this.pIndex = i;
-          return userStore.formatDays(payDate);
-        }
+          potential1 = payDate;
+          break;
+        } 
       }
-      return this.date;
-    },
-    estGross(): number {
-      let estGross: number;
-      if (this.payRate === "hourly") {
-        estGross = this.hours * this.pay;
-      } else {
-        const hourly = Math.round((this.pay / 52 / 40) * 100) / 100;
-        estGross = this.hours * hourly;
-      }
-      return Math.floor(estGross);
-    },
-    estAnnual(): number {
-      let estAnnual: number;
-      if (this.payRate === "hourly") {
-        estAnnual = 40 * this.pay * 52;
-      } else {
-        estAnnual = this.pay;
-      }
-      return estAnnual;
-    },
-    afterDeductions(): number {
-      return this.estGross - this.deductions;
-    },
-    estFedTaxes(): number {
-      const userStore = useUserStore();
-      return userStore.getFederalTaxWithholding();
-    },
-    estLocalTaxes(): number {
-      const userStore = useUserStore();
-      return userStore.getLocalTaxWithholding();
-    },
-    estNet(): number {
-      const afterTaxes = this.afterDeductions - this.estLocalTaxes - this.estFedTaxes;
 
-      return Math.floor(afterTaxes);
+      for (const [i, paycheck] of this.paychecks2.entries()) {
+        const payDate = new Date(paycheck.date);
+
+        if (todayUTC === payDate) {
+          this.pIndex = i;
+          potential2 = todayUTC;
+          break;
+        } else if (todayUTC < payDate) {
+          this.pIndex = i;
+          potential2 = payDate;
+          break;
+        } 
+      }
+
+      if (potential1 < potential2) {
+        return userStore.formatDays(potential1);
+      } else {
+        return userStore.formatDays(potential2);
+      }
+      
     },
+
     expenseSum(): number {
       const expenseSum = this.expenses.reduce((a: any = {}, b: any = {}) => a + b.amount, 0);
       return expenseSum;

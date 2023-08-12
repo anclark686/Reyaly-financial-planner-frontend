@@ -57,7 +57,7 @@ export default defineComponent({
   width: 50%;
   margin: auto;
 }
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
   .master-list-container {
     width: 90%;
     font-size: 1rem;

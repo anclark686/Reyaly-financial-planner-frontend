@@ -126,11 +126,27 @@ export default defineComponent({
       }
     },
     formatPaychecks() {
-      this.payDates = this.userStore.paychecks.map((x) => ({
-        title: "Payday",
-        date: x.date,
-        color: "#1e9f63",
-      }));
+      if (this.userStore.income === 1) {
+        this.payDates = this.userStore.paychecks.map((x) => ({
+          title: "Payday",
+          date: x.date,
+          color: "#1e9f63",
+        }));
+      } else {
+        this.payDates = this.userStore.paychecks
+          .map((x) => ({
+            title: "Payday 1",
+            date: x.date,
+            color: "#1e9f63",
+          }))
+          .concat(
+            this.userStore.paychecks2.map((x) => ({
+              title: "Payday 2",
+              date: x.date,
+              color: "#17784b",
+            }))
+          );
+      }
     },
     handleDateClick(info) {
       this.addNew = true;
@@ -237,7 +253,7 @@ table {
   margin: auto;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
   .page-header {
     font-size: 2.5rem;
   }

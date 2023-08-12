@@ -266,7 +266,7 @@ export default defineComponent({
   color: var(--text-color);
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
   .page-header {
     font-size: 2.5rem;
   }
@@ -287,7 +287,9 @@ export default defineComponent({
     margin: 20px;
     font-size: 1rem;
   }
+}
 
+@media (max-width: 600px) {
   .btn,
   .nada {
     font-size: 1.5rem;

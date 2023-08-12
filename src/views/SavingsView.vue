@@ -2,7 +2,7 @@
   <section class="page-content">
     <main class="savings-container" v-if="!userStore.loading">
       <header>
-        <h1 class="page-header">Savings</h1>
+        <h1 class="page-header">Savings View</h1>
       </header>
 
       <section class="savings-content">
@@ -91,23 +91,23 @@ export default defineComponent({
   padding: 30px;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
   .page-header {
     font-size: 2.5rem;
   }
 
-  .calculator-container {
+  .calc-container {
     width: 90%;
     margin: 20px;
     padding: 10px;
     font-size: 1rem;
   }
 
-  .accounts-container {
+  .sa-container {
     width: 90%;
     margin: 20px;
     padding: 10px;
-    font-size: 1.25rem;
+    font-size: 1.15rem;
   }
 }
 </style>

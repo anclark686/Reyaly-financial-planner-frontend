@@ -9,6 +9,7 @@ html {
   --dk-green: rgb(30, 53, 30);
   --med-green: #1e9f63;
   --lt-green: rgb(226, 246, 229);
+  --red: rgb(217, 83, 79);
 }
 
 body {
@@ -37,6 +38,11 @@ a {
 
 a:hover {
   color: var(--dk-green);
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid var(--med-green);
 }
 
 /* Chrome, Safari, Edge, Opera */

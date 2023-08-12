@@ -5,21 +5,23 @@
         <h1 class="page-header">Paycheck View</h1>
       </header>
       <section>
-        <div class="card">
-          <div class="card-header">
-            <button class="arrow-btn btn" @click="changeDate('previous')">
-              <img src="../components/icons/arrow-left.png" alt="left-arrow" class="arrow-img" />
-            </button>
-            <div v-if="loading" class="spinner-border text-success" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-            <h2 class="subheader" v-else>{{ paycheck }}</h2>
-            <button class="arrow-btn btn" @click="changeDate('next')">
-              <img src="../components/icons/arrow-right.png" alt="right-arrow" class="arrow-img" />
-            </button>
-          </div>
+        <div class="single-container card" v-if="showPaycheckCard && userStore.income === 1">
+          <PaycheckExpenses :number="1" @dateChange1="sendExpenseList" />
+          <PaycheckInfo :number="1" :expenseList="expenseList1" />
+        </div>
 
-          <PaycheckInfo v-if="showPaycheckCard" :date="paycheck" :frequency="userStore.payFreq" />
+        <div class="double" v-else-if="showPaycheckCard && userStore.income === 2">
+          <div class="double-container card">
+            <PaycheckExpenses :number="1" @dateChange1="sendExpenseList" />
+            <PaycheckInfo :number="1" :expenseList="expenseList1" />
+          </div>
+          <div class="double-container card">
+            <PaycheckExpenses :number="2" @dateChange2="sendExpenseList" />
+            <PaycheckInfo :number="2" :expenseList="expenseList2" />
+          </div>
+          <div class="combined-container card">
+            <CombinedPay />
+          </div>
         </div>
       </section>
     </main>
@@ -36,8 +38,11 @@
 import { useAuth0 } from "@auth0/auth0-vue";
 import { defineComponent } from "vue";
 
+import PaycheckExpenses from "../components/PaycheckExpenses.vue";
 import PaycheckInfo from "../components/PaycheckInfo.vue";
+import CombinedPay from "../components/CombinedPay.vue";
 import { useUserStore } from "../stores/UserStore";
+import { type Expense } from "../types";
 
 export default defineComponent({
   setup() {
@@ -48,64 +53,51 @@ export default defineComponent({
     };
   },
   components: {
+    PaycheckExpenses,
     PaycheckInfo,
+    CombinedPay,
   },
   data() {
     return {
       userStore: useUserStore(),
       showPaycheckCard: false,
-      paycheck: "",
-      loading: false,
+      expenseList1: [] as Expense[],
+      expenseList2: [] as Expense[],
     };
   },
-  computed: {
-    firstShown() {
-      return this.userStore.pIndex;
-    },
-  },
   methods: {
-    changeDate(direction: string) {
-      if (direction === "next") {
-        if (this.userStore.pIndex < this.userStore.paychecks.length - 1) {
-          this.userStore.pIndex++;
-          const badDateStr = this.userStore.paychecks[this.userStore.pIndex].date;
-          const rawDate = new Date(badDateStr);
-          this.paycheck = this.userStore.formatDays(rawDate);
-        }
+    sendExpenseList({ num, list }: { num: number; list: Expense[] }) {
+      if (num === 1) {
+        this.expenseList1 = list;
       } else {
-        if (this.userStore.pIndex > 0) {
-          this.userStore.pIndex--;
-          const badDateStr = this.userStore.paychecks[this.userStore.pIndex].date;
-          const rawDate = new Date(badDateStr);
-          this.paycheck = this.userStore.formatDays(rawDate);
-        }
+        this.expenseList2 = list;
       }
     },
   },
   async mounted() {
-    this.loading = true;
     await this.userStore.fill(this.user.sub);
-    const badDateStr = this.userStore.paychecks[this.userStore.pIndex].date;
-    const rawDate = new Date(badDateStr);
-    this.paycheck = this.userStore.formatDays(rawDate);
-    this.loading = false;
     this.showPaycheckCard = true;
   },
 });
 </script>
 
 <style scoped>
-.card {
+.single-container {
   width: 50%;
   margin: 20px auto;
   background-color: var(--white-black);
   color: var(--text-color);
 }
 
-.card-header {
-  text-align: center;
+.double {
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.double-container {
+  width: 40%;
+  margin: 20px auto;
+  height: fit-content;
 }
 
 .arrow-btn {
@@ -127,7 +119,12 @@ export default defineComponent({
   color: var(--text-color);
 }
 
-@media (max-width: 1000px) {
+.combined-container {
+  width: 75%;
+  margin: 20px auto;
+}
+
+@media (max-width: 1024px) {
   .page-header {
     font-size: 2.5rem;
   }

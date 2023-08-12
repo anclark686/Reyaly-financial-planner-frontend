@@ -1,12 +1,19 @@
 export interface User {
+  residence: string;
+  relationship: string;
   pay: number;
   rate: string;
   frequency: string;
   hours: number;
   date: string;
   deductions: number;
-  residence: string;
-  relationship: string;
+  income: number;
+  pay2: number;
+  rate2: string;
+  frequency2: string;
+  hours2: number;
+  date2: string;
+  deductions2: number;
 }
 
 export interface Expense {
@@ -21,6 +28,7 @@ export interface Expense {
 
 export interface Paycheck {
   date: string;
+  income: number;
   id: string;
 }
 
@@ -61,4 +69,15 @@ export interface ConversionData {
 export interface ExchangeData {
   currency_pair: string;
   exchange_rate: number;
+}
+
+export interface PayData {
+  number: number;
+  formType: string;
+  pay: number;
+  rate: string;
+  frequency: string;
+  hours: number;
+  date: string;
+  deductions: number;
 }

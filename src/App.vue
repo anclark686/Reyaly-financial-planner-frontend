@@ -32,7 +32,6 @@ const userStore = useUserStore();
   --white-black: rgb(9, 9, 9);
   --black-white: white;
   --text-color: white;
-  --red: red;
   --btn-main: var(--dk-green);
   --btn-hover: #16784a;
 }
@@ -43,7 +42,6 @@ const userStore = useUserStore();
   --green-bg: var(--lt-green);
   --white-black: white;
   --text-color: black;
-  --red: rgb(161, 8, 8);
   --black-white: black;
   --btn-main: var(--med-green);
   --btn-hover: #26c67b;

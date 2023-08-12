@@ -7,100 +7,32 @@
       :class="formType === 'new' ? 'settings-form settings-form-green' : 'settings-form'"
     >
       <h3 class="subheader">Basic Info:</h3>
-      <ul class="basic-info">
-        <li><strong>Username:</strong> {{ user.nickname }}</li>
-        <li><strong>Email Address:</strong> {{ user.email }}</li>
-      </ul>
-
-      <h3 class="subheader">Pay Info:</h3>
-      <table :class="formType === 'new' ? 'pay-info info-centered' : 'pay-info'">
+      <table :class="formType === 'new' ? 'basic-info info-centered' : 'basic-info'">
         <tbody>
           <tr class="table-row">
-            <td class="pay-label">
-              <strong><label for="pay">Pay Rate:</label></strong>
+            <td class="basic-label">
+              <strong>Username:</strong>
             </td>
-            <td class="pay-input">
-              <input
-                type="number"
-                step="0.01"
-                id="pay"
-                name="pay"
-                class="input-info"
-                v-model="newPay"
-              />
+            <td>
+              {{ user.nickname }}
             </td>
           </tr>
           <tr class="table-row">
-            <td class="pay-label">
-              <strong><label for="rate">Per:</label></strong>
+            <td class="basic-label">
+              <strong>Email Address:</strong>
             </td>
-            <td class="pay-input">
-              <select name="rate" id="rate" class="input-info" v-model="newRate">
-                <option value="">--Select One--</option>
-                <option value="hourly">Hour</option>
-                <option value="annualy">Year</option>
-              </select>
+            <td>
+              {{ user.email }}
             </td>
           </tr>
+
           <tr class="table-row">
-            <td class="pay-label">
-              <strong><label for="frequency">Frequency:</label></strong>
-            </td>
-            <td class="pay-input">
-              <select name="frequency" id="frequency" class="input-info" v-model="newFrequency">
-                <option value="">--Select One--</option>
-                <option value="weekly">Weekly</option>
-                <option value="bi-weekly">Bi-Weekly</option>
-                <option value="monthly">Monthly</option>
-                <option value="bi-monthly">Bi-Monthly</option>
-              </select>
-            </td>
-          </tr>
-          <tr class="table-row">
-            <td class="pay-label">
-              <strong><label for="hours">Hours per Paycheck:</label></strong>
-            </td>
-            <td class="pay-input">
-              <input
-                type="number"
-                step="0.01"
-                id="hours"
-                name="hours"
-                class="input-info"
-                v-model="newHours"
-              />
-            </td>
-          </tr>
-          <tr class="table-row">
-            <td class="pay-label">
-              <strong><label for="date">Pay Start Date:</label></strong>
-            </td>
-            <td class="pay-input">
-              <input type="date" id="date" name="date" class="input-info" v-model="newDate" />
-            </td>
-          </tr>
-          <tr class="table-row">
-            <td class="pay-label">
-              <strong><label for="deductions">Deductions:</label></strong>
-            </td>
-            <td class="pay-input">
-              <input
-                type="number"
-                id="deductions"
-                name="deductions"
-                class="input-info"
-                v-model="newDeductions"
-                @keyup.enter="onSubmit"
-              />
-            </td>
-          </tr>
-          <tr class="table-row">
-            <td class="pay-label">
+            <td class="basic-label">
               <strong><label for="residence">State:</label></strong>
             </td>
-            <td class="pay-input">
+            <td class="basic-input">
               <select name="residence" id="residence" class="input-info" v-model="newResidence">
-                <option value="">--Select One--</option>
+                <option value="">-Select One-</option>
                 <option value="AL">Alabama</option>
                 <option value="AK">Alaska</option>
                 <option value="AZ">Arizona</option>
@@ -156,17 +88,17 @@
             </td>
           </tr>
           <tr class="table-row">
-            <td class="relationship-label">
+            <td class="basic-label">
               <strong><label for="relationship">Single or Married:</label></strong>
             </td>
-            <td class="pay-input">
+            <td class="basic-input">
               <select
                 name="relationship"
                 id="relationship"
                 class="input-info"
                 v-model="newRelationship"
               >
-                <option value="">--Select One--</option>
+                <option value="">-Select One-</option>
                 <option value="single">Single</option>
                 <option value="married">Married</option>
               </select>
@@ -174,6 +106,43 @@
           </tr>
         </tbody>
       </table>
+
+      <h3 class="subheader">Pay Info:</h3>
+      <PayForm
+        :number="1"
+        :formType="formType"
+        :pay="userInfo.pay"
+        :rate="userInfo.rate"
+        :frequency="userInfo.frequency"
+        :hours="userInfo.hours"
+        :date="userInfo.date"
+        :deductions="userInfo.deductions"
+        @form="addPayInfo"
+      />
+
+      <div v-if="showSecond">
+        <h5 class="additional">Additional source of income</h5>
+        <div class="remove-btn">
+          <button class="btn btn-danger btn-sm" @click.prevent="showModal = true">Remove X</button>
+        </div>
+        <PayForm
+          :number="2"
+          :formType="formType"
+          :pay="userInfo.pay2"
+          :rate="userInfo.rate2"
+          :frequency="userInfo.frequency2"
+          :hours="userInfo.hours2"
+          :date="userInfo.date2"
+          :deductions="userInfo.deductions2"
+          @form="addPayInfo"
+        />
+      </div>
+
+      <div class="add-new-btn" v-else>
+        <button class="btn btn-success" @click.prevent="showSecond = true" id="add">
+          + Additional Income
+        </button>
+      </div>
 
       <p v-if="invalid" id="warning">Please ensure all fields are filled.</p>
       <div v-if="loadingSettings" class="small-spinner-container">
@@ -197,15 +166,25 @@
         <p id="success">Changes Successfully Saved!</p>
       </div>
     </form>
+    <DeleteModal
+      v-if="showModal"
+      @close="showModal = false"
+      @deleteItem="onDeleteSecond()"
+      name="Additional source of income"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, type PropType } from "vue";
 import { useAuth0 } from "@auth0/auth0-vue";
+import { RouterLink } from "vue-router";
 
 import { useUserStore } from "../stores/UserStore";
 import { type User } from "../types";
+import { type PayData } from "../types";
+import PayForm from "./PayForm.vue";
+import DeleteModal from "./DeleteModal.vue";
 
 export default defineComponent({
   setup() {
@@ -222,52 +201,75 @@ export default defineComponent({
       required: true,
     },
   },
+  components: {
+    RouterLink,
+    PayForm,
+    DeleteModal,
+  },
   data() {
     return {
       userStore: useUserStore(),
-      newPay: this.userInfo.pay,
-      newRate: this.userInfo.rate,
-      newFrequency: this.userInfo.frequency,
-      newHours: this.userInfo.hours,
-      newDate: this.userInfo.date ? this.userInfo.date : new Date().toISOString().substring(0, 10),
-      newDeductions: this.userInfo.deductions,
       newResidence: this.userInfo.residence,
       newRelationship: this.userInfo.relationship,
       invalid: false,
       duplicate: false,
       loadingSettings: false,
       success: false,
+      showSecond: false,
+      showModal: false,
+      userWithPay: {
+        username: "",
+        uid: "",
+        residence: this.userInfo.residence,
+        relationship: this.userInfo.relationship,
+        pay: this.userInfo.pay,
+        rate: this.userInfo.rate,
+        frequency: this.userInfo.frequency,
+        hours: this.userInfo.hours,
+        date: this.userInfo.date,
+        income: this.userInfo.income,
+        deductions: this.userInfo.deductions,
+        pay2: this.userInfo.pay2,
+        rate2: this.userInfo.rate2,
+        frequency2: this.userInfo.frequency2,
+        hours2: this.userInfo.hours2,
+        date2: this.userInfo.date2,
+        deductions2: this.userInfo.deductions2,
+      },
     };
   },
-  computed: {
-    userData() {
-      const userData = {
-        username: this.user.nickname,
-        uid: this.user.sub,
-        pay: this.newPay,
-        rate: this.newRate,
-        frequency: this.newFrequency,
-        hours: this.newHours,
-        date: this.newDate,
-        deductions: this.newDeductions,
-        residence: this.newResidence,
-        relationship: this.newRelationship,
-      };
-      return userData;
-    },
-  },
   methods: {
+    addPayInfo(userPayData: PayData) {
+      this.invalid = false;
+      if (userPayData.number === 1) {
+        this.userWithPay.pay = userPayData.pay;
+        this.userWithPay.rate = userPayData.rate;
+        this.userWithPay.frequency = userPayData.frequency;
+        this.userWithPay.hours = userPayData.hours;
+        this.userWithPay.date = userPayData.date;
+        this.userWithPay.deductions = userPayData.deductions;
+      } else {
+        this.userWithPay.income = 2;
+        this.userWithPay.pay2 = userPayData.pay;
+        this.userWithPay.rate2 = userPayData.rate;
+        this.userWithPay.frequency2 = userPayData.frequency;
+        this.userWithPay.hours2 = userPayData.hours;
+        this.userWithPay.date2 = userPayData.date;
+        this.userWithPay.deductions2 = userPayData.deductions;
+      }
+      console.log(this.userWithPay);
+    },
     async addUser() {
       this.loadingSettings = true;
       await this.userStore
-        .addUser(this.userData)
+        .addUser(this.userWithPay)
         .then((res) => {
           this.loadingSettings = false;
           if (res.message === "Duplicate") {
             this.duplicate = true;
           } else if (res.message === "Success") {
             this.userStore.fill(this.user.sub);
-            this.$emit("close", this.userData);
+            this.$emit("close");
           }
         })
         .catch((err) => console.log(err));
@@ -275,7 +277,7 @@ export default defineComponent({
     async editUser() {
       this.loadingSettings = true;
       await this.userStore
-        .editUser(this.userData)
+        .editUser(this.userWithPay)
         .then((res) => {
           if (res.message === "Success") {
             this.loadingSettings = false;
@@ -287,15 +289,36 @@ export default defineComponent({
         })
         .catch((err) => console.log(err));
     },
+    onDeleteSecond() {
+      this.showSecond = false;
+      this.showModal = false;
+      this.userStore.deleteSecondIncome();
+      this.userWithPay.income = 1;
+      this.userWithPay.pay2 = 0;
+      this.userWithPay.rate2 = "";
+      this.userWithPay.frequency2 = "";
+      this.userWithPay.hours2 = 0;
+      this.userWithPay.date2 = "";
+      this.userWithPay.deductions2 = 0;
+    },
+    validateInfo() {
+      for (const [key, value] of Object.entries(this.userWithPay)) {
+        if (!value && !key.includes("2")) {
+          return false;
+        }
+        if (!value && key.includes("2") && this.userWithPay.income === 2 && key !== "deductions2") {
+          return false;
+        }
+      }
+      return true;
+    },
     onSubmit() {
-      if (
-        this.newPay &&
-        this.newRate &&
-        this.newFrequency &&
-        this.newHours &&
-        this.newResidence &&
-        this.newRelationship
-      ) {
+      this.userWithPay.username = this.user.nickname!;
+      this.userWithPay.uid = this.user.sub!;
+      this.userWithPay.residence = this.newResidence;
+      this.userWithPay.relationship = this.newRelationship;
+
+      if (this.validateInfo()) {
         this.invalid = false;
         if (this.formType === "new") {
           this.addUser();
@@ -306,6 +329,11 @@ export default defineComponent({
         this.invalid = true;
       }
     },
+  },
+  mounted() {
+    if (this.userInfo.income == 2) {
+      this.showSecond = true;
+    }
   },
 });
 </script>
@@ -328,6 +356,7 @@ export default defineComponent({
 .basic-info {
   list-style: none;
   padding: 0;
+  width: 75%;
 }
 
 .pay-info {
@@ -346,12 +375,23 @@ td {
   width: 150px;
   border-radius: 5px;
   border: 2px solid black;
+  padding: 0 5px;
 }
 
-#pay,
-#hours,
-#deductions {
-  text-align: right;
+.additional {
+  margin: 15px auto 0 auto;
+}
+
+.x-out {
+  background-color: inherit;
+  border-radius: 5px;
+  margin: 5px auto;
+  top: 0;
+  right: 0;
+}
+
+#add {
+  margin-top: 10px;
 }
 
 #warning {
@@ -361,7 +401,8 @@ td {
 }
 
 .submit-btn,
-.small-spinner-container {
+.small-spinner-container,
+.add-new-btn {
   margin: 50px;
   text-align: center;
   margin: 0px auto;
@@ -378,7 +419,7 @@ td {
   margin-top: 20px;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 600px) {
   .subheader {
     font-size: 2.5rem;
   }

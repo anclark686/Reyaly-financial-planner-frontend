@@ -209,10 +209,7 @@ export default defineComponent({
   width: 150px;
   border-radius: 5px;
   border: 2px solid black;
-}
-
-.num-input {
-  text-align: right;
+  padding: 0 5px;
 }
 
 .bottom-btn {
@@ -225,9 +222,9 @@ export default defineComponent({
   margin-top: 20px;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
   .subheader {
-    font-size: 1rem;
+    font-size: 1.5rem;
   }
 
   .account-table label {

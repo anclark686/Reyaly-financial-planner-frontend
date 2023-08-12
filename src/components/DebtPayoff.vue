@@ -16,7 +16,7 @@
               <button id="info-btn" @click.prevent="showInfoModal = true">ℹ️</button>
             </div>
             <select name="rate" id="rate" class="input-info" v-model="type">
-              <option value="">--Select One--</option>
+              <option value="">-Select One-</option>
               <option value="snowball">Debt Snowball</option>
               <option value="avalanche">Debt Avalanche</option>
             </select>
@@ -229,15 +229,12 @@ export default defineComponent({
   width: 150px;
   border-radius: 5px;
   border: 2px solid black;
+  padding: 0 5px;
 }
 
 #info-btn {
   border: none;
   background-color: inherit;
-}
-
-.num-input {
-  text-align: right;
 }
 
 .img-container {
@@ -314,24 +311,26 @@ export default defineComponent({
   margin-top: 20px;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
   .inputs {
     display: flex;
     flex-direction: column;
     margin: auto;
     align-items: center;
   }
-  .subheader {
-    font-size: 2.25rem;
-  }
-
-  .btn {
-    font-size: 1.5rem;
-  }
 
   .info-modal {
     width: 90%;
     left: 5%;
+  }
+}
+
+@media (max-width: 600px) {
+  .subheader {
+    font-size: 2.25rem;
+  }
+  .btn {
+    font-size: 1.5rem;
   }
 }
 </style>

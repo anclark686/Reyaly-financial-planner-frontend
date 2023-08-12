@@ -53,14 +53,21 @@ export default defineComponent({
   computed: {
     userInfo() {
       const userInfo = {
+        residence: this.userStore.residence,
+        relationship: this.userStore.relationship,
         pay: this.userStore.pay,
         rate: this.userStore.payRate,
         frequency: this.userStore.payFreq,
         hours: this.userStore.hours,
         date: this.userStore.date,
         deductions: this.userStore.deductions,
-        residence: this.userStore.residence,
-        relationship: this.userStore.relationship,
+        income: this.userStore.income,
+        pay2: this.userStore.pay2,
+        rate2: this.userStore.payRate2,
+        frequency2: this.userStore.payFreq2,
+        hours2: this.userStore.hours2,
+        date2: this.userStore.date2,
+        deductions2: this.userStore.deductions2,
       } as User;
       return userInfo;
     },
@@ -86,6 +93,7 @@ export default defineComponent({
   border: 2px solid black;
   background-color: var(--green-bg);
   padding: 30px;
+  height: fit-content;
 }
 
 .form-container {
@@ -105,7 +113,7 @@ export default defineComponent({
   color: var(--text-color);
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
   .page-header {
     font-size: 2.5rem;
   }
@@ -113,15 +121,20 @@ export default defineComponent({
   .master-list-container {
     width: 90%;
     margin: 20px;
-    padding: 10px;
-    font-size: 1rem;
   }
 
   .form-container {
     width: 90%;
     margin: 20px;
+  }
+}
+@media (max-width: 600px) {
+  .master-list-container {
     padding: 10px;
+  }
+  .form-container {
     font-size: 1.25rem;
+    padding: 10px;
   }
 }
 </style>

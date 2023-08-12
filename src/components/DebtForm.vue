@@ -9,7 +9,7 @@
         <div class="input-row">
           <label for="debt-type">Type</label>
           <select name="debt-type" id="debt-type" class="input-info" v-model="type">
-            <option value="">--Select One--</option>
+            <option value="">-Select One-</option>
             <option value="credit">Credit Card</option>
             <option value="auto">Auto Loan</option>
             <option value="home">Mortgage</option>
@@ -153,10 +153,7 @@ export default defineComponent({
   width: 150px;
   border-radius: 5px;
   border: 2px solid black;
-}
-
-.num-input {
-  text-align: right;
+  padding: 0 5px;
 }
 
 .input-row label {

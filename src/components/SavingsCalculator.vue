@@ -155,7 +155,6 @@ export default defineComponent({
       this.clearInfo();
     },
   },
-  async mounted() {},
 });
 </script>
 
@@ -176,6 +175,7 @@ label {
   border: 2px solid black;
   text-align: right;
   margin: 5px;
+  padding: 0 5px;
 }
 
 .output-info {
@@ -187,6 +187,9 @@ label {
   text-align: center;
   margin: 0px auto;
 }
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
+  .calculator-container {
+    font-size: 1.25rem;
+  }
 }
 </style>

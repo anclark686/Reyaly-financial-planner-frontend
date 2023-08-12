@@ -89,6 +89,27 @@
       </section>
       <section class="right-align demo-item fade-in full-width">
         <div class="demo-text-content">
+          <h3 class="text-header">The Savings View</h3>
+          <p class="demo-summary every-other">
+            The Savings View offers two great services. A savings calculator which calculates how
+            much interest can be earned over a period of time with or without additional deposits.
+            Also a list of accounts with high APYs is provided for maximum savings potential.
+          </p>
+        </div>
+        <img alt="The Savings View" src="../assets/savings-view.png" class="demo-pic" />
+      </section>
+      <section class="left-align demo-item fade-in full-width">
+        <img alt="Currency Converter" src="../assets/currency.png" class="demo-pic" />
+        <div class="demo-text-content">
+          <h3 class="text-header">Currency Converter</h3>
+          <p class="demo-summary">
+            The Currency Converter takes in two global currencies and an amount, and returns the new
+            amount, as well as the current exchange rate.
+          </p>
+        </div>
+      </section>
+      <section class="right-align demo-item fade-in full-width">
+        <div class="demo-text-content">
           <h3 class="text-header">Export Excel</h3>
           <p class="demo-summary every-other">
             If you ever feel like doing things old school, you can export your Master List and other
@@ -117,20 +138,20 @@ const handleScroll = () => {
     if (isElemVisible(elem)) {
       elem.style.opacity = "1";
       elem.style.transform = "scale(1)";
-      fadeInElements.splice(i, 1); // only allow it to run once
+      fadeInElements.splice(i, 1);
     }
   }
 };
 
 const isElemVisible = (el: HTMLElement) => {
   var rect = el.getBoundingClientRect();
-  var elemTop = rect.top + 200; // 200 = buffer
+  var elemTop = rect.top + 200;
   var elemBottom = rect.bottom;
   return elemTop < window.innerHeight && elemBottom >= 0;
 };
 
 onMounted(() => {
-  window.scrollTo({ top: 0, left: 0});
+  window.scrollTo({ top: 0, left: 0 });
   fadeInElements = Array.from(
     document.getElementsByClassName("fade-in") as HTMLCollectionOf<HTMLElement>
   );
@@ -144,7 +165,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-
 .main-content {
   text-align: center;
   color: var(--text-color);
@@ -271,7 +291,7 @@ onUnmounted(() => {
   background-color: var(--green-bg);
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
   .header {
     font-size: 2.5rem;
   }
