@@ -218,6 +218,7 @@ export default defineComponent({
       showSecond: false,
       showModal: false,
       userWithPay: {
+        email: "",
         username: "",
         uid: "",
         residence: this.userInfo.residence,
@@ -313,6 +314,7 @@ export default defineComponent({
       return true;
     },
     onSubmit() {
+      this.userWithPay.email = this.user.email!;
       this.userWithPay.username = this.user.nickname!;
       this.userWithPay.uid = this.user.sub!;
       this.userWithPay.residence = this.newResidence;
