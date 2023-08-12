@@ -35,7 +35,7 @@
       </div>
 
       <section class="left-align demo-item fade-in full-width">
-        <img alt="" src="../assets/master-list.png" class="demo-pic" />
+        <img alt="The Master List" src="../assets/master-list.png" class="demo-pic" />
         <div class="demo-text-content">
           <h3 class="text-header">The Master List</h3>
           <p class="demo-summary">
