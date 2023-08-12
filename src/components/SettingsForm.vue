@@ -32,7 +32,7 @@
             </td>
             <td class="basic-input">
               <select name="residence" id="residence" class="input-info" v-model="newResidence">
-                <option value="">--Select One--</option>
+                <option value="">-Select One-</option>
                 <option value="AL">Alabama</option>
                 <option value="AK">Alaska</option>
                 <option value="AZ">Arizona</option>
@@ -98,7 +98,7 @@
                 class="input-info"
                 v-model="newRelationship"
               >
-                <option value="">--Select One--</option>
+                <option value="">-Select One-</option>
                 <option value="single">Single</option>
                 <option value="married">Married</option>
               </select>
@@ -257,7 +257,7 @@ export default defineComponent({
         this.userWithPay.date2 = userPayData.date;
         this.userWithPay.deductions2 = userPayData.deductions;
       }
-      console.log(this.userWithPay)
+      console.log(this.userWithPay);
     },
     async addUser() {
       this.loadingSettings = true;
@@ -302,7 +302,7 @@ export default defineComponent({
       this.userWithPay.deductions2 = 0;
     },
     validateInfo() {
-      console.log(this.userWithPay.income)
+      console.log(this.userWithPay.income);
       for (const [key, value] of Object.entries(this.userWithPay)) {
         if (!value && !key.includes("2")) {
           return false;
@@ -358,6 +358,7 @@ export default defineComponent({
 .basic-info {
   list-style: none;
   padding: 0;
+  width: 75%;
 }
 
 .pay-info {
@@ -376,6 +377,7 @@ td {
   width: 150px;
   border-radius: 5px;
   border: 2px solid black;
+  padding: 0 5px;
 }
 
 .additional {
@@ -419,7 +421,7 @@ td {
   margin-top: 20px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 600px) {
   .subheader {
     font-size: 2.5rem;
   }

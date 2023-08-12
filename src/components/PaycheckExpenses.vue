@@ -50,7 +50,6 @@ export default defineComponent({
     return {
       userStore: useUserStore(),
       expenseList: [] as Expense[],
-      additionalFunds: 0,
       paycheck: "",
       loading: false,
     };
@@ -61,34 +60,33 @@ export default defineComponent({
     },
   },
   methods: {
+    formatDate(dateStr: string) {
+      return this.userStore.formatDays(new Date(dateStr));
+    },
     changeDate(direction: string) {
-      let pIndex = this.number === 1 ? this.userStore.pIndex : this.userStore.pIndex2
-      let paychecks = this.number === 1 ? this.userStore.paychecks : this.userStore.paychecks2
+      let pIndex = this.number === 1 ? this.userStore.pIndex : this.userStore.pIndex2;
+      let paychecks = this.number === 1 ? this.userStore.paychecks : this.userStore.paychecks2;
 
       if (direction === "next") {
         if (pIndex < this.userStore.paychecks.length - 1) {
           pIndex++;
-          const badDateStr = paychecks[pIndex].date;
-          const rawDate = new Date(badDateStr);
-          this.paycheck = this.userStore.formatDays(rawDate);
+          this.paycheck = this.formatDate(paychecks[pIndex].date);
         }
       } else {
         if (pIndex > 0) {
           pIndex--;
-          const badDateStr = paychecks[pIndex].date;
-          const rawDate = new Date(badDateStr);
-          this.paycheck = this.userStore.formatDays(rawDate);
+          this.paycheck = this.formatDate(paychecks[pIndex].date);
         }
       }
 
       if (this.number === 1) {
-        this.userStore.pIndex = pIndex
+        this.userStore.pIndex = pIndex;
       } else if (this.number === 2) {
-        this.userStore.pIndex2 = pIndex
+        this.userStore.pIndex2 = pIndex;
       }
     },
     async getPaychecks() {
-      const payFreq = this.number === 1 ? this.userStore.payFreq : this.userStore.payFreq2
+      const payFreq = this.number === 1 ? this.userStore.payFreq : this.userStore.payFreq2;
       const params = `date=${this.paycheck};frequency=${payFreq}`;
       await this.userStore
         .getPaychecks(params)
@@ -96,18 +94,16 @@ export default defineComponent({
           this.expenseList = res.data;
           this.userStore.addConvertedDates(this.expenseList, this.paycheck);
           this.userStore.sortExpenseDateList(this.expenseList);
-          this.$emit(`dateChange${this.number}`, {num: this.number, list: this.expenseList})
+          this.$emit(`dateChange${this.number}`, { num: this.number, list: this.expenseList });
         })
         .catch((err) => console.log(err));
     },
   },
   mounted() {
-    let pIndex = this.number === 1 ? this.userStore.pIndex : this.userStore.pIndex2
-    let paychecks = this.number === 1 ? this.userStore.paychecks : this.userStore.paychecks2
+    let pIndex = this.number === 1 ? this.userStore.pIndex : this.userStore.pIndex2;
+    let paychecks = this.number === 1 ? this.userStore.paychecks : this.userStore.paychecks2;
     this.loading = true;
-    const badDateStr = paychecks[pIndex].date;
-    const rawDate = new Date(badDateStr);
-    this.paycheck = this.userStore.formatDays(rawDate);
+    this.paycheck = this.formatDate(paychecks[pIndex].date);
     this.getPaychecks();
     this.loading = false;
   },
@@ -141,8 +137,7 @@ export default defineComponent({
   color: var(--text-color);
 }
 
-.expense-table,
-.pay-info-table {
+.expense-table {
   width: 100%;
   margin: 0 auto;
   text-align: center;
@@ -151,8 +146,7 @@ export default defineComponent({
   background-color: var(--white-black);
 }
 
-.expense-table-header,
-.pay-info-table-header {
+.expense-table-header {
   font-weight: bold;
   border: 2px solid var(--black-white);
   background-color: var(--med-green);
@@ -171,5 +165,6 @@ export default defineComponent({
   width: 150px;
   border-radius: 5px;
   border: 2px solid black;
+  padding: 0 5px;
 }
 </style>

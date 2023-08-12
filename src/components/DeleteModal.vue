@@ -16,7 +16,9 @@
             <button class="modal-btn btn btn-secondary" id="cancel" @click="$emit('close')">
               Cancel
             </button>
-            <button class="modal-btn btn btn-danger" id="delete" @click="$emit('deleteItem')">Delete</button>
+            <button class="modal-btn btn btn-danger" id="delete" @click="$emit('deleteItem')">
+              Delete
+            </button>
           </div>
         </div>
       </div>

@@ -1,8 +1,8 @@
 <template>
-  <section class="container">
-    <form action="submit" class="expense-form" @submit.prevent="onSubmit" @keydown.enter.prevent="">
+  <section class="currency-container">
+    <form class="currency-form" @submit.prevent="onSubmit" @keydown.enter.prevent="">
       <div class="input-row">
-        <label for="og-currency">Original Currency</label>
+        <label for="og-currency"><strong>Original Currency</strong></label>
         <select
           name="og-currency"
           id="og-currency"
@@ -10,14 +10,14 @@
           v-model="ogCurrency"
           @keyup.enter="onSubmit"
         >
-          <option value="">--Select One--</option>
+          <option value="">-Select One-</option>
           <option v-for="(curr, i) in currencies" v-bind:key="i" :value="curr">
             {{ curr }}
           </option>
         </select>
       </div>
       <div class="input-row">
-        <label for="new-currency">New Currency</label>
+        <label for="new-currency"><strong>New Currency</strong></label>
         <select
           name="new-currency"
           id="new-currency"
@@ -25,14 +25,14 @@
           v-model="newCurrency"
           @keyup.enter="onSubmit"
         >
-          <option value="">--Select One--</option>
+          <option value="">-Select One-</option>
           <option v-for="(curr, i) in currencies" v-bind:key="i" :value="curr">
             {{ curr }}
           </option>
         </select>
       </div>
       <div class="input-row">
-        <label for="amount">Amount</label>
+        <label for="amount"><strong>Amount</strong></label>
         <input
           type="number"
           step="0.01"
@@ -42,12 +42,12 @@
           v-model="amount"
         />
       </div>
-      <div class="btn-container">
-        <p v-if="invalid" id="warning">Please ensure all fields are filled.</p>
-        <input type="submit" id="convert-currency" class="btn btn-success" value="Calculate" />
-        <button @click.prevent="clearInfo" class="btn btn-success">Clear</button>
-      </div>
     </form>
+    <div class="btn-container">
+      <p v-if="invalid" id="warning">Please ensure all fields are filled.</p>
+      <button id="convert-currency" class="btn btn-success">Calculate</button>
+      <button @click.prevent="clearInfo" class="btn btn-success">Clear</button>
+    </div>
     <table class="output-table">
       <tbody>
         <tr class="output-row">
@@ -178,7 +178,11 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.expense-form {
+.currency-container {
+  font-size: 1.25rem;
+}
+
+.currency-form {
   display: flex;
   text-align: center;
   justify-content: space-around;
@@ -189,12 +193,14 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 .input-info,
 .output-info {
-  width: 150px;
+  width: 200px;
   border-radius: 5px;
   border: 2px solid black;
+  padding: 0 5px;
 }
 
 .btn-container {
@@ -221,5 +227,21 @@ export default defineComponent({
 #warning {
   color: var(--red);
   text-align: center;
+}
+
+@media (max-width: 1024px) {
+  .input-info,
+  .output-info {
+    width: 200px;
+    border-radius: 5px;
+    border: 2px solid black;
+    padding: 0 5px;
+  }
+}
+
+@media (max-width: 600px) {
+  .btn {
+    font-size: 1.5rem;
+  }
 }
 </style>

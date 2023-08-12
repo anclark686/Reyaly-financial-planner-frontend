@@ -3,7 +3,14 @@
     <form action="submit" class="expense-form" @submit.prevent="onSubmit" @keydown.enter.prevent="">
       <div class="input-row">
         <label for="expense-name">Expense Name</label>
-        <input type="text" id="expense-name" name="expense-name" v-model="name" ref="name" />
+        <input
+          type="text"
+          id="expense-name"
+          name="expense-name"
+          class="input-info"
+          v-model="name"
+          ref="name"
+        />
       </div>
       <div class="input-row">
         <label for="expense-amount">Amount</label>
@@ -12,13 +19,20 @@
           step="0.01"
           id="expense-amount"
           name="expense-amount"
+          class="input-info"
           v-model="amount"
         />
       </div>
       <div class="input-row">
         <label for="expense-date">Due Date</label>
-        <select name="expense-date" id="expense-date" v-model="date" @keyup.enter="onSubmit">
-          <option value="">--Select One--</option>
+        <select
+          name="expense-date"
+          id="expense-date"
+          class="input-info"
+          v-model="date"
+          @keyup.enter="onSubmit"
+        >
+          <option value="">-Select One-</option>
           <option v-for="num in dateArr" v-bind:key="num" :value="num">
             {{ num }}
           </option>
@@ -114,12 +128,11 @@ export default defineComponent({
   color: var(--text-color);
 }
 
-#expense-name,
-#expense-amount,
-#expense-date {
+.input-info {
   width: 150px;
   border-radius: 5px;
   border: 2px solid black;
+  padding: 0 5px;
 }
 
 #submit-expense {
@@ -141,9 +154,13 @@ export default defineComponent({
   margin-top: 20px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 600px) {
   .btn {
     font-size: 1.5rem;
+  }
+
+  .input-info {
+    font-size: 1.25rem;
   }
 }
 </style>

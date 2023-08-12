@@ -40,7 +40,8 @@ a:hover {
   color: var(--dk-green);
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
   outline: 2px solid var(--med-green);
 }
 

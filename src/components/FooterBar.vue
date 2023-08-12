@@ -43,6 +43,10 @@ footer {
   justify-self: flex-end;
 }
 
+footer a {
+  color: white;
+}
+
 footer a:visited {
   color: white;
 }
@@ -53,7 +57,7 @@ footer a:visited {
   margin: 5px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 600px) {
   footer {
     font-size: 1.5rem;
   }

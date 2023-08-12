@@ -10,7 +10,7 @@
         v-model="sortVal"
         @change="sortDebts"
       >
-        <option value="">--Select One--</option>
+        <option value="">-Select One-</option>
         <option value="name">Creditor</option>
         <option value="type">Type</option>
         <option value="owed">Owed</option>
@@ -184,6 +184,7 @@ export default defineComponent({
   width: 150px;
   border-radius: 5px;
   border: 2px solid black;
+  padding: 0 5px;
 }
 
 .debt-table {
@@ -215,19 +216,25 @@ export default defineComponent({
 }
 
 @media (max-width: 1024px) {
-  .subheader {
-    font-size: 2.25rem;
-  }
-  .btn {
-    font-size: 1.5rem;
-  }
   .debt-table {
     width: 99%;
-    font-size: 0.9rem;
   }
 
   .emoji-btn {
     padding: 2px;
+  }
+}
+
+@media (max-width: 600px) {
+  .subheader {
+    font-size: 2.25rem;
+  }
+  .debt-table {
+    font-size: 0.9rem;
+  }
+
+  .btn {
+    font-size: 1.5rem;
   }
 }
 </style>

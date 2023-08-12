@@ -121,15 +121,20 @@ export default defineComponent({
   .master-list-container {
     width: 90%;
     margin: 20px;
-    padding: 10px;
-    font-size: 1rem;
   }
 
   .form-container {
     width: 90%;
     margin: 20px;
+  }
+}
+@media (max-width: 600px) {
+  .master-list-container {
     padding: 10px;
+  }
+  .form-container {
     font-size: 1.25rem;
+    padding: 10px;
   }
 }
 </style>

@@ -234,7 +234,7 @@ export default defineComponent({
   text-align: center;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 600px) {
   .subheader {
     font-size: 2.5rem;
   }

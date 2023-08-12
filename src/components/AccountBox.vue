@@ -21,8 +21,13 @@
     </main>
 
     <div class="button-container">
-      <button class="modify-btn" @click="editAcct(account.id)">Edit</button>
-      <button class="modify-btn" @click="preDelete(account.id, account.name)">Delete</button>
+      <button class="modify-btn btn btn-success btn-sm" @click="editAcct(account.id)">Edit</button>
+      <button
+        class="modify-btn btn btn-success btn-sm"
+        @click="preDelete(account.id, account.name)"
+      >
+        Delete
+      </button>
     </div>
     <DeleteModal
       v-if="showModal"
@@ -108,11 +113,9 @@ export default defineComponent({
 }
 
 .modify-btn {
-  background-color: var(--green-bg);
   border-radius: 5px;
   width: 80px;
   margin: 5px;
-  color: var(--text-color);
 }
 
 @media (max-width: 1024px) {
@@ -121,7 +124,8 @@ export default defineComponent({
   }
 
   .modify-btn {
-    width: 150px;
+    width: 80px;
+    font-size: 1rem;
   }
 }
 </style>

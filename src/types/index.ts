@@ -14,7 +14,6 @@ export interface User {
   hours2: number;
   date2: string;
   deductions2: number;
-
 }
 
 export interface Expense {

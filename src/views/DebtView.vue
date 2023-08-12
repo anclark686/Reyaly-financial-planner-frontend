@@ -2,7 +2,7 @@
   <section class="page-content">
     <main class="debt-container" v-if="!userStore.loading">
       <header>
-        <h1 class="page-header">Debts</h1>
+        <h1 class="page-header">Debt View</h1>
       </header>
       <section class="debt-content">
         <div class="debt-list-container">

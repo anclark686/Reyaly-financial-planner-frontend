@@ -1,12 +1,13 @@
 <template>
   <div class="not-found-page">
-    <img src="../assets/404.png" alt="404" id="not-found-image" />
+    <div class="image-container">
+      <img src="../assets/404.png" alt="404" id="not-found-image" />
+    </div>
     <div class="nav-button">
       <RouterLink to="/" class="view-box">
         <h2>Home</h2>
       </RouterLink>
     </div>
-
   </div>
 </template>
 
@@ -20,8 +21,8 @@ import { RouterLink } from "vue-router";
 }
 
 #not-found-image {
+  margin: 50px auto;
   width: 75%;
-  margin: auto;
 }
 
 .nav-button {
@@ -58,5 +59,18 @@ import { RouterLink } from "vue-router";
   padding: 18px;
   color: white;
   text-decoration: none;
+}
+
+@media (max-width: 1024px) {
+  #not-found-image {
+    width: 100%;
+  }
+  .view-box {
+    width: 30%;
+    margin: 10px;
+  }
+  .view-box h2 {
+    font-size: 2rem;
+  }
 }
 </style>

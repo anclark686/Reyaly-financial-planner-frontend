@@ -209,6 +209,7 @@ export default defineComponent({
   width: 150px;
   border-radius: 5px;
   border: 2px solid black;
+  padding: 0 5px;
 }
 
 .bottom-btn {
@@ -223,7 +224,7 @@ export default defineComponent({
 
 @media (max-width: 1024px) {
   .subheader {
-    font-size: 1rem;
+    font-size: 1.5rem;
   }
 
   .account-table label {

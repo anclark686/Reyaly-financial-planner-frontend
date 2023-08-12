@@ -287,7 +287,9 @@ export default defineComponent({
     margin: 20px;
     font-size: 1rem;
   }
+}
 
+@media (max-width: 600px) {
   .btn,
   .nada {
     font-size: 1.5rem;

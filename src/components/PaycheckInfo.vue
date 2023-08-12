@@ -1,15 +1,16 @@
 <template>
   <main class="main-card">
-
     <table class="pay-info-table">
       <thead class="pay-info-table-header">
         <tr>
-          <td colspan="2">Paycheck Info</td>
+          <td colspan="2">
+            {{ userStore.income === 2 ? `Paycheck ${number} Info` : "Paycheck Info" }}
+          </td>
         </tr>
       </thead>
       <tbody>
         <tr class="info-row every-other">
-          <td>Pay Frequency</td>
+          <td>Pay Frequency:</td>
           <td>{{ number === 1 ? userStore.payFreq : userStore.payFreq2 }}</td>
         </tr>
         <tr class="info-row">
@@ -20,7 +21,9 @@
           <td>Pay Rate:</td>
           <td>
             ${{ number === 1 ? userStore.pay : userStore.pay2 }} per
-            {{ (number === 1 ? userStore.payRate : userStore.payRate2 ) === "hourly" ? "hour" : "year" }}
+            {{
+              (number === 1 ? userStore.payRate : userStore.payRate2) === "hourly" ? "hour" : "year"
+            }}
           </td>
         </tr>
         <tr class="info-row">
@@ -93,8 +96,7 @@ export default defineComponent({
   },
   computed: {
     total() {
-      const total = this.userStore.getExpenseTotal(this.expenseList);
-      return total;
+      return this.userStore.getExpenseTotal(this.expenseList);
     },
     remaining() {
       return this.additionalFunds + (this.userStore.getEstNet(this.number) - this.total);
@@ -160,5 +162,6 @@ export default defineComponent({
   width: 150px;
   border-radius: 5px;
   border: 2px solid black;
+  padding: 0 5px;
 }
 </style>

@@ -26,7 +26,7 @@ export const useUserStore = defineStore("UserStore", {
       date: "",
       deductions: 0,
       income: 1,
-      pay2: 60,
+      pay2: 0,
       payRate2: "",
       payFreq2: "",
       hours2: 0,
@@ -67,7 +67,7 @@ export const useUserStore = defineStore("UserStore", {
       await API.getUserInfo(authUID)
         .then((res) => {
           if (res.message !== "Not Found") {
-            console.log(res)
+            console.log(res);
             this.noUser = false;
             const user = res.data.user;
             this.dbUserId = user._id.$oid;
@@ -346,14 +346,14 @@ export const useUserStore = defineStore("UserStore", {
     getLocalTaxWithholding(num: number): number {
       // https://taxfoundation.org/state-income-tax-rates-2023/
       let percentage = stateData[this.residence as keyof typeof stateData];
-      
+
       const estStateTaxes = Math.floor(this.getAfterDeductions(num) * percentage);
 
       return estStateTaxes;
     },
     getEstAnnual(num: number): number {
       const payRate = num === 1 ? this.payRate : this.payRate2;
-      const pay =  num === 1 ? this.pay : this.pay2;
+      const pay = num === 1 ? this.pay : this.pay2;
 
       let estAnnual: number;
       if (payRate === "hourly") {
@@ -365,7 +365,7 @@ export const useUserStore = defineStore("UserStore", {
     },
     getEstGross(num: number): number {
       const payRate = num === 1 ? this.payRate : this.payRate2;
-      const pay =  num === 1 ? this.pay : this.pay2;
+      const pay = num === 1 ? this.pay : this.pay2;
       const hours = num === 1 ? this.hours : this.hours2;
 
       let estGross: number;
@@ -388,6 +388,35 @@ export const useUserStore = defineStore("UserStore", {
         this.getFederalTaxWithholding(num);
 
       return Math.floor(afterTaxes);
+    },
+    getMonthlyTakeHome() {
+      let takeHome1: number;
+      let takeHome2: number;
+
+      const estNet1 = this.getEstNet(1);
+      const estNet2 = this.getEstNet(2);
+
+      if (this.payFreq === "weekly") {
+        takeHome1 = Math.floor((estNet1 * 52) / 12);
+      } else if (this.payFreq === "bi-weekly") {
+        takeHome1 = Math.floor((estNet1 * 26) / 12);
+      } else if (this.payFreq === "bi-monthly") {
+        takeHome1 = estNet1 * 2;
+      } else {
+        takeHome1 = estNet1;
+      }
+
+      if (this.payFreq2 === "weekly") {
+        takeHome2 = Math.floor((estNet2 * 52) / 12);
+      } else if (this.payFreq2 === "bi-weekly") {
+        takeHome2 = Math.floor((estNet2 * 26) / 12);
+      } else if (this.payFreq2 === "bi-monthly") {
+        takeHome2 = estNet2 * 2;
+      } else {
+        takeHome2 = estNet2;
+      }
+      console.log(takeHome1 + takeHome2);
+      return takeHome1 + takeHome2;
     },
   },
 

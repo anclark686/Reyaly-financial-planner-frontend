@@ -22,7 +22,7 @@
         </td>
         <td class="pay-input">
           <select name="rate" id="rate" class="input-info" v-model="newRate">
-            <option value="">--Select One--</option>
+            <option value="">-Select One-</option>
             <option value="hourly">Hour</option>
             <option value="annualy">Year</option>
           </select>
@@ -34,7 +34,7 @@
         </td>
         <td class="pay-input">
           <select name="frequency" id="frequency" class="input-info" v-model="newFrequency">
-            <option value="">--Select One--</option>
+            <option value="">-Select One-</option>
             <option value="weekly">Weekly</option>
             <option value="bi-weekly">Bi-Weekly</option>
             <option value="monthly">Monthly</option>
@@ -86,7 +86,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-
 export default defineComponent({
   props: {
     number: { type: Number, required: true },
@@ -124,8 +123,8 @@ export default defineComponent({
   },
   watch: {
     userPayData: function () {
-      this.$emit("form", this.userPayData)
-    }
+      this.$emit("form", this.userPayData);
+    },
   },
   methods: {
     onSubmit() {
@@ -155,6 +154,6 @@ td {
   width: 150px;
   border-radius: 5px;
   border: 2px solid black;
+  padding: 0 5px;
 }
-
 </style>

@@ -1,9 +1,11 @@
 <template>
   <table :class="type">
+    <tr class="header-row" v-if="number !== 0">
+      <td colspan="2">
+        <strong>Paycheck {{ number }}</strong>
+      </td>
+    </tr>
     <tr class="odd">
-          <td colspan="2"><strong>Paycheck {{ number }}</strong></td>
-        </tr>
-    <tr class="even">
       <td class="left">
         <strong>Pay:</strong>
       </td>
@@ -12,7 +14,7 @@
         {{ rate === "hourly" ? "/hr" : "/yr" }}
       </td>
     </tr>
-    <tr class="odd">
+    <tr class="even">
       <td class="left">
         <strong>Pay Frequency:</strong>
       </td>
@@ -20,7 +22,7 @@
         {{ frequency }}
       </td>
     </tr>
-    <tr class="even">
+    <tr class="odd">
       <td class="left">
         <strong>Paycheck Hours:</strong>
       </td>
@@ -28,13 +30,13 @@
         {{ hours }}
       </td>
     </tr>
-    <tr class="odd">
+    <tr class="even">
       <td class="left">
         <strong>Deductions:</strong>
       </td>
       <td class="right">${{ deductions }}</td>
     </tr>
-    <tr class="even">
+    <tr class="odd">
       <td class="left">
         <strong>Est Take Home:</strong>
       </td>
@@ -61,6 +63,13 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.header-row {
+  font-weight: bold;
+  border: 2px solid var(--black-white);
+  background-color: var(--med-green);
+  color: white;
+}
+
 .single {
   width: 90%;
   margin: 20px auto;
@@ -75,7 +84,8 @@ export default defineComponent({
   border: 2px solid var(--black-white);
 }
 
-.single td, .double td {
+.single td,
+.double td {
   border: 2px solid var(--black-white);
 }
 

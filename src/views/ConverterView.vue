@@ -60,7 +60,7 @@ export default defineComponent({
 <style scoped>
 .converter-container {
   min-width: 400px;
-  width: 40%;
+  width: 65%;
   background-color: var(--green-bg);
   color: var(--text-color);
   border-radius: 15px;

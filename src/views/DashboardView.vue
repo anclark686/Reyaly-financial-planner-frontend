@@ -93,7 +93,13 @@
                 </tr>
                 <tr class="even">
                   <td class="left">
-                    <strong>Next Payday:</strong>
+                    <strong>Est. Monthly Pay:</strong>
+                  </td>
+                  <td class="right">${{ userStore.getMonthlyTakeHome() }}</td>
+                </tr>
+                <tr class="odd">
+                  <td class="left">
+                    <strong>Monthly Take:</strong>
                   </td>
                   <td class="right">
                     {{ userStore.nextPayDay }}
@@ -101,11 +107,11 @@
                 </tr>
               </tbody>
             </table>
-            
-            <h3 class="subheader">Pay Info:</h3>
+
+            <h3 class="subheader">Paycheck Info:</h3>
             <div class="pay-info-single" v-if="userStore.income === 1">
-              <PayTable 
-                :number="1"
+              <PayTable
+                :number="0"
                 type="single"
                 :pay="userStore.pay"
                 :rate="userStore.payRate"
@@ -116,7 +122,7 @@
               />
             </div>
             <div class="pay-info-double" v-else>
-              <PayTable 
+              <PayTable
                 :number="1"
                 type="double"
                 :pay="userStore.pay"
@@ -126,7 +132,7 @@
                 :deductions="userStore.deductions"
                 :net="userStore.getEstNet(1)"
               />
-              <PayTable 
+              <PayTable
                 :number="2"
                 type="double"
                 :pay="userStore.pay2"
@@ -171,7 +177,7 @@ import { defineComponent } from "vue";
 
 import SettingsForm from "../components/SettingsForm.vue";
 import NotificationModal from "../components/NotificationModal.vue";
-import PayTable from "../components/PayTable.vue"
+import PayTable from "../components/PayTable.vue";
 import { useUserStore } from "../stores/UserStore";
 import { type User } from "../types";
 
@@ -428,11 +434,12 @@ export default defineComponent({
   }
 
   .info-table {
-    width: 95%;
+    width: 90%;
     margin: 0 auto;
     font-size: 1rem;
     border: 2px solid black;
   }
+
   .link-adjust {
     font-size: 1rem;
   }
@@ -460,7 +467,6 @@ export default defineComponent({
     width: 95%;
     margin: 0 auto;
     font-size: 1rem;
-    border: 2px solid black;
   }
 }
 </style>
