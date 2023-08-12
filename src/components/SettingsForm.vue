@@ -421,7 +421,7 @@ td {
 
 @media (max-width: 600px) {
   .subheader {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
 
   .btn {

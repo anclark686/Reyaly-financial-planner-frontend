@@ -443,6 +443,11 @@ export default defineComponent({
   .link-adjust {
     font-size: 1rem;
   }
+
+  .form-modal {
+    width: 75%;
+    left: 12%;
+  }
 }
 
 @media (max-width: 600px) {
@@ -467,6 +472,12 @@ export default defineComponent({
     width: 95%;
     margin: 0 auto;
     font-size: 1rem;
+  }
+
+  .form-modal {
+    width: 100%;
+    left: 0;
+    font-size: 1.25rem;
   }
 }
 </style>
