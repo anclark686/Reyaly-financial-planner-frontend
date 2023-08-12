@@ -73,6 +73,10 @@ export const deleteDebt = (dbUserId: string, id: string): Promise<any> => {
 
 // Expense Routes
 
+export const getExpenses = (dbUserId: string, params: string): Promise<any> => {
+  return Axios.get(`${baseUrl}/users/${dbUserId}/expenses?${params}`).then((res) => res.data);
+};
+
 export const addExpense = (dbUserId: string, data: Expense): Promise<any> => {
   return Axios.post(`${baseUrl}/users/${dbUserId}/expenses`, data).then((res) => res.data);
 };
@@ -85,12 +89,6 @@ export const editExpense = (dbUserId: string, data: Expense): Promise<any> => {
 
 export const deleteExpense = (dbUserId: string, id: string): Promise<any> => {
   return Axios.delete(`${baseUrl}/users/${dbUserId}/expenses/${id}`).then((res) => res.data);
-};
-
-// Paycheck Routes
-
-export const getPaychecks = (dbUserId: string, params: string): Promise<any> => {
-  return Axios.get(`${baseUrl}/users/${dbUserId}/expenses?${params}`).then((res) => res.data);
 };
 
 // Savings Route

@@ -202,8 +202,8 @@ export const useUserStore = defineStore("UserStore", {
       return res;
     },
     // Paycheck API method
-    async getPaychecks(params: string) {
-      const res = await API.getPaychecks(this.dbUserId, params)
+    async getExpenses(params: string) {
+      const res = await API.getExpenses(this.dbUserId, params)
         .then((res) => res)
         .catch((err) => console.log(err));
       return res;

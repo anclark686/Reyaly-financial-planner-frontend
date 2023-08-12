@@ -29,11 +29,11 @@ export default defineComponent({
     };
   },
   methods: {
-    async getPaychecks() {
+    async getExpenses() {
       const params = `date=${this.date};frequency=${this.frequency}`;
       if (this.userStore.dbUserId) {
         await this.userStore
-          .getPaychecks(params)
+          .getExpenses(params)
           .then((res) => {
             this.expenseList = res.data;
             this.userStore.addConvertedDates(this.expenseList, this.date);
@@ -44,7 +44,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.getPaychecks();
+    this.getExpenses();
   },
 });
 </script>

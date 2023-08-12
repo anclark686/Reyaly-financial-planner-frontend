@@ -191,7 +191,7 @@ export default defineComponent({
   },
   watch: {
     paycheck1: function () {
-      this.getPaychecks();
+      this.getExpenses();
     },
   },
   computed: {
@@ -344,11 +344,11 @@ export default defineComponent({
         }
       }
     },
-    async getPaychecks() {
+    async getExpenses() {
       const params = `date1=${this.paycheck1};date2=${this.paycheck2}`;
 
       await this.userStore
-        .getPaychecks(params)
+        .getExpenses(params)
         .then((res) => {
           this.expenseList = res.data;
           this.userStore.addConvertedDates(this.expenseList, this.paycheck1);
@@ -363,7 +363,7 @@ export default defineComponent({
     this.paycheck1 = this.formatDate(this.paychecks[this.pIndex].date);
     this.ogPaycheckStr = this.paychecks[this.pIndex].date;
     this.paycheck2 = this.formatDate(this.paychecks[this.pIndex + 1].date);
-    this.getPaychecks();
+    this.getExpenses();
     this.loading = false;
   },
 });

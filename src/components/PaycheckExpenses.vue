@@ -56,7 +56,7 @@ export default defineComponent({
   },
   watch: {
     paycheck: function () {
-      this.getPaychecks();
+      this.getExpenses();
     },
   },
   methods: {
@@ -85,11 +85,11 @@ export default defineComponent({
         this.userStore.pIndex2 = pIndex;
       }
     },
-    async getPaychecks() {
+    async getExpenses() {
       const payFreq = this.number === 1 ? this.userStore.payFreq : this.userStore.payFreq2;
       const params = `date=${this.paycheck};frequency=${payFreq}`;
       await this.userStore
-        .getPaychecks(params)
+        .getExpenses(params)
         .then((res) => {
           this.expenseList = res.data;
           this.userStore.addConvertedDates(this.expenseList, this.paycheck);
@@ -104,7 +104,7 @@ export default defineComponent({
     let paychecks = this.number === 1 ? this.userStore.paychecks : this.userStore.paychecks2;
     this.loading = true;
     this.paycheck = this.formatDate(paychecks[pIndex].date);
-    this.getPaychecks();
+    this.getExpenses();
     this.loading = false;
   },
 });
