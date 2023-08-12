@@ -151,12 +151,12 @@ const isElemVisible = (el: HTMLElement) => {
 };
 
 onMounted(() => {
-  // window.scrollTo({ top: 0, left: 0 });
-  // fadeInElements = Array.from(
-  //   document.getElementsByClassName("fade-in") as HTMLCollectionOf<HTMLElement>
-  // );
-  // document.addEventListener("scroll", handleScroll);
-  // handleScroll();
+  window.scrollTo({ top: 0, left: 0 });
+  fadeInElements = Array.from(
+    document.getElementsByClassName("fade-in") as HTMLCollectionOf<HTMLElement>
+  );
+  document.addEventListener("scroll", handleScroll);
+  handleScroll();
 });
 
 onUnmounted(() => {
@@ -250,14 +250,14 @@ onUnmounted(() => {
   padding: 20px;
 }
 
-/* .fade-in {
+.fade-in {
   margin-bottom: 50px;
   opacity: 0;
   transition: 0.3s all ease-out;
   transform: scale(0.8);
   box-sizing: border-box;
   padding: 20px;
-} */
+}
 
 .left-align {
   margin: 10px auto 10px 10%;

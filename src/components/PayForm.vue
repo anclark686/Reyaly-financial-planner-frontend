@@ -126,14 +126,6 @@ export default defineComponent({
       this.$emit("form", this.userPayData);
     },
   },
-  methods: {
-    onSubmit() {
-      console.log("hey");
-    },
-  },
-  // mounted() {
-  //   console.log(this.userPayData)
-  // }
 });
 </script>
 

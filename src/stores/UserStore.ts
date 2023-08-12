@@ -67,7 +67,6 @@ export const useUserStore = defineStore("UserStore", {
       await API.getUserInfo(authUID)
         .then((res) => {
           if (res.message !== "Not Found") {
-            console.log(res);
             this.noUser = false;
             const user = res.data.user;
             this.dbUserId = user._id.$oid;
@@ -424,7 +423,6 @@ export const useUserStore = defineStore("UserStore", {
       } else {
         takeHome2 = estNet2;
       }
-      console.log(takeHome1 + takeHome2);
       return takeHome1 + takeHome2;
     },
   },
@@ -439,7 +437,7 @@ export const useUserStore = defineStore("UserStore", {
 
       for (const [i, paycheck] of this.paychecks.entries()) {
         const payDate = new Date(paycheck.date);
-        console.log(payDate)
+        
         if (todayUTC === payDate) {
           this.pIndex = i;
           potential1 = todayUTC;

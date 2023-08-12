@@ -302,7 +302,6 @@ export default defineComponent({
       this.userWithPay.deductions2 = 0;
     },
     validateInfo() {
-      console.log(this.userWithPay.income);
       for (const [key, value] of Object.entries(this.userWithPay)) {
         if (!value && !key.includes("2")) {
           return false;
@@ -318,8 +317,7 @@ export default defineComponent({
       this.userWithPay.uid = this.user.sub!;
       this.userWithPay.residence = this.newResidence;
       this.userWithPay.relationship = this.newRelationship;
-      console.log(this.userWithPay);
-      console.log(this.validateInfo());
+
       if (this.validateInfo()) {
         this.invalid = false;
         if (this.formType === "new") {

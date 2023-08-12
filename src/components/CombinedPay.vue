@@ -215,10 +215,8 @@ export default defineComponent({
       ) {
         return "both";
       } else if (dateExistsInPaychecks1(this.ogPaycheckStr)) {
-        console.log("one");
         return "one";
       } else if (dateExistsInPaychecks2(this.ogPaycheckStr)) {
-        console.log("two");
         return "two";
       }
     },

@@ -67,8 +67,6 @@ export default defineComponent({
   },
   methods: {
     sendExpenseList({ num, list }: { num: number; list: Expense[] }) {
-      console.log(num);
-      console.log(list);
       if (num === 1) {
         this.expenseList1 = list;
       } else {
