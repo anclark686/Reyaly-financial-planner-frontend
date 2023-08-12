@@ -99,7 +99,7 @@
                 </tr>
                 <tr class="odd">
                   <td class="left">
-                    <strong>Monthly Take:</strong>
+                    <strong>Next Payday:</strong>
                   </td>
                   <td class="right">
                     {{ userStore.nextPayDay }}

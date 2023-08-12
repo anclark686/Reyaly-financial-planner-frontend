@@ -112,18 +112,27 @@ export const useUserStore = defineStore("UserStore", {
         data: {
           userInfo: {
             username: username,
-            pay: `$${this.pay} ${this.payRate}`,
-            payFreq: this.payFreq,
-            hours: this.hours,
-            deductions: `$${this.deductions}`,
-            residence: this.residence,
-            relationship: this.relationship,
-            // gross: `$${this.estGross}`,
-            // net: `$${this.estNet}`,
+            income: this.income,
             numExpenses: this.expenses.length,
             totalExpenses: `$${this.expenseSum}`,
-            startDate: this.formatDays(new Date(this.date)),
             nextDate: this.nextPayDay,
+            monthly: `$${this.getMonthlyTakeHome()}`,
+            pay: `$${this.pay} ${this.payRate}`,
+            frequency: this.payFreq,
+            hours: this.hours,
+            gross: `$${this.getEstGross(1)}`,
+            deductions: `$${this.deductions}`,
+            fed: `$${this.getFederalTaxWithholding(1)}`,
+            local: `$${this.getLocalTaxWithholding(1)}`,
+            net: `$${this.getEstNet(1)}`,
+            pay2: `$${this.pay2} ${this.payRate2}`,
+            frequency2: this.payFreq2,
+            hours2: this.hours2,
+            gross2: `$${this.getEstGross(2)}`,
+            deductions2: `$${this.deductions2}`,
+            fed2: `$${this.getFederalTaxWithholding(2)}`,
+            local2: `$${this.getLocalTaxWithholding(2)}`,
+            net2: `$${this.getEstNet(2)}`,
           },
           expenses: this.expenses,
         },
@@ -423,19 +432,46 @@ export const useUserStore = defineStore("UserStore", {
   getters: {
     nextPayDay(): string {
       const userStore = useUserStore();
-      const today = new Date();
+      const now = new Date();
+      const todayUTC = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+      let potential1 = new Date("2999-12-31");
+      let potential2 = new Date("2999-12-31");
+
       for (const [i, paycheck] of this.paychecks.entries()) {
         const payDate = new Date(paycheck.date);
-
-        if (today === payDate) {
+        console.log(payDate)
+        if (todayUTC === payDate) {
           this.pIndex = i;
-          return userStore.formatDays(today);
-        } else if (today < payDate) {
+          potential1 = todayUTC;
+          break;
+        } else if (todayUTC < payDate) {
+          
           this.pIndex = i;
-          return userStore.formatDays(payDate);
-        }
+          potential1 = payDate;
+          break;
+        } 
       }
-      return this.date;
+
+      for (const [i, paycheck] of this.paychecks2.entries()) {
+        const payDate = new Date(paycheck.date);
+
+        if (todayUTC === payDate) {
+          this.pIndex = i;
+          potential2 = todayUTC;
+          break;
+        } else if (todayUTC < payDate) {
+          this.pIndex = i;
+          potential2 = payDate;
+          break;
+        } 
+      }
+
+      if (potential1 < potential2) {
+        return userStore.formatDays(potential1);
+      } else {
+        return userStore.formatDays(potential2);
+      }
+      
     },
 
     expenseSum(): number {
