@@ -9,7 +9,7 @@
             <button class="emoji-btn" @click="showNotifications = false">➖</button>
           </div>
 
-          <NotificationModal :date="date" frequency="weekly" />
+          <NotificationModal frequency="weekly" />
         </section>
         <section class="notif-container" v-else>
           <div class="notif-header">
@@ -194,7 +194,6 @@ export default defineComponent({
       userStore: useUserStore(),
       showUserForm: false,
       showNotifications: true,
-      date: new Date().toLocaleDateString(),
       blankAccount: {
         residence: "",
         relationship: "",

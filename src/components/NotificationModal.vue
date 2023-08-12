@@ -16,7 +16,6 @@ import { type Expense } from "../types";
 
 export default defineComponent({
   props: {
-    date: { type: String, required: true },
     frequency: { type: String, required: true },
   },
   components: {
@@ -26,6 +25,7 @@ export default defineComponent({
     return {
       userStore: useUserStore(),
       expenseList: [] as Expense[],
+      date: new Date().toLocaleDateString(),
     };
   },
   methods: {
