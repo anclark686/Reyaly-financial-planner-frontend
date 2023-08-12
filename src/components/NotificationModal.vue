@@ -54,7 +54,7 @@ export default defineComponent({
   text-align: center;
 }
 .master-list-container {
-  width: 50%;
+  width: 75%;
   margin: auto;
 }
 @media (max-width: 1024px) {
