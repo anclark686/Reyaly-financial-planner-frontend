@@ -31,7 +31,7 @@ export interface OneTimeExpense {
   name: string;
   amount: number;
   date: string;
-  paycheckId: string
+  paycheck: string
   dateStr?: string | undefined;
 }
 

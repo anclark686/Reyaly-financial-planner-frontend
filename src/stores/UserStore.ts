@@ -9,6 +9,7 @@ import { type Expense } from "../types";
 import { type Paycheck } from "../types";
 import { type Debt } from "../types";
 import { type Account } from "../types";
+import { type OneTimeExpense } from "../types";
 
 export const useUserStore = defineStore("UserStore", {
   state: () => {
@@ -37,12 +38,14 @@ export const useUserStore = defineStore("UserStore", {
       pIndex: 0,
       pIndex2: 0,
       expenses: [] as Expense[],
+      otExpenses: [] as OneTimeExpense[],
       paychecks: [] as Paycheck[],
       paychecks2: [] as Paycheck[],
       accounts: [] as Account[],
       debts: [] as Debt[],
       baseUrl: "https://reyaly-financial-backend-983411f48872.herokuapp.com",
       loading: false,
+      error: false,
       currencies: currencyData.currencies,
     };
   },
@@ -66,7 +69,11 @@ export const useUserStore = defineStore("UserStore", {
       this.loading = true;
       await API.getUserInfo(authUID)
         .then((res) => {
+          console.log(res)
           if (res.message !== "Not Found") {
+            
+            console.log(res.data)
+            this.error = false;
             this.noUser = false;
             const user = res.data.user;
             this.dbUserId = user._id.$oid;
@@ -90,6 +97,7 @@ export const useUserStore = defineStore("UserStore", {
             }
 
             this.expenses = this.matchAccountToExpense(res.data.expenses, res.data.accounts);
+            this.otExpenses = res.data.otExpenses;
             this.paychecks = res.data.paychecks;
             this.paychecks2 = res.data.paychecks2;
             this.debts = res.data.debts;
@@ -97,13 +105,21 @@ export const useUserStore = defineStore("UserStore", {
 
             this.loading = false;
           } else {
+            this.error = false;
             this.loading = false;
+            this.noUser = true;
           }
         })
         .catch((err) => {
-          this.loading = false;
-          this.noUser = true;
-          console.log(err);
+          if (err.message === "Not Found") {
+            this.error = false;
+            this.loading = false;
+            this.noUser = true;
+          } else {
+            this.loading = false;
+            this.error = true;
+            console.log(err);
+          }
         });
     },
     async generateJSON(username: String | undefined) {
@@ -137,75 +153,187 @@ export const useUserStore = defineStore("UserStore", {
         },
       };
       const res = await API.sendJson(data, this.dbUserId)
-        .then((res) => res)
-        .catch((err) => console.log(err));
+        .then((res) => {
+          this.error = false;
+          return res
+        })
+        .catch((err) => {
+          console.log(err)
+          this.error = true;
+        });
       return res;
     },
     // Account API methods
     async addAcct(data: Account) {
       const res = await API.addAcct(this.dbUserId, data)
-        .then((res) => res)
-        .catch((err) => console.log(err));
+        .then((res) => {
+          this.error = false;
+          return res
+        })
+        .catch((err) => {
+          console.log(err)
+          this.error = true;
+        });
       return res;
     },
     async editAcct(data: Account) {
       const res = await API.editAcct(this.dbUserId, data)
-        .then((res) => res)
-        .catch((err) => console.log(err));
+        .then((res) => {
+          this.error = false;
+          return res
+        })
+        .catch((err) => {
+          console.log(err)
+          this.error = true;
+        });
       return res;
     },
     async deleteAcct(id: string) {
       const res = await API.deleteAcct(this.dbUserId, id)
         .then((res) => {
+          this.error = false;
           this.accounts = this.accounts.filter((acct: Account) => acct.id !== id);
           return res;
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err)
+          this.error = true;
+        });
       return res;
     },
     // Debt API methods
     async addDebt(data: Debt) {
       const res = await API.addDebt(this.dbUserId, data)
-        .then((res) => res)
-        .catch((err) => console.log(err));
+        .then((res) => {
+          this.error = false;
+          return res
+        })
+        .catch((err) => {
+          console.log(err)
+          this.error = true;
+        });
       return res;
     },
     async editDebt(data: Debt) {
       const res = await API.editDebt(this.dbUserId, data)
-        .then((res) => res)
-        .catch((err) => console.log(err));
+        .then((res) => {
+          this.error = false;
+          return res
+        })
+        .catch((err) => {
+          console.log(err)
+          this.error = true;
+        });
       return res;
     },
     async deleteDebt(id: string) {
       const res = await API.deleteDebt(this.dbUserId, id)
-        .then((res) => res)
-        .catch((err) => console.log(err));
+        .then((res) => {
+          this.error = false;
+          return res
+        })
+        .catch((err) => {
+          console.log(err)
+          this.error = true;
+        });
       return res;
     },
     // Expense API methods
+    async getExpenses(params: string) {
+      const res = await API.getExpenses(this.dbUserId, params)
+        .then((res) => {
+          this.error = false;
+          return res
+        })
+        .catch((err) => {
+          console.log(err)
+          this.error = true;
+        });
+      return res;
+    },
     async addExpense(data: Expense) {
       const res = await API.addExpense(this.dbUserId, data)
-        .then((res) => res)
-        .catch((err) => console.log(err));
+        .then((res) => {
+          this.error = false;
+          return res
+        })
+        .catch((err) => {
+          console.log(err)
+          this.error = true;
+        });
       return res;
     },
     async editExpense(data: Expense) {
       const res = await API.editExpense(this.dbUserId, data)
-        .then((res) => res)
-        .catch((err) => console.log(err));
+        .then((res) => {
+          this.error = false;
+          return res
+        })
+        .catch((err) => {
+          console.log(err)
+          this.error = true;
+        });
       return res;
     },
     async deleteExpense(id: string) {
       const res = await API.deleteExpense(this.dbUserId, id)
-        .then((res) => res)
-        .catch((err) => console.log(err));
+        .then((res) => {
+          this.error = false;
+          return res
+        })
+        .catch((err) => {
+          console.log(err)
+          this.error = true;
+        });
       return res;
     },
-    // Paycheck API method
-    async getExpenses(params: string) {
-      const res = await API.getExpenses(this.dbUserId, params)
-        .then((res) => res)
-        .catch((err) => console.log(err));
+    // One Time Expense API methods
+    async getOTExpenses(paycheckId: string) {
+      const res = await API.getOTExpenses(this.dbUserId, paycheckId)
+        .then((res) => {
+          this.error = false;
+          return res
+        })
+        .catch((err) => {
+          console.log(err)
+          this.error = true;
+        });
+      return res;
+    },
+    async addOTExpense(data: OneTimeExpense) {
+      const res = await API.addOTExpense(this.dbUserId, data)
+        .then((res) => {
+          this.error = false;
+          return res
+        })
+        .catch((err) => {
+          console.log(err)
+          this.error = true;
+        });
+      return res;
+    },
+    async editOTExpense(data: OneTimeExpense) {
+      const res = await API.editOTExpense(this.dbUserId, data)
+        .then((res) => {
+          this.error = false;
+          return res
+        })
+        .catch((err) => {
+          console.log(err)
+          this.error = true;
+        });
+      return res;
+    },
+    async deleteOTExpense(paycheckId: string, id: string) {
+      const res = await API.deleteOTExpense(this.dbUserId, paycheckId, id)
+        .then((res) => {
+          this.error = false;
+          return res
+        })
+        .catch((err) => {
+          console.log(err)
+          this.error = true;
+        });
       return res;
     },
     // Savings API method
@@ -213,10 +341,14 @@ export const useUserStore = defineStore("UserStore", {
       this.loading = true;
       const res = await API.getSavings()
         .then((res) => {
+          this.error = false;
           this.loading = false;
           return res;
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err)
+          this.error = true;
+        });
       return res;
     },
     // Currency API method
@@ -224,10 +356,14 @@ export const useUserStore = defineStore("UserStore", {
       this.loading = true;
       const res = await API.getCurrencyInfo(want, have, amount)
         .then((res) => {
+          this.error = false;
           this.loading = false;
           return res;
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err)
+          this.error = true;
+        });
       return res;
     },
 

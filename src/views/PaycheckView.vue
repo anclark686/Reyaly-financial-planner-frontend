@@ -1,6 +1,6 @@
 <template>
   <section class="page-content">
-    <main class="paycheck-container" v-if="!userStore.loading">
+    <main class="paycheck-container" v-if="!userStore.loading && !userStore.error">
       <header>
         <h1 class="page-header">Paycheck View</h1>
       </header>
@@ -41,11 +41,14 @@
         </div>
       </section>
     </main>
-    <div class="spinner-container" v-else>
+    <div class="spinner-container" v-if="userStore.loading">
       <div class="spinner-border text-success loading-spinner" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
       <h1 class="loading">Loading...</h1>
+    </div>
+    <div class="error-container" v-if="userStore.error">
+      <ErrorComponent />
     </div>
   </section>
 </template>
@@ -58,6 +61,7 @@ import PaycheckExpenses from "../components/PaycheckExpenses.vue";
 import PaycheckInfo from "../components/PaycheckInfo.vue";
 import OTETable from "../components/OTETable.vue";
 import CombinedPay from "../components/CombinedPay.vue";
+import ErrorComponent from "@/components/ErrorComponent.vue";
 import { useUserStore } from "../stores/UserStore";
 import { type Expense } from "../types";
 
@@ -74,6 +78,7 @@ export default defineComponent({
     PaycheckInfo,
     CombinedPay,
     OTETable,
+    ErrorComponent,
   },
   data() {
     return {

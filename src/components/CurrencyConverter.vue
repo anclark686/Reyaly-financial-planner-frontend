@@ -45,7 +45,7 @@
     </form>
     <div class="btn-container">
       <p v-if="invalid" id="warning">Please ensure all fields are filled.</p>
-      <button id="convert-currency" class="btn btn-success">Calculate</button>
+      <button @click="onSubmit" id="convert-currency" class="btn btn-success">Calculate</button>
       <button @click.prevent="clearInfo" class="btn btn-success">Clear</button>
     </div>
     <table class="output-table">

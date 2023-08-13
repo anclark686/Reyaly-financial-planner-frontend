@@ -1,6 +1,6 @@
 <template>
   <section class="page-content">
-    <main class="dashboard" v-if="!userStore.loading">
+    <main class="dashboard" v-if="!userStore.loading && !userStore.error">
       <h1 class="page-header">Dashboard</h1>
       <div class="notification-container" v-if="!userStore.noUser">
         <section class="notif-container" v-if="showNotifications === true">
@@ -161,11 +161,16 @@
         <SettingsForm formType="new" :userInfo="blankAccount" @close="showUserForm = false" />
       </div>
     </main>
-    <div class="spinner-container" v-else>
+
+    <div class="spinner-container" v-if="userStore.loading">
       <div class="spinner-border text-success loading-spinner spinner-border-lg" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
       <h1 class="loading">Loading...</h1>
+    </div>
+
+    <div class="error-container" v-if="userStore.error">
+      <ErrorComponent />
     </div>
   </section>
 </template>
@@ -178,6 +183,7 @@ import { defineComponent } from "vue";
 import SettingsForm from "../components/SettingsForm.vue";
 import NotificationModal from "../components/NotificationModal.vue";
 import PayTable from "../components/PayTable.vue";
+import ErrorComponent from "@/components/ErrorComponent.vue";
 import { useUserStore } from "../stores/UserStore";
 import { type User } from "../types";
 
@@ -218,6 +224,7 @@ export default defineComponent({
     SettingsForm,
     NotificationModal,
     PayTable,
+    ErrorComponent,
   },
   methods: {
     handleFormClick() {

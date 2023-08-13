@@ -8,7 +8,7 @@
         </div>
         <div class="input-row">
           <label for="ote-amount"><strong>Amount:</strong></label>
-          <input type="text" id="ote-amounte" name="ote-amount" class="input-info" v-model="oteAmount" />
+          <input type="number" step="0.01" id="ote-amounte" name="ote-amount" class="input-info" v-model="oteAmount" />
         </div>
         <div class="input-row">
           <label for="ote-date"><strong>Due Date:</strong></label>
@@ -47,10 +47,10 @@ export default defineComponent({
   computed: {
     oteData() {
       const oteData = {
-        id: this.paycheckId,
+        paycheck: this.paycheckId,
         name: this.oteName,
-        type: this.oteAmount,
-        owed: this.oteDate,
+        amount: this.oteAmount,
+        date: this.oteDate,
       };
       return oteData;
     },

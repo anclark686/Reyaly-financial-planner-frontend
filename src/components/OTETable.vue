@@ -16,6 +16,7 @@ import { defineComponent } from "vue";
 
 import { useUserStore } from "../stores/UserStore";
 import OTEForm from "../components/OTEForm.vue";
+import DeleteModal from "./DeleteModal.vue";
 import { type OneTimeExpense } from "../types"
 
 export default defineComponent({
@@ -24,16 +25,34 @@ export default defineComponent({
   },
   components: {
     OTEForm,
+    DeleteModal,
   },
   data() {
     return {
       userStore: useUserStore(),
       showOTEForm: false,
+      edit: false,
+      editInfo: {} as OneTimeExpense,
+      editRow: 0,
+      deleteInfo: {} as { id: string; idx: number; title: string },
     };
   },
   methods: {
-    addNew(oteData: OneTimeExpense) {
+    async addNew(oteData: OneTimeExpense) {
       console.log(oteData)
+      console.log("you here?")
+      await this.userStore
+        .addOTExpense(oteData)
+        .then((res) => {
+          if (res.message === "Success") {
+            console.log(res)
+            // (expenseData.id = res.id), this.masterList.push(expenseData);
+            // this.sortMasterList();
+          } else {
+            alert("An error occurred, please try again");
+          }
+        })
+        .catch((err) => console.log(err));
     }
   },
   mounted() {
