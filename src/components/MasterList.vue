@@ -240,7 +240,7 @@ export default defineComponent({
   }
 
   .btn {
-    font-size: 1.5rem;
+    font-size: 1.15rem;
   }
 }
 </style>

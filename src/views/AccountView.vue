@@ -292,11 +292,11 @@ export default defineComponent({
 @media (max-width: 600px) {
   .btn,
   .nada {
-    font-size: 1.5rem;
+    font-size: 1.15rem;
   }
 
   .accordion-header {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
   }
 }
 </style>
