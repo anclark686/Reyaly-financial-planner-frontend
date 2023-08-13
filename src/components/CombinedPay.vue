@@ -370,15 +370,20 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.combined-component {
+  background-color: var(--white-black);
+  color: var(--text-color);
+}
+
 .subheader {
   text-align: center;
+  width: 350px;
 }
 
 .card-header {
   text-align: center;
   display: flex;
   justify-content: center;
-  background-color: white;
 }
 
 .arrow-btn {
@@ -388,6 +393,11 @@ export default defineComponent({
   color: white;
   padding: 0px;
   background-color: white;
+}
+
+.arrow-btn:hover {
+  background-color: rgb(204, 206, 204);
+  outline: 2px solid var(--med-green);
 }
 
 .arrow-img {

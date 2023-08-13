@@ -132,6 +132,11 @@ export default defineComponent({
   color: var(--text-color);
 }
 
+.main-card {
+  background-color: var(--white-black);
+  color: var(--text-color);
+}
+
 .expense-table,
 .pay-info-table {
   width: 100%;
