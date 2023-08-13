@@ -7,16 +7,32 @@
       <section>
         <div class="single-container card" v-if="showPaycheckCard && userStore.income === 1">
           <PaycheckExpenses :number="1" @dateChange1="sendExpenseList" />
+
+          <div class="ote-container">
+              <OTETable :paycheckId="paycheckId"/>
+            </div>
+
           <PaycheckInfo :number="1" :expenseList="expenseList1" />
         </div>
 
         <div class="double" v-else-if="showPaycheckCard && userStore.income === 2">
           <div class="double-container card">
             <PaycheckExpenses :number="1" @dateChange1="sendExpenseList" />
+
+            <div class="ote-container">
+              <OTETable :paycheckId="paycheckId"/>
+            </div>
+
             <PaycheckInfo :number="1" :expenseList="expenseList1" />
           </div>
+
           <div class="double-container card">
             <PaycheckExpenses :number="2" @dateChange2="sendExpenseList" />
+            
+            <div class="ote-container">
+              <OTETable :paycheckId="paycheckId"/>
+            </div>
+
             <PaycheckInfo :number="2" :expenseList="expenseList2" />
           </div>
           <div class="combined-container card">
@@ -40,6 +56,7 @@ import { defineComponent } from "vue";
 
 import PaycheckExpenses from "../components/PaycheckExpenses.vue";
 import PaycheckInfo from "../components/PaycheckInfo.vue";
+import OTETable from "../components/OTETable.vue";
 import CombinedPay from "../components/CombinedPay.vue";
 import { useUserStore } from "../stores/UserStore";
 import { type Expense } from "../types";
@@ -56,17 +73,31 @@ export default defineComponent({
     PaycheckExpenses,
     PaycheckInfo,
     CombinedPay,
+    OTETable,
   },
   data() {
     return {
       userStore: useUserStore(),
+      paycheckId: "",
+      num: 1,
       showPaycheckCard: false,
       expenseList1: [] as Expense[],
       expenseList2: [] as Expense[],
     };
   },
   methods: {
-    sendExpenseList({ num, list }: { num: number; list: Expense[] }) {
+    sendExpenseList({
+      num,
+      list,
+      paycheckId,
+    }: {
+      num: number;
+      list: Expense[];
+      paycheckId: string;
+    }) {
+      this.paycheckId = paycheckId;
+      this.num = num;
+
       if (num === 1) {
         this.expenseList1 = list;
       } else {
@@ -100,29 +131,16 @@ export default defineComponent({
   height: fit-content;
 }
 
-.arrow-btn {
-  height: 35px;
-  width: 35px;
-  margin: 0 5px;
-  color: white;
-  padding: 0px;
-  background-color: #f9f9f9;
-}
-
-.arrow-img {
-  height: 25px;
-  width: 25px;
-  color: white;
-}
-
-.loading {
-  color: var(--text-color);
+.ote-container {
+  margin: auto;
+  width: 100%;
 }
 
 .combined-container {
   width: 75%;
   margin: 20px auto;
 }
+
 
 @media (max-width: 1024px) {
   .page-header {

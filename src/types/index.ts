@@ -26,6 +26,15 @@ export interface Expense {
   account?: string;
 }
 
+export interface OneTimeExpense {
+  id: string;
+  name: string;
+  amount: number;
+  date: string;
+  paycheckId: string
+  dateStr?: string | undefined;
+}
+
 export interface Paycheck {
   date: string;
   income: number;

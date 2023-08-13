@@ -2,7 +2,7 @@
   <div class="notifications">
     <h5>Here's a list of expenses coming up this week:</h5>
     <div class="master-list-container">
-      <MasterList pageType="accountNotifications" :expenses="expenseList" />
+      <MasterList pageType="notifications-noML-dateStr" :expenses="expenseList" />
     </div>
   </div>
 </template>

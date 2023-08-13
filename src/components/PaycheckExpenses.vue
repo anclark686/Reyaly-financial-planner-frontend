@@ -13,38 +13,25 @@
       </button>
     </div>
 
-    <table class="expense-table">
-      <thead class="expense-table-header">
-        <tr>
-          <td>Expense Name</td>
-          <td>Amount</td>
-          <td>Due Date</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="(expense, i) in expenseList"
-          :key="expense.id"
-          :class="i % 2 !== 0 ? 'expense-row every-other' : 'expense-row'"
-        >
-          <td>{{ expense.name }}</td>
-          <td>${{ expense.amount }}</td>
-          <td>{{ expense.dateStr }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="expense-list">
+      <MasterList pageType="paycheckList-noML-dateStr" :expenses="expenseList" />
+    </div>
   </main>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import MasterList from "./MasterList.vue";
 import { useUserStore } from "../stores/UserStore";
 import { type Expense } from "../types";
 
 export default defineComponent({
   props: {
     number: { type: Number, required: true },
+  },
+  components: {
+    MasterList,
   },
   data() {
     return {
@@ -53,6 +40,11 @@ export default defineComponent({
       paycheck: "",
       loading: false,
     };
+  },
+  computed: {
+    paychecks() {
+      return this.number === 1 ? this.userStore.paychecks : this.userStore.paychecks2;
+    },
   },
   watch: {
     paycheck: function () {
@@ -65,17 +57,15 @@ export default defineComponent({
     },
     changeDate(direction: string) {
       let pIndex = this.number === 1 ? this.userStore.pIndex : this.userStore.pIndex2;
-      let paychecks = this.number === 1 ? this.userStore.paychecks : this.userStore.paychecks2;
-
       if (direction === "next") {
         if (pIndex < this.userStore.paychecks.length - 1) {
           pIndex++;
-          this.paycheck = this.formatDate(paychecks[pIndex].date);
+          this.paycheck = this.formatDate(this.paychecks[pIndex].date);
         }
       } else {
         if (pIndex > 0) {
           pIndex--;
-          this.paycheck = this.formatDate(paychecks[pIndex].date);
+          this.paycheck = this.formatDate(this.paychecks[pIndex].date);
         }
       }
 
@@ -88,22 +78,23 @@ export default defineComponent({
     async getExpenses() {
       const payFreq = this.number === 1 ? this.userStore.payFreq : this.userStore.payFreq2;
       const params = `date=${this.paycheck};frequency=${payFreq}`;
+      let pIndex = this.number === 1 ? this.userStore.pIndex : this.userStore.pIndex2;
+
       await this.userStore
         .getExpenses(params)
         .then((res) => {
           this.expenseList = res.data;
           this.userStore.addConvertedDates(this.expenseList, this.paycheck);
           this.userStore.sortExpenseDateList(this.expenseList);
-          this.$emit(`dateChange${this.number}`, { num: this.number, list: this.expenseList });
+          this.$emit(`dateChange${this.number}`, { num: this.number, list: this.expenseList, paycheckId: this.paychecks[pIndex].id });
         })
         .catch((err) => console.log(err));
     },
   },
   mounted() {
     let pIndex = this.number === 1 ? this.userStore.pIndex : this.userStore.pIndex2;
-    let paychecks = this.number === 1 ? this.userStore.paychecks : this.userStore.paychecks2;
     this.loading = true;
-    this.paycheck = this.formatDate(paychecks[pIndex].date);
+    this.paycheck = this.formatDate(this.paychecks[pIndex].date);
     this.getExpenses();
     this.loading = false;
   },
