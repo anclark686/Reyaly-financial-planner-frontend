@@ -428,14 +428,20 @@ export const useUserStore = defineStore("UserStore", {
         check.dateObj = newDateObj;
       }
     },
-    combinePaychecks() {
+    combinePaychecks(): Paycheck[] {
       let paychecks = this.paychecks.concat(this.paychecks2);
-
+      
       paychecks = paychecks.sort((a: any = {} as Paycheck, b: any = {} as Paycheck) => {
         const aDate = new Date(a.date);
         const bDate = new Date(b.date);
         return aDate !== bDate ? aDate.valueOf() - bDate.valueOf() : aDate.valueOf();
       });
+
+      paychecks = paychecks.filter((value, index, self) =>
+        index === self.findIndex((check) => (
+          check.date === value.date
+        ))
+      )
       return paychecks;
     },
     sortExpenseDateList(expenseList: Expense[]): void {

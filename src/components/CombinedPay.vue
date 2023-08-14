@@ -184,24 +184,21 @@ export default defineComponent({
       return this.userStore.getExpenseTotal(this.expenseList);
     },
     whichPaycheck(): string {
-      const dateExistsInPaychecks1 = (value: string) =>
+      const dateInPaychecks1 = (value: string) =>
         this.userStore.paychecks.some((paycheck) => {
           return paycheck.date.includes(value);
         });
 
-      const dateExistsInPaychecks2 = (value: string) =>
+      const dateInPaychecks2 = (value: string) =>
         this.userStore.paychecks2.some((paycheck) => {
           return paycheck.date.includes(value);
         });
 
-      if (
-        dateExistsInPaychecks1(this.ogPaycheckStr) &&
-        dateExistsInPaychecks2(this.ogPaycheckStr)
-      ) {
+      if (dateInPaychecks1(this.ogPaycheckStr) && dateInPaychecks2(this.ogPaycheckStr)) {
         return "both";
-      } else if (dateExistsInPaychecks1(this.ogPaycheckStr)) {
+      } else if (dateInPaychecks1(this.ogPaycheckStr)) {
         return "one";
-      } else if (dateExistsInPaychecks2(this.ogPaycheckStr)) {
+      } else if (dateInPaychecks2(this.ogPaycheckStr)) {
         return "two";
       }
       return "none";
