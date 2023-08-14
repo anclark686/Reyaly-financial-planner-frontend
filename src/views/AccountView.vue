@@ -132,7 +132,7 @@ export default defineComponent({
     };
   },
   methods: {
-    addExpense(expense: Expense) {
+    addExpense(expense: Expense): void {
       this.expense = expense;
     },
     async addAccountList() {
@@ -143,7 +143,7 @@ export default defineComponent({
       this.showAccountForm = false;
       await this.userStore.fill(this.user.sub);
     },
-    onNewAcct() {
+    onNewAcct(): void {
       this.showAccountForm = true;
       this.expense = {} as Expense;
       this.accountFormType = "new";
@@ -156,7 +156,7 @@ export default defineComponent({
         expenses: [] as Expense[],
       } as Account;
     },
-    onEditAcct(accountData: Account) {
+    onEditAcct(accountData: Account): void {
       this.expense = {} as Expense;
       this.accountFormType = "edit";
       this.editAccount = accountData;

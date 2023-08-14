@@ -113,7 +113,7 @@ export default defineComponent({
     },
   },
   methods: {
-    async addExpense(expenseData: Expense) {
+    async addExpense(expenseData: Expense): Promise<any> {
       await this.userStore
         .addExpense(expenseData)
         .then((res) => {
@@ -127,7 +127,7 @@ export default defineComponent({
         })
         .catch((err) => console.log(err));
     },
-    onEditClick(expense: Expense, idx: number) {
+    onEditClick(expense: Expense, idx: number): void {
       this.addNew = false;
       if (!this.edit) {
         this.edit = true;
@@ -135,7 +135,7 @@ export default defineComponent({
         this.editRow = idx;
       }
     },
-    async editExpenseInfo(expenseData: Expense) {
+    async editExpenseInfo(expenseData: Expense): Promise<any> {
       await this.userStore
         .editExpense(expenseData)
         .then((res) => {
@@ -157,15 +157,15 @@ export default defineComponent({
         })
         .catch((err) => console.log(err));
     },
-    cancelEdit() {
+    cancelEdit(): void {
       this.edit = false;
       this.editInfo = {} as Expense;
     },
-    preDelete(id: string, idx: number, title: string) {
+    preDelete(id: string, idx: number, title: string): void {
       this.showModal = true;
       this.deleteInfo = { id: id, idx: idx, title: title };
     },
-    async onDelete(id: string, idx: number) {
+    async onDelete(id: string, idx: number): Promise<any> {
       this.showModal = false;
       await this.userStore
         .deleteExpense(id)
@@ -179,13 +179,13 @@ export default defineComponent({
         })
         .catch((err) => console.log(err));
     },
-    onAddClick(expense: Expense) {
+    onAddClick(expense: Expense): void {
       this.$emit("addExpense", expense);
     },
-    onRemoveClick(idx: number) {
+    onRemoveClick(idx: number): void {
       this.masterList.splice(idx, 1);
     },
-    sortMasterList() {
+    sortMasterList(): void {
       this.masterList.sort((a: any = {} as Expense, b: any = {} as Expense) => {
         return a.date - b.date;
       });

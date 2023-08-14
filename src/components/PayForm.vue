@@ -86,6 +86,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import { type PayData } from "../types";
+
 export default defineComponent({
   props: {
     number: { type: Number, required: true },
@@ -108,7 +110,7 @@ export default defineComponent({
     };
   },
   computed: {
-    userPayData() {
+    userPayData(): PayData {
       const userPayData = {
         number: this.number,
         pay: this.newPay,

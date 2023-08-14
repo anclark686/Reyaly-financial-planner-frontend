@@ -141,17 +141,17 @@ export default defineComponent({
     };
   },
   methods: {
-    snowball() {
+    snowball(): void {
       this.debts.sort((a: any = {}, b: any = {}) => {
         return a.owed - b.owed;
       });
     },
-    avalanche() {
+    avalanche(): void {
       this.debts.sort((a: any = {}, b: any = {}) => {
         return b.rate - a.rate;
       });
     },
-    calculatePayoff() {
+    calculatePayoff(): void {
       this.sortedDebtList = [] as {
         name: string;
         payment: number;
@@ -196,7 +196,7 @@ export default defineComponent({
 
       this.showPayoff = true;
     },
-    onSubmit() {
+    onSubmit(): void {
       if (this.type) {
         this.invalid = false;
         this.calculatePayoff();

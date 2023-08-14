@@ -21,7 +21,7 @@
     </main>
 
     <div class="button-container">
-      <button class="modify-btn btn btn-success btn-sm" @click="editAcct(account.id)">Edit</button>
+      <button class="modify-btn btn btn-success btn-sm" @click="editAcct()">Edit</button>
       <button
         class="modify-btn btn btn-success btn-sm"
         @click="preDelete(account.id, account.name)"
@@ -66,19 +66,19 @@ export default defineComponent({
     };
   },
   computed: {
-    total() {
+    total(): number {
       return this.userStore.getExpenseTotal(this.account.expenses);
     },
   },
   methods: {
-    editAcct(id: string) {
+    editAcct(): void {
       this.$emit("edit", this.account);
     },
-    preDelete(id: string, title: string) {
+    preDelete(id: string, title: string): void {
       this.showModal = true;
       this.deleteInfo = { id: id, title: title };
     },
-    async deleteAcct(id: string) {
+    async deleteAcct(id: string): Promise<any> {
       await this.userStore
         .deleteAcct(id)
         .then((res) => console.log(res))

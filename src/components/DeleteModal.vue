@@ -9,7 +9,7 @@
           <hr />
           <div class="modal-body">
             <p name="body">Are you sure you want to delete</p>
-            <p name="body" id="recipe-title">{{ name }}?</p>
+            <p name="body" id="title">{{ name }}?</p>
           </div>
 
           <div class="modal-footer">
@@ -32,7 +32,7 @@ export default {
     name: { type: String, required: true },
   },
   methods: {
-    onClickButton(event: any) {
+    onClickButton(): void {
       this.$emit("clicked");
     },
   },
@@ -66,7 +66,6 @@ export default {
   border: 2px solid var(--black-white);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
-  font-family: Helvetica, Arial, sans-serif;
   color: var(--text-color);
 }
 
@@ -80,13 +79,14 @@ export default {
   text-align: center;
 }
 
-#recipe-title {
-  font-style: italic;
+#title {
   font-weight: bold;
 }
 
 .modal-footer {
   text-align: center;
+  padding: 0;
+  justify-content: center;
 }
 
 .modal-btn {

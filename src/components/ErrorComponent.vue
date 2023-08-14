@@ -20,7 +20,7 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   methods: {
-    refreshScreen() {
+    refreshScreen(): void {
       window.location.reload();
     },
   },

@@ -5,8 +5,8 @@ import { type Debt } from "../types";
 import { type Expense } from "../types";
 import { type OneTimeExpense } from "../types";
 
-// const baseUrl = "http://127.0.0.1:3000";
-const baseUrl = "https://reyaly-financial-backend-983411f48872.herokuapp.com";
+const baseUrl = "http://127.0.0.1:3000";
+// const baseUrl = "https://reyaly-financial-backend-983411f48872.herokuapp.com";
 
 Axios.interceptors.response.use(
   (res) => {

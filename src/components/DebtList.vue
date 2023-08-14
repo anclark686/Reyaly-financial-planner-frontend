@@ -110,7 +110,7 @@ export default defineComponent({
     },
   },
   methods: {
-    sortDebts() {
+    sortDebts(): void {
       if (this.sortVal === "name" || this.sortVal === "type") {
         this.debtList = this.debtList.sort((a: any = {}, b: any = {}) => {
           return a[this.sortVal].localeCompare(b[this.sortVal]);
@@ -121,7 +121,7 @@ export default defineComponent({
         });
       }
     },
-    async addDebt(debtData: Debt) {
+    async addDebt(debtData: Debt): Promise<any> {
       await this.userStore
         .addDebt(debtData)
         .then((res) => {
@@ -134,7 +134,7 @@ export default defineComponent({
         })
         .catch((err) => console.log(err));
     },
-    onEditClick(debt: Debt, idx: number) {
+    onEditClick(debt: Debt, idx: number): void {
       this.addNew = false;
       if (!this.edit) {
         this.edit = true;
@@ -142,7 +142,7 @@ export default defineComponent({
         this.editRow = idx;
       }
     },
-    async editDebt(debtData: Debt) {
+    async editDebt(debtData: Debt): Promise<any> {
       await this.userStore
         .editDebt(debtData)
         .then((res) => {
@@ -158,11 +158,11 @@ export default defineComponent({
         })
         .catch((err) => console.log(err));
     },
-    cancelEdit() {
+    cancelEdit(): void {
       this.edit = false;
       this.editInfo = {} as Debt;
     },
-    async onDelete(id: string, idx: number) {
+    async onDelete(id: string, idx: number): Promise<any> {
       await this.userStore
         .deleteDebt(id)
         .then((res) => {

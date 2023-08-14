@@ -29,7 +29,7 @@ export default defineComponent({
     };
   },
   methods: {
-    async getExpenses() {
+    async getExpenses(): Promise<any> {
       const params = `date=${this.date};frequency=${this.frequency}`;
       if (this.userStore.dbUserId) {
         await this.userStore

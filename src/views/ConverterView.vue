@@ -45,12 +45,12 @@ export default defineComponent({
     };
   },
   computed: {
-    currencyList() {
+    currencyList(): string[] {
       return this.userStore.currencies;
     },
   },
   methods: {
-    async getCurrencyData(data: { want: string; have: string; amount: number }) {
+    async getCurrencyData(data: { want: string; have: string; amount: number }): Promise<any> {
       await this.userStore
         .getCurrencyInfo(data.want, data.have, data.amount)
         .then((res) => {
@@ -60,7 +60,6 @@ export default defineComponent({
         .catch((err) => console.log(err));
     },
   },
-  async mounted() {},
 });
 </script>
 

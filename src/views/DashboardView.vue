@@ -227,10 +227,10 @@ export default defineComponent({
     ErrorComponent,
   },
   methods: {
-    handleFormClick() {
+    handleFormClick(): void {
       this.showUserForm = !this.showUserForm;
     },
-    async downloadExcel() {
+    async downloadExcel(): Promise<any> {
       await this.userStore.generateJSON(this.user.nickname).then((res: any) => {
         let alink = document.createElement("a");
         const fileName = `${this.user.nickname}-expense-info.xls`;

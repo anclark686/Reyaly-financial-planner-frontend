@@ -145,12 +145,12 @@ export default defineComponent({
     MasterList,
   },
   methods: {
-    clearInfo() {
+    clearInfo(): void {
       this.name = "";
       this.startBalance = 0;
       this.expenseList = this.account.expenses;
     },
-    async addNewAcct() {
+    async addNewAcct(): Promise<any> {
       await this.userStore
         .addAcct(this.acctInfo)
         .then((res) => {
@@ -159,7 +159,7 @@ export default defineComponent({
         })
         .catch((err) => console.log(err));
     },
-    async editAcct() {
+    async editAcct(): Promise<any> {
       this.acctInfo.id = this.account.id;
       await this.userStore
         .editAcct(this.acctInfo)
@@ -171,11 +171,11 @@ export default defineComponent({
         })
         .catch((err) => console.log(err));
     },
-    cancel() {
+    cancel(): void {
       this.account.expenses = this.account.expenses.filter((i: any) => i.account);
       this.$emit("cancel");
     },
-    onSubmit() {
+    onSubmit(): void {
       if (this.name && this.startBalance && this.expenseList.length > 0) {
         this.invalid = false;
 
@@ -188,8 +188,8 @@ export default defineComponent({
         this.invalid = true;
       }
     },
-    clear() {
-      this.expenseList = [];
+    clear(): void {
+      this.expenseList = [] as Expense[];
     },
   },
 });

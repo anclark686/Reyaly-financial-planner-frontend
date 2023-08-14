@@ -73,11 +73,11 @@ export default defineComponent({
     };
   },
   computed: {
-    dateArr() {
-      const dateArr = Array.from({ length: 31 }, (val, idx) => idx + 1);
+    dateArr(): number[] {
+      const dateArr = Array.from({ length: 31 }, (_, idx) => idx + 1);
       return dateArr;
     },
-    expenseData() {
+    expenseData(): Expense {
       const expenseData = {
         id: this.expense.id,
         name: this.name,
@@ -88,12 +88,12 @@ export default defineComponent({
     },
   },
   methods: {
-    clearInfo() {
+    clearInfo(): void {
       this.name = "";
       this.amount = 0;
       this.date = 0;
     },
-    onSubmit() {
+    onSubmit(): void {
       if (this.name && this.date) {
         this.invalid = false;
         if (this.type === "new") {

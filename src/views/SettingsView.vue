@@ -56,7 +56,7 @@ export default defineComponent({
     };
   },
   computed: {
-    userInfo() {
+    userInfo(): User {
       const userInfo = {
         residence: this.userStore.residence,
         relationship: this.userStore.relationship,

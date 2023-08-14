@@ -35,7 +35,7 @@
       </div>
 
       <section class="left-align demo-item fade-in full-width">
-          <img alt="The Master List" src="../assets/master-list.png" class="demo-pic" />
+        <img alt="The Master List" src="../assets/master-list.png" class="demo-pic" />
         <div class="demo-text-content">
           <h3 class="text-header">The Master List</h3>
           <p class="demo-summary">
@@ -54,10 +54,10 @@
             added by clicking on a date cell.
           </p>
         </div>
-          <img alt="The Calendar View" src="../assets/calendar-view.png" class="demo-pic" />
+        <img alt="The Calendar View" src="../assets/calendar-view.png" class="demo-pic" />
       </section>
       <section class="left-align demo-item fade-in full-width">
-          <img alt="The Paycheck View" src="../assets/paycheck-view.png" class="demo-pic" />
+        <img alt="The Paycheck View" src="../assets/paycheck-view.png" class="demo-pic" />
         <div class="demo-text-content">
           <h3 class="text-header">The Paycheck View</h3>
           <p class="demo-summary">
@@ -75,10 +75,10 @@
             total will be shown!
           </p>
         </div>
-          <img alt="The Account View" src="../assets/account-view.png" class="demo-pic" />
+        <img alt="The Account View" src="../assets/account-view.png" class="demo-pic" />
       </section>
       <section class="left-align demo-item fade-in full-width">
-          <img alt="The Debt View" src="../assets/debt-view.png" class="demo-pic" />
+        <img alt="The Debt View" src="../assets/debt-view.png" class="demo-pic" />
         <div class="demo-text-content">
           <h3 class="text-header">The Debt View</h3>
           <p class="demo-summary">
@@ -99,7 +99,6 @@
         <img alt="The Savings View" src="../assets/savings-view.png" class="demo-pic" />
       </section>
       <section class="left-align demo-item fade-in full-width">
-        
         <img alt="Currency Converter" src="../assets/currency.png" class="demo-pic" />
         <div class="demo-text-content">
           <h3 class="text-header">Currency Converter</h3>
@@ -133,7 +132,7 @@ import LoginButton from "../components/LoginButton.vue";
 const { isAuthenticated, isLoading } = useAuth0();
 let fadeInElements: HTMLElement[] = [];
 
-const handleScroll = () => {
+const handleScroll = (): void => {
   for (var i = 0; i < fadeInElements.length; i++) {
     var elem = fadeInElements[i];
     if (isElemVisible(elem)) {
@@ -144,7 +143,7 @@ const handleScroll = () => {
   }
 };
 
-const isElemVisible = (el: HTMLElement) => {
+const isElemVisible = (el: HTMLElement): boolean => {
   var rect = el.getBoundingClientRect();
   var elemTop = rect.top + 200;
   var elemBottom = rect.bottom;

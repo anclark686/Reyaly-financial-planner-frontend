@@ -130,8 +130,7 @@ export default defineComponent({
     };
   },
   methods: {
-    clearInfo() {},
-    calculateSavings() {
+    calculateSavings(): void {
       const percentage = this.rate / 100;
       let yearsRate: number;
 
@@ -152,7 +151,6 @@ export default defineComponent({
     },
     onSubmit() {
       this.calculateSavings();
-      this.clearInfo();
     },
   },
 });

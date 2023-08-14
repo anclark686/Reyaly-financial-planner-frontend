@@ -146,7 +146,7 @@ export default defineComponent({
     };
   },
   computed: {
-    oteData() {
+    oteData(): OneTimeExpense {
       const oteData = {
         id: this.otExpense.id,
         paycheck: this.paycheckId,
@@ -159,7 +159,7 @@ export default defineComponent({
     },
   },
   methods: {
-    filterPaychecks() {
+    filterPaychecks(): Paycheck[] {
       const checks = this.paychecks.filter((check: Paycheck) => {
         return (
           check.dateObj.getFullYear() === this.year && check.dateObj.getMonth() === this.month - 1
@@ -167,7 +167,7 @@ export default defineComponent({
       });
       return checks;
     },
-    clearInfo() {
+    clearInfo(): void {
       this.oteName = "";
       this.oteAmount = 0;
       this.oteDate = "";
@@ -175,11 +175,11 @@ export default defineComponent({
       this.year = 0;
       this.month = 0;
     },
-    changePaycheck(paycheck: Paycheck) {
+    changePaycheck(paycheck: Paycheck): void {
       this.newPaycheck = paycheck;
       this.paycheckPicker = false;
     },
-    onSubmit() {
+    onSubmit(): void {
       if (this.oteName && this.oteAmount && this.oteDate) {
         this.invalid = false;
 

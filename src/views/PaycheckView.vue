@@ -113,7 +113,7 @@ export default defineComponent({
     };
   },
   methods: {
-    updateOTEtotal({ total, num }: { total: number; num: number }) {
+    updateOTEtotal({ total, num }: { total: number; num: number }): void {
       if (num === 1) {
         this.oteTotal1 = total;
       } else {
@@ -128,7 +128,7 @@ export default defineComponent({
       num: number;
       list: Expense[];
       paycheckId: string;
-    }) {
+    }): void {
       if (num === 1) {
         this.paycheckId1 = paycheckId;
       } else {
@@ -143,7 +143,7 @@ export default defineComponent({
         this.expenseList2 = list;
       }
     },
-    handleChange(bool: boolean) {
+    handleChange(bool: boolean): void {
       this.possChange = bool;
     },
   },

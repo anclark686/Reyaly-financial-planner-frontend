@@ -65,6 +65,7 @@ import { useUserStore } from "../stores/UserStore";
 import OTEForm from "../components/OTEForm.vue";
 import DeleteModal from "./DeleteModal.vue";
 import { type OneTimeExpense } from "../types";
+import { type Paycheck } from "../types";
 
 export default defineComponent({
   props: {
@@ -91,7 +92,7 @@ export default defineComponent({
     };
   },
   computed: {
-    paychecks() {
+    paychecks(): Paycheck[] {
       return this.userStore.combinePaychecks();
     },
   },
@@ -110,26 +111,26 @@ export default defineComponent({
     },
   },
   methods: {
-    filterOTExpenses() {
+    filterOTExpenses(): void {
       for (const ote of this.userStore.otExpenses) {
         if (ote.paycheck === this.paycheckId) {
           this.otExpenseList.push(ote);
         }
       }
     },
-    sortOTExpenses() {
+    sortOTExpenses(): void {
       this.otExpenseList.sort((a: any = {}, b: any = {}) => {
         const aDate = new Date(a.date);
         const bDate = new Date(b.date);
         return aDate.valueOf() - bDate.valueOf();
       });
     },
-    calculateTotal(otExpenseList: OneTimeExpense[]) {
+    calculateTotal(otExpenseList: OneTimeExpense[]): number {
       const total = otExpenseList.reduce((a: any = {}, b: any = {}) => a + b.amount, 0);
       this.$emit("newTotal", { total: total, num: this.number });
       return total;
     },
-    async addNew(oteData: OneTimeExpense) {
+    async addNew(oteData: OneTimeExpense): Promise<any> {
       await this.userStore
         .addOTExpense(oteData)
         .then((res) => {
@@ -145,7 +146,7 @@ export default defineComponent({
         })
         .catch((err) => console.log(err));
     },
-    onEditClick(expense: OneTimeExpense, idx: number) {
+    onEditClick(expense: OneTimeExpense, idx: number): void {
       this.showOTEForm = true;
       this.oteFormType = "edit";
       if (!this.edit) {
@@ -154,13 +155,13 @@ export default defineComponent({
         this.editRow = idx;
       }
     },
-    cancelEdit() {
+    cancelEdit(): void {
       this.edit = false;
       this.editInfo = {} as OneTimeExpense;
       this.oteFormType = "new";
       this.showOTEForm = false;
     },
-    async editOTE(oteData: OneTimeExpense) {
+    async editOTE(oteData: OneTimeExpense): Promise<any> {
       if (oteData.newPaycheck !== oteData.paycheck) {
         this.$emit("possChange", true);
       }
@@ -196,11 +197,11 @@ export default defineComponent({
         })
         .catch((err) => console.log(err));
     },
-    preDelete(id: string, idx: number, title: string) {
+    preDelete(id: string, idx: number, title: string): void {
       this.showModal = true;
       this.deleteInfo = { id: id, idx: idx, title: title };
     },
-    async onDelete(id: string, idx: number) {
+    async onDelete(id: string, idx: number): Promise<any> {
       this.showModal = false;
       await this.userStore
         .deleteOTExpense(this.paycheckId, id)
@@ -267,8 +268,5 @@ export default defineComponent({
 .btn-container {
   margin: auto;
   text-align: center;
-}
-
-@media (max-width: 600px) {
 }
 </style>

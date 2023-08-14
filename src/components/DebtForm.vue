@@ -80,6 +80,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import { type Debt } from "../types";
+
 export default defineComponent({
   props: {
     pageType: { type: String, required: true },
@@ -97,7 +99,7 @@ export default defineComponent({
     };
   },
   computed: {
-    debtData() {
+    debtData(): Debt {
       const debtData = {
         id: this.debt.id,
         name: this.name,
@@ -111,7 +113,7 @@ export default defineComponent({
     },
   },
   methods: {
-    clearInfo() {
+    clearInfo(): void {
       this.name = "";
       this.type = "";
       this.owed = 0;
@@ -119,7 +121,7 @@ export default defineComponent({
       this.rate = 0;
       this.payment = 0;
     },
-    onSubmit() {
+    onSubmit(): void {
       if (this.name && this.type) {
         this.invalid = false;
         if (this.pageType === "new") {

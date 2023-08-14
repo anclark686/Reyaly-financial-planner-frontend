@@ -142,7 +142,7 @@ export default defineComponent({
     },
   },
   computed: {
-    data() {
+    data(): { want: string; have: string; amount: number } {
       const data = {
         want: this.newCurrency,
         have: this.ogCurrency,
@@ -152,7 +152,7 @@ export default defineComponent({
     },
   },
   methods: {
-    clearInfo() {
+    clearInfo(): void {
       this.ogCurrency = "";
       this.newCurrency = "";
       this.amount = 0;
@@ -164,7 +164,7 @@ export default defineComponent({
       };
       this.newExchangeData = { currency_pair: "", exchange_rate: 0 };
     },
-    onSubmit() {
+    onSubmit(): void {
       if (this.ogCurrency && this.newCurrency && this.amount) {
         this.invalid = false;
         this.$emit("convert", this.data);

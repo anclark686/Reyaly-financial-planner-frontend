@@ -26,6 +26,7 @@ import { defineComponent } from "vue";
 import MasterList from "./MasterList.vue";
 import { useUserStore } from "../stores/UserStore";
 import { type Expense } from "../types";
+import { type Paycheck } from "../types";
 
 export default defineComponent({
   props: {
@@ -43,7 +44,7 @@ export default defineComponent({
     };
   },
   computed: {
-    paychecks() {
+    paychecks(): Paycheck[] {
       return this.number === 1 ? this.userStore.paychecks : this.userStore.paychecks2;
     },
   },
@@ -53,10 +54,10 @@ export default defineComponent({
     },
   },
   methods: {
-    formatDate(dateStr: string) {
+    formatDate(dateStr: string): string {
       return this.userStore.formatDays(new Date(dateStr));
     },
-    changeDate(direction: string) {
+    changeDate(direction: string): void {
       let pIndex = this.number === 1 ? this.userStore.pIndex : this.userStore.pIndex2;
       if (direction === "next") {
         if (pIndex < this.userStore.paychecks.length - 1) {
@@ -76,7 +77,7 @@ export default defineComponent({
         this.userStore.pIndex2 = pIndex;
       }
     },
-    async getExpenses() {
+    async getExpenses(): Promise<any> {
       const payFreq = this.number === 1 ? this.userStore.payFreq : this.userStore.payFreq2;
       const params = `date=${this.paycheck};frequency=${payFreq}`;
       let pIndex = this.number === 1 ? this.userStore.pIndex : this.userStore.pIndex2;
@@ -107,6 +108,11 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.main-card {
+  background-color: var(--white-black);
+  color: var(--text-color);
+}
+
 .card-header {
   text-align: center;
   display: flex;
@@ -144,5 +150,9 @@ export default defineComponent({
   text-align: center;
   margin: 5px auto -15px auto;
   color: var(--text-color);
+}
+
+.expense-list {
+  background-color: var(--white-black);
 }
 </style>

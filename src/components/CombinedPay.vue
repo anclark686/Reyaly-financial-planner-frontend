@@ -180,10 +180,10 @@ export default defineComponent({
     },
   },
   computed: {
-    total() {
+    total(): number {
       return this.userStore.getExpenseTotal(this.expenseList);
     },
-    whichPaycheck() {
+    whichPaycheck(): string {
       const dateExistsInPaychecks1 = (value: string) =>
         this.userStore.paychecks.some((paycheck) => {
           return paycheck.date.includes(value);
@@ -204,8 +204,9 @@ export default defineComponent({
       } else if (dateExistsInPaychecks2(this.ogPaycheckStr)) {
         return "two";
       }
+      return "none";
     },
-    remaining() {
+    remaining(): number {
       let one: number;
       let two: number;
 
@@ -222,7 +223,7 @@ export default defineComponent({
 
       return this.additionalFunds + one + two - this.total;
     },
-    estGross() {
+    estGross(): { gross1: number; gross2: number } {
       let gross1: number;
       let gross2: number;
       if (this.whichPaycheck === "one") {
@@ -237,7 +238,7 @@ export default defineComponent({
         return { gross1: gross1, gross2: gross2 };
       }
     },
-    deductions() {
+    deductions(): { deductions1: number; deductions2: number } {
       let deductions1: number;
       let deductions2: number;
       if (this.whichPaycheck === "one") {
@@ -252,7 +253,7 @@ export default defineComponent({
         return { deductions1: deductions1, deductions2: deductions2 };
       }
     },
-    estFedTax() {
+    estFedTax(): { estFedTax1: number; estFedTax2: number } {
       let estFedTax1: number;
       let estFedTax2: number;
       if (this.whichPaycheck === "one") {
@@ -267,7 +268,7 @@ export default defineComponent({
         return { estFedTax1: estFedTax1, estFedTax2: estFedTax2 };
       }
     },
-    estLocalTax() {
+    estLocalTax(): { estLocalTax1: number; estLocalTax2: number } {
       let estLocalTax1: number;
       let estLocalTax2: number;
       if (this.whichPaycheck === "one") {
@@ -282,7 +283,7 @@ export default defineComponent({
         return { estLocalTax1: estLocalTax1, estLocalTax2: estLocalTax2 };
       }
     },
-    estNet() {
+    estNet(): { estNet1: number; estNet2: number } {
       let estNet1: number;
       let estNet2: number;
       if (this.whichPaycheck === "one") {
@@ -299,10 +300,10 @@ export default defineComponent({
     },
   },
   methods: {
-    formatDate(dateStr: string) {
+    formatDate(dateStr: string): string {
       return this.userStore.formatDays(new Date(dateStr));
     },
-    changeDate(direction: string) {
+    changeDate(direction: string): void {
       if (direction === "next") {
         if (this.pIndex < this.userStore.paychecks.length - 1) {
           this.pIndex++;
@@ -319,7 +320,7 @@ export default defineComponent({
         }
       }
     },
-    async getExpenses() {
+    async getExpenses(): Promise<any> {
       const params = `date1=${this.paycheck1};date2=${this.paycheck2}`;
 
       await this.userStore

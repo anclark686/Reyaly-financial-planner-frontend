@@ -241,7 +241,7 @@ export default defineComponent({
     };
   },
   methods: {
-    addPayInfo(userPayData: PayData) {
+    addPayInfo(userPayData: PayData): void {
       this.invalid = false;
       if (userPayData.number === 1) {
         this.userWithPay.pay = userPayData.pay;
@@ -259,9 +259,8 @@ export default defineComponent({
         this.userWithPay.date2 = userPayData.date;
         this.userWithPay.deductions2 = userPayData.deductions;
       }
-      console.log(this.userWithPay);
     },
-    async addUser() {
+    async addUser(): Promise<any> {
       this.loadingSettings = true;
       await this.userStore
         .addUser(this.userWithPay)
@@ -276,7 +275,7 @@ export default defineComponent({
         })
         .catch((err) => console.log(err));
     },
-    async editUser() {
+    async editUser(): Promise<any> {
       this.loadingSettings = true;
       await this.userStore
         .editUser(this.userWithPay)
@@ -291,7 +290,7 @@ export default defineComponent({
         })
         .catch((err) => console.log(err));
     },
-    onDeleteSecond() {
+    onDeleteSecond(): void {
       this.showSecond = false;
       this.showModal = false;
       this.userStore.deleteSecondIncome();
@@ -303,7 +302,7 @@ export default defineComponent({
       this.userWithPay.date2 = "";
       this.userWithPay.deductions2 = 0;
     },
-    validateInfo() {
+    validateInfo(): boolean {
       for (const [key, value] of Object.entries(this.userWithPay)) {
         if (!value && !key.includes("2")) {
           return false;
@@ -314,7 +313,7 @@ export default defineComponent({
       }
       return true;
     },
-    onSubmit() {
+    onSubmit(): void {
       this.userWithPay.email = this.user.email!;
       this.userWithPay.username = this.user.nickname!;
       this.userWithPay.uid = this.user.sub!;

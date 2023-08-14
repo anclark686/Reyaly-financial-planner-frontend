@@ -185,10 +185,10 @@ export default defineComponent({
     };
   },
   computed: {
-    total() {
+    total(): number {
       return this.userStore.getExpenseTotal(this.expenseList) + this.oteTotal;
     },
-    remaining() {
+    remaining(): number {
       return this.additionalFunds + (this.userStore.getEstNet(this.number) - this.total);
     },
   },

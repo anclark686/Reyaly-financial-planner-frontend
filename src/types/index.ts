@@ -84,7 +84,6 @@ export interface ExchangeData {
 
 export interface PayData {
   number: number;
-  formType: string;
   pay: number;
   rate: string;
   frequency: string;

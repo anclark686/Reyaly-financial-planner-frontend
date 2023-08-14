@@ -100,10 +100,10 @@ export default defineComponent({
     };
   },
   methods: {
-    onShowMenu() {
+    onShowMenu(): void {
       this.showMenu = !this.showMenu;
     },
-    adjDarkLight(color: string) {
+    adjDarkLight(color: string): void {
       document.cookie = `darkmode=${color}; max-age=31536000;`;
       this.userStore.darkMode = color;
     },
