@@ -4,11 +4,17 @@
     <div class="master-list-container">
       <MasterList pageType="notifications-noML-dateStr" :expenses="expenseList" />
     </div>
+    <p class="link-adjust">
+      Click
+      <RouterLink to="/views/calendar">here</RouterLink>
+      to view a full calendar of expenses.
+    </p>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { RouterLink } from "vue-router";
 
 import MasterList from "../components/MasterList.vue";
 import { useUserStore } from "../stores/UserStore";
@@ -20,6 +26,7 @@ export default defineComponent({
   },
   components: {
     MasterList,
+    RouterLink,
   },
   data() {
     return {
@@ -53,10 +60,16 @@ export default defineComponent({
 .notifications {
   text-align: center;
 }
+
 .master-list-container {
   width: 75%;
   margin: auto;
 }
+
+.link-adjust {
+  margin-bottom: 10px;
+}
+
 @media (max-width: 1024px) {
   .master-list-container {
     width: 90%;

@@ -83,6 +83,7 @@ export default defineComponent({
         name: this.name,
         amount: this.amount,
         date: this.date,
+        dateStr: this.expense.dateStr,
       };
       return expenseData;
     },
@@ -121,6 +122,7 @@ export default defineComponent({
   text-align: center;
   justify-content: space-around;
   flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 .input-row {
   display: flex;

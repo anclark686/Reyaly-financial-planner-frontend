@@ -57,7 +57,12 @@
         <img alt="The Calendar View" src="../assets/calendar-view.png" class="demo-pic" />
       </section>
       <section class="left-align demo-item fade-in full-width">
-        <img alt="The Paycheck View" src="../assets/paycheck-view.png" class="demo-pic" />
+        <img
+          alt="The Paycheck View"
+          src="../assets/paycheck-view.png"
+          class="demo-pic"
+          id="paycheck"
+        />
         <div class="demo-text-content">
           <h3 class="text-header">The Paycheck View</h3>
           <p class="demo-summary">
@@ -276,6 +281,10 @@ onUnmounted(() => {
 .demo-pic {
   max-width: 75%;
   border-radius: 10px;
+}
+
+#paycheck {
+  max-width: 50%;
 }
 
 .demo-summary {

@@ -260,20 +260,25 @@ export default defineComponent({
   text-align: center;
   color: var(--text-color);
   border-radius: 15px;
-  border: 2px solid black;
+  border: 2px solid var(--black-white);
   width: 50%;
   margin: 30px auto 0 auto;
   background-color: var(--green-bg);
 }
 
 .notif-header {
+  margin: 10px;
   display: flex;
   justify-content: center;
 }
 
 .emoji-btn {
-  border: none;
-  background-color: inherit;
+  border: 1px solid var(--black-white);
+  border-radius: 5px;
+  padding: 0 2px;
+  height: fit-content;
+  align-self: center;
+  margin: 5px;
 }
 
 .view-boxes {

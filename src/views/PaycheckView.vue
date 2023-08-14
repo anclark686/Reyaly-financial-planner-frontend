@@ -151,7 +151,10 @@ export default defineComponent({
     await this.userStore.fill(this.user.sub);
     this.showPaycheckCard = true;
     this.paycheckId1 = this.userStore.paychecks[this.userStore.pIndex].id;
-    this.paycheckId2 = this.userStore.paychecks2[this.userStore.pIndex2].id;
+    
+    if (this.userStore.paychecks2.length > 0) {
+      this.paycheckId2 = this.userStore.paychecks2[this.userStore.pIndex2].id;
+    }
   },
 });
 </script>

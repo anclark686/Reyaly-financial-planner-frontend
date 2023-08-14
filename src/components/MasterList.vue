@@ -8,7 +8,7 @@
             <td>Expense Name</td>
             <td>Amount</td>
             <td>Due Date</td>
-            <td v-if="pageType === 'settings'">Modify</td>
+            <td v-if="pageType === 'settings' || pageType === 'paycheckList-noML-dateStr'">Modify</td>
             <td v-if="pageType === 'account'">Account</td>
             <td v-if="pageType === 'account'">Add</td>
             <td v-if="pageType === 'accountForm-noML'">Remove</td>
@@ -24,7 +24,7 @@
             <td>${{ expense.amount }}</td>
             <td v-if="!pageType.includes('dateStr')">{{ expense.date }}</td>
             <td v-else>{{ expense.dateStr }}</td>
-            <td v-if="pageType === 'settings'">
+            <td v-if="pageType === 'settings' || pageType === 'paycheckList-noML-dateStr'">
               <button class="emoji-btn" @click="onEditClick(expense, i)">✏️</button>
               |
               <button class="emoji-btn" @click="preDelete(expense.id, i, expense.name)">❌</button>
@@ -146,6 +146,7 @@ export default defineComponent({
               name: expenseData.name,
               amount: expenseData.amount,
               date: expenseData.date,
+              dateStr: expenseData.dateStr,
             });
             this.sortMasterList();
             this.edit = false;
@@ -236,11 +237,11 @@ export default defineComponent({
   border: 1px solid var(--black-white);
   border-radius: 5px;
   padding: 0 2px;
-  background-color: var(--med-green);
+  background-color: rgb(237, 237, 237);
 }
 
 .button-container {
-  margin: 20px;
+  margin-bottom: 20px;
   text-align: center;
 }
 

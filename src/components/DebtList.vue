@@ -209,6 +209,7 @@ export default defineComponent({
 .emoji-btn {
   border: none;
   background-color: inherit;
+  padding: 0;
 }
 .button-container {
   margin: 20px;
