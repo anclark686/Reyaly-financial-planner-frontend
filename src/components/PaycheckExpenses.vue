@@ -140,6 +140,10 @@ export default defineComponent({
   outline: 2px solid var(--med-green);
 }
 
+.arrow-btn:focus {
+  box-shadow: 0 0 0 0.2rem var(--med-green);
+}
+
 .arrow-img {
   height: 25px;
   width: 25px;

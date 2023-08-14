@@ -196,32 +196,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.card-header {
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  background-color: white;
-}
-
-.arrow-btn {
-  height: 35px;
-  width: 35px;
-  margin: 0 5px;
-  color: white;
-  padding: 0px;
-  background-color: white;
-}
-
-.arrow-img {
-  height: 25px;
-  width: 25px;
-  color: white;
-}
-
-.loading {
-  color: var(--text-color);
-}
-
 .main-card {
   background-color: var(--white-black);
   color: var(--text-color);
