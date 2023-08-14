@@ -67,7 +67,7 @@ import JSConfetti from "js-confetti";
 
 import { useUserStore } from "../stores/UserStore";
 import ExpenseForm from "../components/ExpenseForm.vue";
-import ErrorComponent from "@/components/ErrorComponent.vue";
+import ErrorComponent from "../components/ErrorComponent.vue";
 
 const jsConfetti = new JSConfetti();
 

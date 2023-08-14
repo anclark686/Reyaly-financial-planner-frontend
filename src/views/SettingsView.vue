@@ -33,7 +33,7 @@ import { useAuth0 } from "@auth0/auth0-vue";
 
 import MasterList from "../components/MasterList.vue";
 import SettingsForm from "../components/SettingsForm.vue";
-import ErrorComponent from "@/components/ErrorComponent.vue";
+import ErrorComponent from "../components/ErrorComponent.vue";
 import { useUserStore } from "../stores/UserStore";
 import { type User } from "../types";
 

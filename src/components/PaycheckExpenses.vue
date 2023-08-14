@@ -14,6 +14,7 @@
     </div>
 
     <div class="expense-list">
+      <h5 class="expense-title">Recurring Expenses</h5>
       <MasterList pageType="paycheckList-noML-dateStr" :expenses="expenseList" />
     </div>
   </main>
@@ -86,7 +87,11 @@ export default defineComponent({
           this.expenseList = res.data;
           this.userStore.addConvertedDates(this.expenseList, this.paycheck);
           this.userStore.sortExpenseDateList(this.expenseList);
-          this.$emit(`dateChange${this.number}`, { num: this.number, list: this.expenseList, paycheckId: this.paychecks[pIndex].id });
+          this.$emit(`dateChange${this.number}`, {
+            num: this.number,
+            list: this.expenseList,
+            paycheckId: this.paychecks[pIndex].id,
+          });
         })
         .catch((err) => console.log(err));
     },
@@ -135,38 +140,9 @@ export default defineComponent({
   color: white;
 }
 
-.loading {
-  color: var(--text-color);
-}
-
-.expense-table {
-  width: 100%;
-  margin: 0 auto;
+.expense-title {
   text-align: center;
-  border: 2px solid var(--black-white);
+  margin: 5px auto -15px auto;
   color: var(--text-color);
-  background-color: var(--white-black);
-}
-
-.expense-table-header {
-  font-weight: bold;
-  border: 2px solid var(--black-white);
-  background-color: var(--med-green);
-  color: white;
-}
-
-.every-other {
-  background-color: var(--green-bg);
-}
-
-.pay-info-table {
-  margin-top: 20px;
-}
-
-.input-info {
-  width: 150px;
-  border-radius: 5px;
-  border: 2px solid black;
-  padding: 0 5px;
 }
 </style>

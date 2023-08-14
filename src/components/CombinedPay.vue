@@ -299,16 +299,6 @@ export default defineComponent({
     },
   },
   methods: {
-    combinePaychecks() {
-      let paychecks = this.userStore.paychecks.concat(this.userStore.paychecks2);
-
-      paychecks = paychecks.sort((a: any = {} as Paycheck, b: any = {} as Paycheck) => {
-        const aDate = new Date(a.date);
-        const bDate = new Date(b.date);
-        return aDate !== bDate ? aDate.valueOf() - bDate.valueOf() : aDate.valueOf();
-      });
-      this.paychecks = paychecks;
-    },
     formatDate(dateStr: string) {
       return this.userStore.formatDays(new Date(dateStr));
     },
@@ -343,7 +333,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.combinePaychecks();
+    this.paychecks = this.userStore.combinePaychecks();
     this.loading = true;
     this.paycheck1 = this.formatDate(this.paychecks[this.pIndex].date);
     this.ogPaycheckStr = this.paychecks[this.pIndex].date;

@@ -32,7 +32,7 @@ import { defineComponent } from "vue";
 
 import SavingsCalculator from "../components/SavingsCalculator.vue";
 import SavingsAccounts from "../components/SavingsAccounts.vue";
-import ErrorComponent from "@/components/ErrorComponent.vue";
+import ErrorComponent from "../components/ErrorComponent.vue";
 import { useUserStore } from "../stores/UserStore";
 import { type SavingsAccount } from "../types";
 

@@ -89,7 +89,7 @@
           </tr>
           <tr class="table-row">
             <td class="basic-label">
-              <strong><label for="relationship">Single or Married:</label></strong>
+              <strong><label for="relationship">Relationship Status*:</label></strong>
             </td>
             <td class="basic-input">
               <select
@@ -99,13 +99,14 @@
                 v-model="newRelationship"
               >
                 <option value="">-Select One-</option>
-                <option value="single">Single</option>
-                <option value="married">Married</option>
+                <option value="Single">Single</option>
+                <option value="Married">Married</option>
               </select>
             </td>
           </tr>
         </tbody>
       </table>
+      <p>*For tax esimates</p>
 
       <h3 class="subheader">Pay Info:</h3>
       <PayForm

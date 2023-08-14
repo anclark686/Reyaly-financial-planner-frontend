@@ -23,7 +23,7 @@ import { useAuth0 } from "@auth0/auth0-vue";
 
 import { useUserStore } from "../stores/UserStore";
 import CurrencyConverter from "../components/CurrencyConverter.vue";
-import ErrorComponent from "@/components/ErrorComponent.vue";
+import ErrorComponent from "../components/ErrorComponent.vue";
 
 export default defineComponent({
   setup() {

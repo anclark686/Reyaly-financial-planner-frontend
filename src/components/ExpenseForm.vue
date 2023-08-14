@@ -52,11 +52,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, type PropType } from "vue";
+
+import { type Expense } from "../types";
 
 export default defineComponent({
   props: {
-    expense: { type: Object, required: true },
+    expense: {
+      type: Object as PropType<Expense>,
+      required: true,
+    },
     type: { type: String, required: true },
   },
   data() {
@@ -86,7 +91,7 @@ export default defineComponent({
     clearInfo() {
       this.name = "";
       this.amount = 0;
-      this.date = "";
+      this.date = 0;
     },
     onSubmit() {
       if (this.name && this.date) {

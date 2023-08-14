@@ -9,10 +9,16 @@
           <PaycheckExpenses :number="1" @dateChange1="sendExpenseList" />
 
           <div class="ote-container">
-              <OTETable :paycheckId="paycheckId"/>
-            </div>
+            <OTETable
+              :paycheckId="paycheckId1"
+              :number="1"
+              :possChange="possChange"
+              @newTotal="updateOTEtotal"
+              @possChange="handleChange"
+            />
+          </div>
 
-          <PaycheckInfo :number="1" :expenseList="expenseList1" />
+          <PaycheckInfo :number="1" :expenseList="expenseList1" :oteTotal="oteTotal1" />
         </div>
 
         <div class="double" v-else-if="showPaycheckCard && userStore.income === 2">
@@ -20,20 +26,32 @@
             <PaycheckExpenses :number="1" @dateChange1="sendExpenseList" />
 
             <div class="ote-container">
-              <OTETable :paycheckId="paycheckId"/>
+              <OTETable
+                :paycheckId="paycheckId1"
+                :number="1"
+                :possChange="possChange"
+                @newTotal="updateOTEtotal"
+                @possChange="handleChange"
+              />
             </div>
 
-            <PaycheckInfo :number="1" :expenseList="expenseList1" />
+            <PaycheckInfo :number="1" :expenseList="expenseList1" :oteTotal="oteTotal1" />
           </div>
 
           <div class="double-container card">
             <PaycheckExpenses :number="2" @dateChange2="sendExpenseList" />
-            
+
             <div class="ote-container">
-              <OTETable :paycheckId="paycheckId"/>
+              <OTETable
+                :paycheckId="paycheckId2"
+                :number="2"
+                :possChange="possChange"
+                @newTotal="updateOTEtotal"
+                @possChange="handleChange"
+              />
             </div>
 
-            <PaycheckInfo :number="2" :expenseList="expenseList2" />
+            <PaycheckInfo :number="2" :expenseList="expenseList2" :oteTotal="oteTotal2" />
           </div>
           <div class="combined-container card">
             <CombinedPay />
@@ -61,7 +79,7 @@ import PaycheckExpenses from "../components/PaycheckExpenses.vue";
 import PaycheckInfo from "../components/PaycheckInfo.vue";
 import OTETable from "../components/OTETable.vue";
 import CombinedPay from "../components/CombinedPay.vue";
-import ErrorComponent from "@/components/ErrorComponent.vue";
+import ErrorComponent from "../components/ErrorComponent.vue";
 import { useUserStore } from "../stores/UserStore";
 import { type Expense } from "../types";
 
@@ -83,14 +101,25 @@ export default defineComponent({
   data() {
     return {
       userStore: useUserStore(),
-      paycheckId: "",
+      paycheckId1: "",
+      paycheckId2: "",
+      oteTotal1: 0,
+      oteTotal2: 0,
       num: 1,
+      possChange: false,
       showPaycheckCard: false,
       expenseList1: [] as Expense[],
       expenseList2: [] as Expense[],
     };
   },
   methods: {
+    updateOTEtotal({ total, num }: { total: number; num: number }) {
+      if (num === 1) {
+        this.oteTotal1 = total;
+      } else {
+        this.oteTotal2 = total;
+      }
+    },
     sendExpenseList({
       num,
       list,
@@ -100,7 +129,12 @@ export default defineComponent({
       list: Expense[];
       paycheckId: string;
     }) {
-      this.paycheckId = paycheckId;
+      if (num === 1) {
+        this.paycheckId1 = paycheckId;
+      } else {
+        this.paycheckId2 = paycheckId;
+      }
+
       this.num = num;
 
       if (num === 1) {
@@ -109,10 +143,15 @@ export default defineComponent({
         this.expenseList2 = list;
       }
     },
+    handleChange(bool: boolean) {
+      this.possChange = bool;
+    },
   },
   async mounted() {
     await this.userStore.fill(this.user.sub);
     this.showPaycheckCard = true;
+    this.paycheckId1 = this.userStore.paychecks[this.userStore.pIndex].id;
+    this.paycheckId2 = this.userStore.paychecks2[this.userStore.pIndex2].id;
   },
 });
 </script>
@@ -145,7 +184,6 @@ export default defineComponent({
   width: 75%;
   margin: 20px auto;
 }
-
 
 @media (max-width: 1024px) {
   .page-header {

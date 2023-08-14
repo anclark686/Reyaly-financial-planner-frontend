@@ -5,8 +5,8 @@ import { type Debt } from "../types";
 import { type Expense } from "../types";
 import { type OneTimeExpense } from "../types";
 
-const baseUrl = "http://127.0.0.1:3000";
-// const baseUrl = "https://reyaly-financial-backend-983411f48872.herokuapp.com";
+// const baseUrl = "http://127.0.0.1:3000";
+const baseUrl = "https://reyaly-financial-backend-983411f48872.herokuapp.com";
 
 Axios.interceptors.response.use(
   (res) => {
@@ -96,8 +96,6 @@ export const getOTExpenses = (dbUserId: string, paycheckId: string): Promise<any
 };
 
 export const addOTExpense = (dbUserId: string, data: OneTimeExpense): Promise<any> => {
-  console.log("in api")
-  console.log(data)
   return Axios.post(
     `${baseUrl}/users/${dbUserId}/paychecks/${data.paycheck}/one_time_expenses`,
     data

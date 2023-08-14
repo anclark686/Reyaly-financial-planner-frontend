@@ -68,6 +68,7 @@
         Add New Expense
       </button>
     </section>
+
     <DeleteModal
       v-if="showModal"
       @close="showModal = false"
@@ -117,7 +118,8 @@ export default defineComponent({
         .addExpense(expenseData)
         .then((res) => {
           if (res.message === "Success") {
-            (expenseData.id = res.id), this.masterList.push(expenseData);
+            expenseData.id = res.id;
+            this.masterList.push(expenseData);
             this.sortMasterList();
           } else {
             alert("An error occurred, please try again");

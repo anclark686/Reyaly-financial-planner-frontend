@@ -74,7 +74,7 @@
                     <strong>Relationship Status:</strong>
                   </td>
                   <td class="right">
-                    {{ userStore.relationship === "single" ? "Single" : "Married" }}
+                    {{ userStore.relationship }}
                   </td>
                 </tr>
                 <tr class="even">
@@ -183,7 +183,7 @@ import { defineComponent } from "vue";
 import SettingsForm from "../components/SettingsForm.vue";
 import NotificationModal from "../components/NotificationModal.vue";
 import PayTable from "../components/PayTable.vue";
-import ErrorComponent from "@/components/ErrorComponent.vue";
+import ErrorComponent from "../components/ErrorComponent.vue";
 import { useUserStore } from "../stores/UserStore";
 import { type User } from "../types";
 
@@ -407,10 +407,6 @@ export default defineComponent({
 
 @media (max-width: 1024px) {
   .page-header {
-    font-size: 2.5rem;
-  }
-
-  .subheader {
     font-size: 2.5rem;
   }
 

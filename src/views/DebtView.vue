@@ -31,7 +31,7 @@ import { useAuth0 } from "@auth0/auth0-vue";
 
 import DebtList from "../components/DebtList.vue";
 import DebtPayoff from "../components/DebtPayoff.vue";
-import ErrorComponent from "@/components/ErrorComponent.vue";
+import ErrorComponent from "../components/ErrorComponent.vue";
 import { useUserStore } from "../stores/UserStore";
 
 export default defineComponent({
