@@ -246,11 +246,14 @@ export default defineComponent({
 
 @media (max-width: 600px) {
   .subheader {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
 
   .btn {
     font-size: 1.15rem;
+  }
+  .expense-container {
+    width: 100%;
   }
 }
 </style>

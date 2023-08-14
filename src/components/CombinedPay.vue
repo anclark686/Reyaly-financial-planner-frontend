@@ -442,6 +442,9 @@ export default defineComponent({
 }
 
 @media (max-width: 600px) {
+  .expense-list {
+    width: 100%;
+  }
   .expense-table,
   .pay-table,
   .funds-table {
