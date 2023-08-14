@@ -1,6 +1,6 @@
 <template>
   <main class="combined-component">
-    <h2 class="subheader">Combined Info</h2>
+    <h2 class="header">Combined Info</h2>
     <div class="expense-info">
       <div class="card-header">
         <button class="arrow-btn btn" @click="changeDate('previous')">
@@ -14,26 +14,9 @@
           <img src="../components/icons/arrow-right.png" alt="right-arrow" class="arrow-img" />
         </button>
       </div>
-      <table class="expense-table">
-        <thead class="expense-table-header">
-          <tr>
-            <td>Expense Name</td>
-            <td>Amount</td>
-            <td>Due Date</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="(expense, i) in expenseList"
-            :key="expense.id"
-            :class="i % 2 !== 0 ? 'expense-row every-other' : 'expense-row'"
-          >
-            <td>{{ expense.name }}</td>
-            <td>${{ expense.amount }}</td>
-            <td>{{ expense.dateStr }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="expense-list">
+        <MasterList pageType="paycheckList-noML-dateStr" :expenses="expenseList" />
+      </div>
     </div>
     <div class="combined-double">
       <table class="pay-table">
@@ -168,12 +151,14 @@ import { defineComponent } from "vue";
 
 import { useUserStore } from "../stores/UserStore";
 import PaycheckInfo from "../components/PaycheckInfo.vue";
+import MasterList from "./MasterList.vue";
 import { type Expense } from "../types";
 import { type Paycheck } from "../types";
 
 export default defineComponent({
   components: {
     PaycheckInfo,
+    MasterList,
   },
   data() {
     return {
@@ -314,16 +299,6 @@ export default defineComponent({
     },
   },
   methods: {
-    combinePaychecks() {
-      let paychecks = this.userStore.paychecks.concat(this.userStore.paychecks2);
-
-      paychecks = paychecks.sort((a: any = {} as Paycheck, b: any = {} as Paycheck) => {
-        const aDate = new Date(a.date);
-        const bDate = new Date(b.date);
-        return aDate !== bDate ? aDate.valueOf() - bDate.valueOf() : aDate.valueOf();
-      });
-      this.paychecks = paychecks;
-    },
     formatDate(dateStr: string) {
       return this.userStore.formatDays(new Date(dateStr));
     },
@@ -358,7 +333,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.combinePaychecks();
+    this.paychecks = this.userStore.combinePaychecks();
     this.loading = true;
     this.paycheck1 = this.formatDate(this.paychecks[this.pIndex].date);
     this.ogPaycheckStr = this.paychecks[this.pIndex].date;
@@ -375,6 +350,10 @@ export default defineComponent({
   color: var(--text-color);
 }
 
+.header {
+  text-align: center;
+}
+
 .subheader {
   text-align: center;
   width: 350px;
@@ -384,6 +363,7 @@ export default defineComponent({
   text-align: center;
   display: flex;
   justify-content: center;
+  background-color: var(--white-black);
 }
 
 .arrow-btn {
@@ -416,10 +396,14 @@ export default defineComponent({
   background-color: var(--white-black);
 }
 
-.expense-table,
+.expense-list,
 .funds-table {
   margin-top: 20px;
   width: 60%;
+}
+
+.expense-list {
+  margin: auto;
 }
 
 .pay-table {

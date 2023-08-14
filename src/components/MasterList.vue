@@ -1,6 +1,6 @@
 <template>
   <div class="master-list">
-    <h3 class="subheader" v-if="!pageType?.includes('account')">Master List</h3>
+    <h3 class="subheader" v-if="!pageType?.includes('noML')">Master List</h3>
     <section class="expense-container">
       <table class="expense-table" v-if="expenses?.length !== 0">
         <thead class="expense-table-header">
@@ -11,7 +11,7 @@
             <td v-if="pageType === 'settings'">Modify</td>
             <td v-if="pageType === 'account'">Account</td>
             <td v-if="pageType === 'account'">Add</td>
-            <td v-if="pageType === 'accountForm'">Remove</td>
+            <td v-if="pageType === 'accountForm-noML'">Remove</td>
           </tr>
         </thead>
         <tbody>
@@ -22,7 +22,7 @@
           >
             <td>{{ expense.name }}</td>
             <td>${{ expense.amount }}</td>
-            <td v-if="pageType !== 'accountNotifications'">{{ expense.date }}</td>
+            <td v-if="!pageType.includes('dateStr')">{{ expense.date }}</td>
             <td v-else>{{ expense.dateStr }}</td>
             <td v-if="pageType === 'settings'">
               <button class="emoji-btn" @click="onEditClick(expense, i)">✏️</button>
@@ -33,10 +33,10 @@
               {{ expense.account ? expense.account : "-" }}
             </td>
             <td v-if="pageType === 'account'">
-              <button class="emoji-btn" @click="onAddClick(expense)">➕</button>
+              <button class="emoji-btn math-btn" @click="onAddClick(expense)">➕</button>
             </td>
-            <td v-if="pageType === 'accountForm'">
-              <button class="emoji-btn" @click="onRemoveClick(i)">➖</button>
+            <td v-if="pageType === 'accountForm-noML'">
+              <button class="emoji-btn math-btn" @click="onRemoveClick(i)">➖</button>
             </td>
           </tr>
         </tbody>
@@ -68,6 +68,7 @@
         Add New Expense
       </button>
     </section>
+
     <DeleteModal
       v-if="showModal"
       @close="showModal = false"
@@ -117,7 +118,8 @@ export default defineComponent({
         .addExpense(expenseData)
         .then((res) => {
           if (res.message === "Success") {
-            (expenseData.id = res.id), this.masterList.push(expenseData);
+            expenseData.id = res.id;
+            this.masterList.push(expenseData);
             this.sortMasterList();
           } else {
             alert("An error occurred, please try again");
@@ -226,7 +228,15 @@ export default defineComponent({
 
 .emoji-btn {
   border: none;
+  padding: 0;
   background-color: inherit;
+}
+
+.math-btn {
+  border: 1px solid var(--black-white);
+  border-radius: 5px;
+  padding: 0 2px;
+  background-color: var(--med-green);
 }
 
 .button-container {

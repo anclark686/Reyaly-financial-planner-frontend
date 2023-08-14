@@ -1,6 +1,6 @@
 <template>
   <section class="page-content">
-    <main class="account-view-container" v-if="!userStore.loading">
+    <main class="account-view-container" v-if="!userStore.loading && !userStore.error">
       <header>
         <h1 class="page-header">Account View</h1>
       </header>
@@ -77,11 +77,14 @@
         </section>
       </section>
     </main>
-    <div class="spinner-container" v-else>
+    <div class="spinner-container" v-if="userStore.loading">
       <div class="spinner-border text-success loading-spinner" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
       <h1 class="loading">Loading...</h1>
+    </div>
+    <div class="error-container" v-if="userStore.error">
+      <ErrorComponent />
     </div>
   </section>
 </template>
@@ -93,6 +96,7 @@ import { useAuth0 } from "@auth0/auth0-vue";
 import MasterList from "../components/MasterList.vue";
 import AccountBox from "../components/AccountBox.vue";
 import AccountForm from "../components/AccountForm.vue";
+import ErrorComponent from "../components/ErrorComponent.vue";
 import { useUserStore } from "../stores/UserStore";
 import { type Expense } from "../types";
 import { type Account } from "../types";
@@ -109,6 +113,7 @@ export default defineComponent({
     MasterList,
     AccountBox,
     AccountForm,
+    ErrorComponent,
   },
   data() {
     return {

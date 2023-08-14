@@ -16,7 +16,7 @@
       </table>
       <h5 class="subheader">Expenses</h5>
       <div class="expense-list" v-if="account.expenses.length > 0">
-        <MasterList pageType="accountBox" :expenses="account.expenses" />
+        <MasterList pageType="accountBox-noML" :expenses="account.expenses" />
       </div>
     </main>
 

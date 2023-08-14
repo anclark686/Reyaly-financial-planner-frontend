@@ -112,6 +112,7 @@
           Bankrate 2023
         </a>
       </p>
+      <button class="btn-success btn" @click="showInfoModal = false">Close</button>
     </section>
   </div>
 </template>

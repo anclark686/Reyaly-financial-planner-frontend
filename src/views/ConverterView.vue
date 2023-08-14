@@ -1,13 +1,18 @@
 <template>
   <section class="page-content">
-    <h1 class="page-header">Currency Converter</h1>
-    <div class="converter-container">
-      <CurrencyConverter
-        @convert="getCurrencyData"
-        :currencies="currencyList"
-        :conversionData="conversionData"
-        :exchangeData="exchangeData"
-      />
+    <div class="component-container" v-if="!userStore.error">
+      <h1 class="page-header">Currency Converter</h1>
+      <div class="converter-container">
+        <CurrencyConverter
+          @convert="getCurrencyData"
+          :currencies="currencyList"
+          :conversionData="conversionData"
+          :exchangeData="exchangeData"
+        />
+      </div>
+    </div>
+    <div class="error-container" v-else>
+      <ErrorComponent />
     </div>
   </section>
 </template>
@@ -16,8 +21,9 @@
 import { defineComponent } from "vue";
 import { useAuth0 } from "@auth0/auth0-vue";
 
-import CurrencyConverter from "../components/CurrencyConverter.vue";
 import { useUserStore } from "../stores/UserStore";
+import CurrencyConverter from "../components/CurrencyConverter.vue";
+import ErrorComponent from "../components/ErrorComponent.vue";
 
 export default defineComponent({
   setup() {
@@ -29,6 +35,7 @@ export default defineComponent({
   },
   components: {
     CurrencyConverter,
+    ErrorComponent,
   },
   data() {
     return {

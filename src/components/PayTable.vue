@@ -79,7 +79,7 @@ export default defineComponent({
 
 .double {
   width: 45%;
-  margin: 20px auto;
+  margin: 10px auto;
   font-size: large;
   border: 2px solid var(--black-white);
 }
@@ -106,8 +106,8 @@ export default defineComponent({
 @media (max-width: 1500px) {
   .double {
     width: 90%;
-    margin: 20px auto;
-    font-size: larger;
+    margin: 10px auto;
+    font-size: 1rem;
     border: 2px solid var(--black-white);
   }
 }

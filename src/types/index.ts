@@ -26,10 +26,21 @@ export interface Expense {
   account?: string;
 }
 
+export interface OneTimeExpense {
+  id: string;
+  name: string;
+  amount: number;
+  date: string;
+  paycheck: string;
+  dateStr?: string | undefined;
+  newPaycheck?: string | undefined;
+}
+
 export interface Paycheck {
   date: string;
   income: number;
   id: string;
+  dateObj: Date;
 }
 
 export interface Debt {

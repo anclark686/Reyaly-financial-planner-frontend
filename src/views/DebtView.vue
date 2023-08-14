@@ -1,6 +1,6 @@
 <template>
   <section class="page-content">
-    <main class="debt-container" v-if="!userStore.loading">
+    <main class="debt-container" v-if="!userStore.loading && !userStore.error">
       <header>
         <h1 class="page-header">Debt View</h1>
       </header>
@@ -13,11 +13,14 @@
         </div>
       </section>
     </main>
-    <div class="spinner-container" v-else>
+    <div class="spinner-container" v-if="userStore.loading">
       <div class="spinner-border text-success loading-spinner" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
       <h1 class="loading">Loading...</h1>
+    </div>
+    <div class="error-container" v-if="userStore.error">
+      <ErrorComponent />
     </div>
   </section>
 </template>
@@ -28,6 +31,7 @@ import { useAuth0 } from "@auth0/auth0-vue";
 
 import DebtList from "../components/DebtList.vue";
 import DebtPayoff from "../components/DebtPayoff.vue";
+import ErrorComponent from "../components/ErrorComponent.vue";
 import { useUserStore } from "../stores/UserStore";
 
 export default defineComponent({
@@ -41,6 +45,7 @@ export default defineComponent({
   components: {
     DebtList,
     DebtPayoff,
+    ErrorComponent,
   },
   data() {
     return {

@@ -30,8 +30,9 @@
       class="source"
       target="_blank"
       rel="noopener noreferrer"
-      >Source</a
     >
+      <strong>Source</strong>
+    </a>
   </section>
 </template>
 

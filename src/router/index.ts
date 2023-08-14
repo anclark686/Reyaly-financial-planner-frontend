@@ -10,7 +10,7 @@ import DebtView from "../views/DebtView.vue";
 import AccountView from "../views/AccountView.vue";
 import SavingsView from "../views/SavingsView.vue";
 import ConverterView from "../views/ConverterView.vue";
-import ErrorView from "../views/ErrorView.vue";
+import NotFoundView from "../views/NotFoundView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -66,7 +66,7 @@ const router = createRouter({
       name: "converter",
       component: ConverterView,
     },
-    { path: "/404", component: ErrorView },
+    { path: "/404", component: NotFoundView },
     { path: "/:catchAll(.*)", redirect: "/404" },
   ],
 });

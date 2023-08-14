@@ -36,7 +36,7 @@
       </table>
       <h4 class="subheader">Expenses</h4>
       <div class="expense-list" v-if="expenseList.length > 0">
-        <MasterList pageType="accountForm" :expenses="expenseList" />
+        <MasterList pageType="accountForm-noML" :expenses="expenseList" />
         <button id="clear" class="btn btn-secondary" @click.prevent="clear">Clear</button>
       </div>
       <div class="expense-list" v-else>

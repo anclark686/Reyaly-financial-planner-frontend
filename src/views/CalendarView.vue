@@ -1,6 +1,6 @@
 <template>
   <section class="page-content">
-    <main class="calendar-container" v-if="!userStore.loading">
+    <main class="calendar-container" v-if="!userStore.loading && !userStore.error">
       <header>
         <h1 class="page-header">Calendar View</h1>
       </header>
@@ -45,11 +45,14 @@
         </div>
       </section>
     </main>
-    <div class="spinner-container" v-else>
+    <div class="spinner-container" v-if="userStore.loading">
       <div class="spinner-border text-success loading-spinner" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
       <h1 class="loading">Loading...</h1>
+    </div>
+    <div class="error-container" v-if="userStore.error">
+      <ErrorComponent />
     </div>
   </section>
 </template>
@@ -64,6 +67,7 @@ import JSConfetti from "js-confetti";
 
 import { useUserStore } from "../stores/UserStore";
 import ExpenseForm from "../components/ExpenseForm.vue";
+import ErrorComponent from "../components/ErrorComponent.vue";
 
 const jsConfetti = new JSConfetti();
 
@@ -78,6 +82,7 @@ export default defineComponent({
   components: {
     FullCalendar,
     ExpenseForm,
+    ErrorComponent,
   },
   data() {
     return {
