@@ -8,7 +8,9 @@
             <td>Expense Name</td>
             <td>Amount</td>
             <td>Due Date</td>
-            <td v-if="pageType === 'settings' || pageType === 'paycheckList-noML-dateStr'">Modify</td>
+            <td v-if="pageType === 'settings' || pageType === 'paycheckList-noML-dateStr'">
+              Modify
+            </td>
             <td v-if="pageType === 'account'">Account</td>
             <td v-if="pageType === 'account'">Add</td>
             <td v-if="pageType === 'accountForm-noML'">Remove</td>
@@ -59,7 +61,7 @@
         @cancel="cancelEdit"
         @editExpense="editExpenseInfo"
         :expense="editInfo"
-        :dateStr="dateStr? dateStr : ''"
+        :dateStr="dateStr ? dateStr : ''"
         type="edit"
       />
     </section>

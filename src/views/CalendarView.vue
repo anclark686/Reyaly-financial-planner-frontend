@@ -5,7 +5,7 @@
         <h1 class="page-header">Calendar View</h1>
       </header>
       <section class="calendar">
-        <FullCalendar ref="cc" :options="calendarOptions" />
+        <FullCalendar ref="calendar" :options="calendarOptions" />
       </section>
       <section class="expense-form-modal" v-if="addNew === true">
         <h3 class="subheader">Add Recurring Expense</h3>
@@ -19,31 +19,58 @@
         </div>
       </section>
       <section class="view-expense-modal" v-if="showData === true">
-        <h3 class="subheader">{{ currentexpense.name }} Info</h3>
+        <h3 class="subheader">{{ currentExpense.name }} Info</h3>
         <div class="expense-info">
           <table>
             <tbody>
               <tr>
-                <td class="expense-label"><strong>Expense Name:</strong></td>
-                <td>{{ currentexpense.name }}</td>
+                <td class="expense-label"><strong>Expense Name:&nbsp;</strong></td>
+                <td>{{ currentExpense.name }}</td>
               </tr>
               <tr>
-                <td class="expense-label"><strong>Expense Amount:</strong></td>
-                <td>${{ currentexpense.amount }}</td>
+                <td class="expense-label"><strong>Amount:</strong></td>
+                <td>${{ currentExpense.amount }}</td>
               </tr>
               <tr>
                 <td class="expense-label">
-                  <strong>Expense Due Date:</strong>
+                  <strong>Due Date: </strong>
                 </td>
-                <td>{{ currentexpense.fullDate }}</td>
+                <td>{{ currentExpense.fullDate }}</td>
               </tr>
             </tbody>
           </table>
+        </div>
+        <div class="btn-container" v-if="edit === false">
+          <button id="edit-btn" class="btn btn-success modify-btn btn-sm" @click="edit = true">
+            Modify
+          </button>
+          <button
+            id="delete-btn"
+            class="btn btn-success modify-btn btn-sm"
+            @click="preDelete(currentExpense)"
+          >
+            Delete
+          </button>
+        </div>
+        <div class="expense-form-container" v-if="edit === true">
+          <ExpenseForm
+            @cancel="cancelEdit"
+            @editExpense="editExpenseInfo"
+            :expense="currentExpense"
+            type="edit"
+            :dateStr="currentExpense.fullDate"
+          />
         </div>
         <div class="btn-container">
           <button id="close-btn" class="btn btn-success" @click="showData = false">Close</button>
         </div>
       </section>
+      <DeleteModal
+        v-if="showModal"
+        @close="showModal = false"
+        @deleteItem="onDelete(deleteInfo.id, deleteInfo.idx)"
+        :name="deleteInfo.title"
+      />
     </main>
     <div class="spinner-container" v-if="userStore.loading">
       <div class="spinner-border text-success loading-spinner" role="status">
@@ -68,6 +95,7 @@ import JSConfetti from "js-confetti";
 import { useUserStore } from "../stores/UserStore";
 import ExpenseForm from "../components/ExpenseForm.vue";
 import ErrorComponent from "../components/ErrorComponent.vue";
+import DeleteModal from "../components/DeleteModal.vue";
 
 const jsConfetti = new JSConfetti();
 
@@ -83,6 +111,7 @@ export default defineComponent({
     FullCalendar,
     ExpenseForm,
     ErrorComponent,
+    DeleteModal,
   },
   data() {
     return {
@@ -90,9 +119,12 @@ export default defineComponent({
       expenseDates: [],
       payDates: [],
       addNew: false,
+      edit: false,
+      showModal: false,
+      deleteInfo: {},
       dueDate: 0,
       showData: false,
-      currentexpense: {},
+      currentExpense: {},
       calendarOptions: {
         plugins: [dayGridPlugin, interactionPlugin],
         selectable: true,
@@ -108,7 +140,7 @@ export default defineComponent({
   },
   methods: {
     getMonthAndYear() {
-      const end = this.$refs.cc.getApi().currentData.dateProfile.currentRange.end;
+      const end = this.$refs.calendar.getApi().currentData.dateProfile.currentRange.end;
       const month = end.getUTCMonth() < 10 ? `0${end.getUTCMonth()}` : end.getUTCMonth();
       const year = end.getUTCFullYear();
       return [month, year];
@@ -120,6 +152,7 @@ export default defineComponent({
         const day = expense.date < 10 ? `0${expense.date}` : expense.date;
         const newDateStr = `${year}-${month}-${day}`;
         const eventObj = {
+          id: expense.id,
           title: expense.name,
           date: newDateStr,
           expense: expense,
@@ -133,6 +166,7 @@ export default defineComponent({
     formatPaychecks() {
       if (this.userStore.income === 1) {
         this.payDates = this.userStore.paychecks.map((x) => ({
+          id: x.id,
           title: "Payday",
           date: x.date,
           color: "#1e9f63",
@@ -140,12 +174,14 @@ export default defineComponent({
       } else {
         this.payDates = this.userStore.paychecks
           .map((x) => ({
+            id: x.id,
             title: "Payday 1",
             date: x.date,
             color: "#1e9f63",
           }))
           .concat(
             this.userStore.paychecks2.map((x) => ({
+              id: x.id,
               title: "Payday 2",
               date: x.date,
               color: "#17784b",
@@ -160,11 +196,34 @@ export default defineComponent({
     handleEventClick(info) {
       if (info.event.extendedProps.expense) {
         this.showData = true;
-        this.currentexpense = info.event.extendedProps.expense;
-        this.currentexpense.fullDate = info.event.start.toLocaleDateString();
+        this.currentExpense = info.event.extendedProps.expense;
+        this.currentExpense.fullDate = info.event.start.toLocaleDateString();
       } else {
         jsConfetti.addConfetti();
       }
+    },
+    addToLists(expenseData, newDateStr) {
+      const eventObj = {
+        id: expenseData.id,
+        title: `${expenseData.name}`,
+        date: newDateStr,
+        expense: expenseData,
+      };
+
+      this.calendarOptions.events.push(eventObj);
+      this.userStore.expenses.push(expenseData);
+    },
+    removeEvent() {
+      const calendarApi = this.$refs.calendar.getApi();
+      const event = calendarApi.getEventById(this.currentExpense.id);
+      event.remove();
+
+      const index = this.calendarOptions.events.findIndex((e) => e.id === this.currentExpense.id);
+      this.calendarOptions.events.splice(index, 1);
+
+      this.userStore.expenses = this.userStore.otExpenses.filter(
+        (e) => e.id !== this.currentExpense.id
+      );
     },
     async addExpense(expenseData) {
       await this.userStore
@@ -176,15 +235,54 @@ export default defineComponent({
             const day = this.dueDate < 10 ? `0${this.dueDate}` : this.dueDate;
 
             const newDateStr = `${year}-${month}-${day}`;
-            const eventObj = {
-              title: `${expenseData.name}`,
-              date: newDateStr,
-              expense: expenseData,
-            };
+            this.addToLists(expenseData, newDateStr);
 
-            this.calendarOptions.events.push(eventObj);
-            this.userStore.expenses.push(expenseData);
             this.addNew = false;
+          } else {
+            alert("An error occurred, please try again");
+          }
+        })
+        .catch((err) => console.log(err));
+    },
+    async editExpenseInfo(expenseData) {
+      await this.userStore
+        .editExpense(expenseData)
+        .then((res) => {
+          if (res.message === "Success") {
+            this.removeEvent();
+
+            const [month, year] = this.getMonthAndYear();
+            const day = expenseData.date < 10 ? `0${expenseData.date}` : expenseData.date;
+            const newDateStr = `${year}-${month}-${day}`;
+            this.addToLists(expenseData, newDateStr);
+
+            this.showData = false;
+            this.edit = false;
+          } else {
+            alert("An error occurred, please try again");
+          }
+        })
+        .catch((err) => console.log(err));
+    },
+    cancelEdit() {
+      this.edit = false;
+      this.editInfo = {};
+    },
+    preDelete(currentExpense) {
+      this.showModal = true;
+      this.deleteInfo = { id: currentExpense.id, title: currentExpense.name };
+    },
+    async onDelete() {
+      this.showModal = false;
+      await this.userStore
+        .deleteExpense(this.currentExpense.id)
+        .then((res) => {
+          if (res.message === "Success") {
+            this.removeEvent();
+
+            this.deleteInfo = { id: "", idx: 0, title: "" };
+            this.showModal = false;
+            this.showData = false;
           } else {
             alert("An error occurred, please try again");
           }
@@ -215,7 +313,7 @@ export default defineComponent({
 .expense-form-modal,
 .view-expense-modal {
   width: 50%;
-  height: 250px;
+  height: 300px;
   background-color: var(--green-bg);
   position: fixed;
   border-radius: 5px;
@@ -236,11 +334,11 @@ export default defineComponent({
 }
 
 .btn-container {
-  margin-top: 20px;
+  margin-bottom: 20px;
 }
 .expense-info {
-  width: 50%;
-  margin: 0 auto;
+  width: 75%;
+  margin: 20px auto;
   background-color: var(--white-black);
   border-radius: 5px;
   border: solid 2px black;
@@ -248,6 +346,11 @@ export default defineComponent({
 
 .expense-label {
   text-align: left;
+}
+
+.modify-btn {
+  width: 100px;
+  margin: 0 5px;
 }
 
 .loading {
@@ -267,21 +370,19 @@ table {
   }
   .expense-form-modal,
   .view-expense-modal {
+    width: 75%;
+    left: 12%;
+  }
+}
+
+@media (max-width: 700px) {
+  .expense-form-modal,
+  .view-expense-modal {
     width: 95%;
-    height: 250px;
-    background-color: var(--green-bg);
-    position: fixed;
-    border-radius: 5px;
-    top: 25%;
-    left: 2.5%;
-    text-align: center;
-    padding: 20px;
-    border: solid 2px black;
-    border-radius: 10px;
-    overflow-y: auto;
-    color: var(--black-white);
-    z-index: 1;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+    left: 2.75%;
+  }
+  .expense-info {
+    width: 95%;
   }
 }
 </style>

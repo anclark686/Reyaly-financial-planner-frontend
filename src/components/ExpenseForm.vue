@@ -79,15 +79,15 @@ export default defineComponent({
       return dateArr;
     },
     expenseData(): Expense {
-      let dateArr = []
-      let newDateStr = ""
+      let dateArr = [];
+      let newDateStr = "";
       if (this.dateStr) {
-        dateArr = this.dateStr.split("/")
-        console.log(dateArr[1])
+        dateArr = this.dateStr.split("/");
+
         if (this.date < 10) {
-          newDateStr = `${dateArr[0]}/0${this.date}/${dateArr[2]}`
+          newDateStr = `${dateArr[0]}/0${this.date}/${dateArr[2]}`;
         } else {
-          newDateStr = `${dateArr[0]}/${this.date}/${dateArr[2]}`
+          newDateStr = `${dateArr[0]}/${this.date}/${dateArr[2]}`;
         }
       }
       const expenseData = {
@@ -121,9 +121,7 @@ export default defineComponent({
       }
     },
   },
-  mounted() {
-    
-  }
+  mounted() {},
 });
 </script>
 
