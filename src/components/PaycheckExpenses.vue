@@ -15,7 +15,11 @@
 
     <div class="expense-list" v-if="expenseList.length > 0">
       <h5 class="expense-title">Recurring Expenses</h5>
-      <MasterList pageType="paycheckList-noML-dateStr" :expenses="expenseList" />
+      <MasterList
+        pageType="paycheckList-noML-dateStr"
+        :expenses="expenseList"
+        :dateStr="paycheck"
+      />
     </div>
   </main>
 </template>

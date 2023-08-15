@@ -402,22 +402,24 @@ export const useUserStore = defineStore("UserStore", {
       const usLocale = "en-US";
       return date.toLocaleDateString(usLocale, { timeZone: "UTC" });
     },
+    convertDate(expense: Expense, dateArr: string[]): Date {
+      let month = Number(dateArr[0]);
+      let year = Number(dateArr[2]);
+      if (expense.date < Number(dateArr[1])) {
+        if (month < 12) {
+          month++;
+        } else {
+          month = 1;
+          year++;
+        }
+      }
+      return new Date(`${month}/${expense.date}/${year}`);
+    },
     addConvertedDates(expenseList: Expense[], date: string): void {
       const dateArr: string[] = date?.split("/")!;
 
       for (const expense of expenseList) {
-        let month = Number(dateArr[0]);
-        let year = Number(dateArr[2]);
-        if (expense.date < Number(dateArr[1])) {
-          if (month < 12) {
-            month++;
-          } else {
-            month = 1;
-            year++;
-          }
-        }
-
-        const newDateObj = new Date(`${month}/${expense.date}/${year}`);
+        const newDateObj = this.convertDate(expense, dateArr);
         expense.dateObj = newDateObj;
         expense.dateStr = newDateObj.toDateString();
       }

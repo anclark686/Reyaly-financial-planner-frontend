@@ -21,7 +21,7 @@ export interface Expense {
   name: string;
   amount: number;
   date: number;
-  dateStr?: string | undefined;
+  dateStr?: string | "";
   dateObj?: Date | undefined;
   account?: string;
 }

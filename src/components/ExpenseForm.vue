@@ -63,6 +63,7 @@ export default defineComponent({
       required: true,
     },
     type: { type: String, required: true },
+    dateStr: { type: String, required: false },
   },
   data() {
     return {
@@ -78,12 +79,23 @@ export default defineComponent({
       return dateArr;
     },
     expenseData(): Expense {
+      let dateArr = []
+      let newDateStr = ""
+      if (this.dateStr) {
+        dateArr = this.dateStr.split("/")
+        console.log(dateArr[1])
+        if (this.date < 10) {
+          newDateStr = `${dateArr[0]}/0${this.date}/${dateArr[2]}`
+        } else {
+          newDateStr = `${dateArr[0]}/${this.date}/${dateArr[2]}`
+        }
+      }
       const expenseData = {
         id: this.expense.id,
         name: this.name,
         amount: this.amount,
         date: this.date,
-        dateStr: this.expense.dateStr,
+        dateStr: newDateStr ? new Date(newDateStr).toDateString() : "",
       };
       return expenseData;
     },
@@ -109,6 +121,9 @@ export default defineComponent({
       }
     },
   },
+  mounted() {
+    
+  }
 });
 </script>
 

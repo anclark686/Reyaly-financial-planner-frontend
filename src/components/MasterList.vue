@@ -59,6 +59,7 @@
         @cancel="cancelEdit"
         @editExpense="editExpenseInfo"
         :expense="editInfo"
+        :dateStr="dateStr? dateStr : ''"
         type="edit"
       />
     </section>
@@ -90,6 +91,7 @@ export default defineComponent({
   props: {
     pageType: { type: String, required: true },
     expenses: Array,
+    dateStr: { type: String, required: false },
   },
   data() {
     return {
