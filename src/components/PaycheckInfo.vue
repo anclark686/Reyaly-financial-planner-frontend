@@ -243,7 +243,6 @@ export default defineComponent({
 .tax-modal,
 .expense-modal {
   width: 50%;
-  height: 55%;
   background-color: var(--green-bg);
   position: fixed;
   border-radius: 5px;
@@ -257,6 +256,14 @@ export default defineComponent({
   color: var(--black-white);
   z-index: 1;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+}
+
+.tax-modal {
+  height: 500px;
+}
+
+.expense-modal {
+  height: 270px;
 }
 
 .tax-info-table,

@@ -8,7 +8,7 @@ https://reyaly-financial-planner.link
 
 ### Demo
 
-- Video Demo: https://vimeo.com/853187509?share=copy
+- Video Demo: https://vimeo.com/854871488?share=copy
 - For a populated interactive demo - contact: reyalytech@gmail.com
 
 ## Features
