@@ -147,18 +147,21 @@ export default defineComponent({
     },
     gatherDates() {
       const [month, year] = this.getMonthAndYear();
-
       for (const expense of this.userStore.expenses) {
         const day = expense.date < 10 ? `0${expense.date}` : expense.date;
         const newDateStr = `${year}-${month}-${day}`;
         const eventObj = {
-          id: expense.id,
+          id: expense.id + newDateStr,
           title: expense.name,
           date: newDateStr,
           expense: expense,
         };
 
-        if (this.calendarOptions.events.filter((e) => e.date === eventObj.date).length === 0) {
+        if (
+          this.calendarOptions.events.filter(
+            (e) => e.id === eventObj.id && e.date === eventObj.date
+          ).length === 0
+        ) {
           this.calendarOptions.events.push(eventObj);
         }
       }
@@ -198,13 +201,14 @@ export default defineComponent({
         this.showData = true;
         this.currentExpense = info.event.extendedProps.expense;
         this.currentExpense.fullDate = info.event.start.toLocaleDateString();
+        this.currentExpense.dateStr = info.event.startStr;
       } else {
         jsConfetti.addConfetti();
       }
     },
     addToLists(expenseData, newDateStr) {
       const eventObj = {
-        id: expenseData.id,
+        id: expenseData.id + newDateStr,
         title: `${expenseData.name}`,
         date: newDateStr,
         expense: expenseData,
@@ -214,16 +218,16 @@ export default defineComponent({
       this.userStore.expenses.push(expenseData);
     },
     removeEvent() {
+      const calId = this.currentExpense.id + this.currentExpense.dateStr;
       const calendarApi = this.$refs.calendar.getApi();
-      const event = calendarApi.getEventById(this.currentExpense.id);
+      const event = calendarApi.getEventById(calId);
       event.remove();
 
-      const index = this.calendarOptions.events.findIndex((e) => e.id === this.currentExpense.id);
+      const index = this.calendarOptions.events.findIndex((e) => e.id === calId);
       this.calendarOptions.events.splice(index, 1);
-
-      this.userStore.expenses = this.userStore.otExpenses.filter(
-        (e) => e.id !== this.currentExpense.id
-      );
+      this.userStore.expenses = this.userStore.expenses.filter((e) => {
+        return !e.id.includes(this.currentExpense.id);
+      });
     },
     async addExpense(expenseData) {
       await this.userStore
@@ -273,7 +277,6 @@ export default defineComponent({
       this.deleteInfo = { id: currentExpense.id, title: currentExpense.name };
     },
     async onDelete() {
-      this.showModal = false;
       await this.userStore
         .deleteExpense(this.currentExpense.id)
         .then((res) => {
