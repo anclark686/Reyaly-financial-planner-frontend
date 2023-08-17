@@ -218,13 +218,18 @@ export default defineComponent({
       this.userStore.expenses.push(expenseData);
     },
     removeEvent() {
-      const calId = this.currentExpense.id + this.currentExpense.dateStr;
       const calendarApi = this.$refs.calendar.getApi();
-      const event = calendarApi.getEventById(calId);
-      event.remove();
+      const relatedArr = this.calendarOptions.events.filter((e) => {
+        return e.id.includes(this.currentExpense.id);
+      })
 
-      const index = this.calendarOptions.events.findIndex((e) => e.id === calId);
-      this.calendarOptions.events.splice(index, 1);
+      for (const eventObj of relatedArr) {
+        const calEvent = calendarApi.getEventById(eventObj.id);
+        calEvent.remove();
+        const index = this.calendarOptions.events.findIndex((e) => e.id === eventObj.id);
+        this.calendarOptions.events.splice(index, 1);
+      }
+
       this.userStore.expenses = this.userStore.expenses.filter((e) => {
         return !e.id.includes(this.currentExpense.id);
       });
