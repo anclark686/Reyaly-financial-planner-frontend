@@ -233,7 +233,7 @@ export default defineComponent({
 
 .accordion-item {
   border: none;
-  border-radius: 5px;
+  margin: 5px;
 }
 
 .accordion-button:focus,

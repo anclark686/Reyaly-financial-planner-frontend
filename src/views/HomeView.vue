@@ -115,7 +115,7 @@
       </section>
       <section class="right-align demo-item fade-in full-width">
         <div class="demo-text-content">
-          <h3 class="text-header">Export Excel</h3>
+          <h3 class="text-header">Excel Export</h3>
           <p class="demo-summary every-other">
             If you ever feel like doing things old school, you can export your Master List and other
             pay details into a handy Excel sheet.
