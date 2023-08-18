@@ -199,7 +199,7 @@ export default defineComponent({
 .output-info {
   width: 200px;
   border-radius: 5px;
-  border: 2px solid black;
+  border: 1px solid var(--input-info);
   padding: 0 5px;
 }
 
@@ -229,15 +229,6 @@ export default defineComponent({
   text-align: center;
 }
 
-@media (max-width: 1024px) {
-  .input-info,
-  .output-info {
-    width: 200px;
-    border-radius: 5px;
-    border: 2px solid black;
-    padding: 0 5px;
-  }
-}
 
 @media (max-width: 600px) {
   .btn {

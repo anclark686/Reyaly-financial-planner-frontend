@@ -37,7 +37,7 @@ export default defineComponent({
 #error-image {
   margin: 50px auto;
   width: 500px;
-  border-radius: 10px;
+  border-radius: var(--border-radius);
 }
 
 .error-text {

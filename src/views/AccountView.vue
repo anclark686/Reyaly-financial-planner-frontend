@@ -180,8 +180,8 @@ export default defineComponent({
   min-width: 200px;
   width: 40%;
   margin: 50px;
-  border-radius: 15px;
-  border: 2px solid black;
+  border-radius: var(--border-radius);
+  box-shadow: 0 0 10px var(--box-shadow);
   background-color: var(--green-bg);
   padding: 30px;
   height: fit-content;
@@ -216,10 +216,10 @@ export default defineComponent({
   width: 40%;
   background-color: var(--white-black);
   color: var(--text-color);
-  border-radius: 15px;
+  border-radius: var(--border-radius);
   margin: 50px;
   text-align: center;
-  border: 2px solid black;
+  box-shadow: 0 0 10px var(--box-shadow);
   padding: 30px;
 }
 
@@ -229,6 +229,11 @@ export default defineComponent({
 
 .subheader {
   color: var(--text-color);
+}
+
+.accordion-item {
+  border: none;
+  margin: 5px;
 }
 
 .accordion-button:focus,
@@ -241,14 +246,14 @@ export default defineComponent({
   background-color: var(--green-bg);
   border-color: var(--med-green);
   color: var(--text-color);
-  border: 1px solid var(--black-white);
+  box-shadow: 0 0 10px var(--box-shadow);
 }
 
 .accordion-button.collapsed,
 .accordion-body {
   background-color: var(--white-black);
   color: var(--text-color);
-  border: 1px solid var(--black-white);
+  box-shadow: 0 0 10px var(--box-shadow);
 }
 
 .accordion {

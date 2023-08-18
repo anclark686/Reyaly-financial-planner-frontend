@@ -35,13 +35,11 @@ import { RouterLink } from "vue-router";
 
 .view-box {
   background-color: var(--btn-main);
-  min-width: 375px;
-  width: 40%;
+  min-width: 200px;
   height: 80px;
   text-align: center;
-  border-radius: 15px;
-  border: 2px solid black;
-  color: var(--dk-green);
+  border-radius: var(--border-radius);
+  box-shadow: 0 0 10px var(--box-shadow);
   margin: 5px;
   text-decoration: none;
 }

@@ -34,7 +34,7 @@
           <tr
             v-for="(debt, i) in debtList"
             :key="debt.id"
-            :class="i % 2 === 0 ? 'debt-row every-other' : 'debt-row'"
+            :class="i % 2 === 0 ? 'debt-row' : 'debt-row every-other'"
           >
             <td>{{ debt.name }}</td>
             <td>{{ debt.type }}</td>
@@ -180,10 +180,10 @@ export default defineComponent({
 
 <style scoped>
 .input-info {
-  margin: 0 5px;
+  margin: 10px 5px;
   width: 150px;
   border-radius: 5px;
-  border: 2px solid black;
+  border: 1px solid var(--input-info);
   padding: 0 5px;
 }
 
@@ -191,19 +191,20 @@ export default defineComponent({
   width: 100%;
   margin: 20px auto;
   text-align: center;
-  border: 2px solid var(--black-white);
+  box-shadow: 0 0 10px var(--box-shadow);
   color: var(--text-color);
+  background-color: var(--white-black);
 }
 
 .debt-table-header {
   font-weight: bold;
-  border: 2px solid var(--black-white);
+  box-shadow: 0 -1px 10px var(--box-shadow);
   background-color: var(--med-green);
   color: white;
 }
 
 .every-other {
-  background-color: var(--white-black);
+  background-color: var(--row-bg);
 }
 
 .emoji-btn {

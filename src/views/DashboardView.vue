@@ -259,11 +259,11 @@ export default defineComponent({
 .notif-container {
   text-align: center;
   color: var(--text-color);
-  border-radius: 15px;
-  border: 2px solid var(--black-white);
+  border-radius: var(--border-radius);
   width: 50%;
   margin: 30px auto 0 auto;
   background-color: var(--green-bg);
+  box-shadow: 0 0 10px var(--box-shadow);
 }
 
 .notif-header {
@@ -275,7 +275,7 @@ export default defineComponent({
 .emoji-btn {
   border: 1px solid var(--black-white);
   border-radius: 5px;
-  padding: 0 2px;
+  padding: 0 2px 0 1px;
   height: fit-content;
   align-self: center;
   margin: 5px;
@@ -298,10 +298,9 @@ export default defineComponent({
   width: 40%;
   height: 80px;
   text-align: center;
-  border-radius: 15px;
-  border: 2px solid black;
-  color: var(--dk-green);
-  margin: 15px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 0 10px var(--dk-box-shadow);
+  margin: 10px;
   text-decoration: none;
 }
 
@@ -311,6 +310,7 @@ export default defineComponent({
 
 #bottom {
   margin-bottom: 0px;
+  border: none;
 }
 
 .view-box:hover {
@@ -333,10 +333,10 @@ export default defineComponent({
   width: 50%;
   background-color: var(--white-black);
   color: var(--text-color);
-  border-radius: 15px;
+  border-radius: var(--border-radius);
   margin: 70px 50px;
   text-align: center;
-  border: 2px solid black;
+  box-shadow: 0 0 10px var(--box-shadow);
 }
 
 .user-info {
@@ -351,25 +351,21 @@ export default defineComponent({
   width: 90%;
   margin: 20px auto;
   font-size: larger;
-  border: 2px solid var(--black-white);
-}
-
-.info-table td {
-  border: 2px solid var(--black-white);
+  box-shadow: 0 0 10px var(--box-shadow);
 }
 
 .left {
   text-align: left;
-  padding: 5px;
+  padding: 5px 10px;
 }
 
 .right {
   text-align: right;
-  padding: 5px;
+  padding: 5px 10px;
 }
 
 .even {
-  background-color: var(--green-bg);
+  background-color: var(--row-bg);
 }
 
 .pay-info-double {
@@ -391,11 +387,10 @@ export default defineComponent({
   left: 25%;
   text-align: center;
   padding: 20px;
-  border: solid 2px black;
-  border-radius: 10px;
+  border-radius: var(--border-radius);
   overflow-y: auto;
   color: var(--black-white);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.519);
 }
 
 #welcome {
@@ -444,7 +439,6 @@ export default defineComponent({
     width: 90%;
     margin: 0 auto;
     font-size: 1rem;
-    border: 2px solid black;
   }
 
   .link-adjust {

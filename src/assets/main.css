@@ -1,15 +1,17 @@
-@import url("https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@400;700&display=swap");
 html {
   scroll-behavior: auto !important;
 }
 
 :root {
   --light-bg: rgba(252, 251, 251, 1);
-  --dark-bg: rgba(10, 10, 10, 1);
+  --dark-bg: rgb(40, 40, 40);
   --dk-green: rgb(30, 53, 30);
   --med-green: #1e9f63;
   --lt-green: rgb(226, 246, 229);
+  --lt-green-bg: rgb(240, 250, 241);
+  --dk-green-bg: rgb(30, 53, 30);
   --red: rgb(217, 83, 79);
+  --border-radius: 10px;
 }
 
 body {
@@ -25,6 +27,15 @@ h5,
 h6,
 p {
   margin: 0px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 200;
 }
 
 .page-header {

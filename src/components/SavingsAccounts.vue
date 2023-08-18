@@ -31,7 +31,7 @@
       target="_blank"
       rel="noopener noreferrer"
     >
-      <strong>Source</strong>
+      Source
     </a>
   </section>
 </template>
@@ -57,13 +57,13 @@ export default defineComponent({
   width: 100%;
   margin: 20px auto;
   text-align: center;
-  border: 2px solid var(--black-white);
+  box-shadow: 0 0 10px var(--box-shadow);
   color: var(--text-color);
 }
 
 .save-table-header {
   font-weight: bold;
-  border: 2px solid var(--black-white);
+  box-shadow: 0 -1px 10px var(--box-shadow);
   background-color: var(--med-green);
   color: white;
 }
@@ -78,7 +78,7 @@ td {
 }
 
 .every-other {
-  background-color: var(--green-bg);
+  background-color: var(--row-bg);
 }
 
 .source {

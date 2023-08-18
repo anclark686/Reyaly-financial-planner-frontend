@@ -94,8 +94,8 @@ export default defineComponent({
   min-width: 400px;
   width: 40%;
   margin: 50px;
-  border-radius: 15px;
-  border: 2px solid black;
+  border-radius: var(--border-radius);
+  box-shadow: 0 0 10px var(--box-shadow);
   background-color: var(--green-bg);
   padding: 30px;
   height: fit-content;
@@ -105,10 +105,10 @@ export default defineComponent({
   min-width: 400px;
   width: 40%;
   background-color: var(--white-black);
-  border-radius: 15px;
+  border-radius: var(--border-radius);
   margin: 50px;
   text-align: center;
-  border: 2px solid black;
+  box-shadow: 0 0 10px var(--box-shadow);
   padding: 30px;
   text-align: left;
   height: fit-content;

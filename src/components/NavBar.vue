@@ -129,7 +129,7 @@ export default defineComponent({
   color: white;
   font-size: 24px;
   padding: 10px;
-  font-family: "Lobster", cursive;
+  font-weight: 200;
 }
 
 .brand-header {
@@ -177,12 +177,11 @@ export default defineComponent({
 }
 
 .dropdown-item:hover {
-  background-color: var(--green-bg);
+  background-color: var(--row-bg);
 }
 
 .btn-success {
   background-color: var(--med-green);
-  border: 2px solid black;
 }
 @media (max-width: 1024px) {
   .btn {

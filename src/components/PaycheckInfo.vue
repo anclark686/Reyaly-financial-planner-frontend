@@ -86,7 +86,7 @@
             <td>Fed Tax Rate:</td>
             <td>{{ number === 1 ? userStore.fedTaxRate : userStore.fedTaxRate2 }}%</td>
           </tr>
-          <tr class="tax-info">
+          <tr class="tax-info every-other">
             <td>FICA*:</td>
             <td>7.65%</td>
           </tr>
@@ -95,7 +95,7 @@
             <td>${{ userStore.getFederalTaxWithholding(number) }}</td>
           </tr>
 
-          <tr class="tax-info">
+          <tr class="tax-info every-other">
             <td>State Tax Rate:</td>
             <td>{{ number === 1 ? userStore.localTaxRate : userStore.localTaxRate2 }}%</td>
           </tr>
@@ -104,7 +104,7 @@
             <td>${{ userStore.getLocalTaxWithholding(number) }}</td>
           </tr>
 
-          <tr class="tax-info">
+          <tr class="tax-info every-other">
             <td>Relationship Status:</td>
             <td>{{ userStore.relationship }}</td>
           </tr>
@@ -143,7 +143,7 @@
             <td>Recurring Expenses Total:</td>
             <td>${{ userStore.getExpenseTotal(expenseList) }}</td>
           </tr>
-          <tr class="total-num">
+          <tr class="total-num every-other">
             <td>One Time Expenses Total:</td>
             <td>${{ oteTotal }}</td>
           </tr>
@@ -206,7 +206,7 @@ export default defineComponent({
   width: 100%;
   margin: 0 auto;
   text-align: center;
-  border: 2px solid var(--black-white);
+  box-shadow: 0 0 10px var(--box-shadow);
   color: var(--text-color);
   background-color: var(--white-black);
 }
@@ -214,13 +214,13 @@ export default defineComponent({
 .expense-table-header,
 .pay-info-table-header {
   font-weight: bold;
-  border: 2px solid var(--black-white);
+  box-shadow: 0 -1px 10px var(--box-shadow);
   background-color: var(--med-green);
   color: white;
 }
 
 .every-other {
-  background-color: var(--green-bg);
+  background-color: var(--row-bg);
 }
 
 .pay-info-table {
@@ -228,9 +228,10 @@ export default defineComponent({
 }
 
 .input-info {
-  width: 150px;
+  width: 100px;
+  text-align: center;
   border-radius: 5px;
-  border: 2px solid black;
+  border: 1px solid var(--input-info);
   padding: 0 5px;
 }
 
@@ -250,12 +251,11 @@ export default defineComponent({
   left: 25%;
   text-align: center;
   padding: 20px;
-  border: solid 2px black;
-  border-radius: 10px;
+  border-radius: var(--border-radius);
   overflow-y: auto;
   color: var(--black-white);
   z-index: 1;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.519);
 }
 
 .tax-modal {
@@ -270,7 +270,7 @@ export default defineComponent({
 .total-table {
   width: 350px;
   margin: 20px auto;
-  border: 2px solid var(--black-white);
+  box-shadow: 0 0 10px var(--box-shadow);
 }
 
 .bw {
@@ -278,7 +278,7 @@ export default defineComponent({
 }
 
 #x-out {
-  margin-right: 0;
+  margin-right: 5px;
   border: none;
   background-color: inherit;
   position: absolute;

@@ -65,9 +65,10 @@ export default defineComponent({
 <style scoped>
 .header-row {
   font-weight: bold;
-  border: 2px solid var(--black-white);
   background-color: var(--med-green);
   color: white;
+  border: none;
+  box-shadow: 0 -1px 10px var(--box-shadow);
 }
 
 .single {
@@ -81,26 +82,22 @@ export default defineComponent({
   width: 45%;
   margin: 10px auto;
   font-size: large;
-  border: 2px solid var(--black-white);
-}
-
-.single td,
-.double td {
-  border: 2px solid var(--black-white);
+  border: none;
+  box-shadow: 0 0 10px var(--box-shadow);
 }
 
 .left {
   text-align: left;
-  padding: 5px;
+  padding: 5px 10px;
 }
 
 .right {
   text-align: right;
-  padding: 5px;
+  padding: 5px 10px;
 }
 
 .even {
-  background-color: var(--green-bg);
+  background-color: var(--row-bg);
 }
 
 @media (max-width: 1500px) {
@@ -108,7 +105,6 @@ export default defineComponent({
     width: 90%;
     margin: 10px auto;
     font-size: 1rem;
-    border: 2px solid var(--black-white);
   }
 }
 </style>

@@ -101,13 +101,13 @@ export default defineComponent({
   width: 100%;
   margin: 20px auto;
   text-align: center;
-  border: 2px solid var(--black-white);
+  box-shadow: 0 0 10px var(--box-shadow);
   color: var(--text-color);
 }
 
 .details-header {
   font-weight: bold;
-  border: 2px solid var(--black-white);
+  box-shadow: 0 -1px 10px var(--box-shadow);
   background-color: var(--med-green);
   color: white;
 }
