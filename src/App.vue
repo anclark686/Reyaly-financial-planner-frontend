@@ -37,6 +37,7 @@ const userStore = useUserStore();
   --btn-hover: #16784a;
   --box-shadow: black;
   --dk-box-shadow: black;
+  --link-hover: var(--lt-green);
 }
 
 .app-light {
@@ -52,6 +53,7 @@ const userStore = useUserStore();
   --box-shadow: lightgray;
   --input-info: lightgray;
   --dk-box-shadow: gray;
+  --link-hover: var(--dk-green);
 }
 
 .page-header {
@@ -70,5 +72,9 @@ const userStore = useUserStore();
 .spinner-border {
   width: 3rem !important;
   height: 3rem !important;
+}
+
+a:hover {
+  color: var(--link-hover);
 }
 </style>

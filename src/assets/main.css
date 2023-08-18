@@ -44,11 +44,7 @@ h6 {
 }
 
 a {
-  color: #1e9f63;
-}
-
-a:hover {
-  color: var(--dk-green);
+  color: var(--med-green);
 }
 
 input:focus,
