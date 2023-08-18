@@ -63,8 +63,7 @@ export default {
   padding: 20px 30px;
   background-color: var(--white-black);
   border-radius: 5px;
-  border: 2px solid var(--black-white);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.519);
   transition: all 0.3s ease;
   color: var(--text-color);
 }

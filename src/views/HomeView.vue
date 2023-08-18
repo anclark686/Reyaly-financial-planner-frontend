@@ -177,7 +177,6 @@ onUnmounted(() => {
 
 .header,
 .demo-header {
-  font-family: "Lobster", cursive;
   margin: 50px auto 20px auto;
 }
 
@@ -206,7 +205,7 @@ onUnmounted(() => {
 
 .btn-success {
   background-color: var(--med-green);
-  border: 2px solid black;
+  box-shadow: 0 0 10px var(--box-shadow);
   color: white;
 }
 
@@ -228,9 +227,8 @@ onUnmounted(() => {
   width: 40%;
   height: 80px;
   text-align: center;
-  border-radius: 15px;
-  border: 2px solid black;
-  color: var(--dk-green);
+  border-radius: var(--border-radius);
+  box-shadow: 0 0 10px var(--box-shadow);
   margin: 5px;
   text-decoration: none;
 }
@@ -280,7 +278,7 @@ onUnmounted(() => {
 
 .demo-pic {
   max-width: 75%;
-  border-radius: 10px;
+  border-radius: var(--border-radius);
 }
 
 #paycheck {
@@ -288,7 +286,7 @@ onUnmounted(() => {
 }
 
 .demo-summary {
-  border: 2px solid black;
+  box-shadow: 0 0 10px var(--box-shadow);
   border-radius: 5px;
   margin: 10px;
   padding: 10px;

@@ -221,7 +221,7 @@ export default defineComponent({
 .input-info {
   width: 150px;
   border-radius: 5px;
-  border: 2px solid black;
+  border: 1px solid var(--input-info);
   padding: 0 5px;
 }
 
@@ -260,12 +260,11 @@ export default defineComponent({
   left: 25%;
   text-align: center;
   padding: 20px;
-  border: solid 2px black;
-  border-radius: 10px;
+  border-radius: var(--border-radius);
   overflow-y: auto;
   color: var(--black-white);
   z-index: 1;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.519);
 }
 
 #x-out {

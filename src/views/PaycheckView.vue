@@ -186,7 +186,15 @@ export default defineComponent({
 .combined-container {
   width: 75%;
   margin: 20px auto;
+  box-shadow: 0 0 10px var(--box-shadow);
 }
+
+.card {
+    border: none;
+    padding: 10px;
+    background-color: var(--white-black);
+    box-shadow: 0 0 10px var(--box-shadow);
+  }
 
 @media (max-width: 1024px) {
   .page-header {

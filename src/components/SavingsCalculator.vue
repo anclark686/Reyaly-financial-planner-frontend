@@ -158,7 +158,7 @@ export default defineComponent({
 
 <style scoped>
 .calc-table {
-  margin: 50px auto;
+  margin: 35px auto;
 }
 
 label {
@@ -170,7 +170,7 @@ label {
 .output-info {
   width: 150px;
   border-radius: 5px;
-  border: 2px solid black;
+  border: 1px solid var(--input-info);
   text-align: right;
   margin: 5px;
   padding: 0 5px;

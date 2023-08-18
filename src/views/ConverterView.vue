@@ -69,10 +69,10 @@ export default defineComponent({
   width: 65%;
   background-color: var(--green-bg);
   color: var(--text-color);
-  border-radius: 15px;
+  border-radius: var(--border-radius);
   margin: 70px 50px;
   text-align: center;
-  border: 2px solid black;
+  box-shadow: 0 0 10px var(--box-shadow);
   padding: 30px;
   height: fit-content;
   margin: 75px auto;

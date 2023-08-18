@@ -229,7 +229,7 @@ export default defineComponent({
 .input-info {
   width: 150px;
   border-radius: 5px;
-  border: 2px solid black;
+  border: 1px solid var(--input-info);
   padding: 0 5px;
 }
 
@@ -241,7 +241,8 @@ export default defineComponent({
 .img-container {
   align-self: center;
   border-radius: 5px;
-  border: 2px solid black;
+  margin: 10px;
+  box-shadow: 0 0 10px var(--box-shadow);
 }
 
 .snow-img {
@@ -264,12 +265,12 @@ export default defineComponent({
   left: 25%;
   text-align: center;
   padding: 20px;
-  border: solid 2px black;
-  border-radius: 10px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--input-info);
   overflow-y: auto;
   color: var(--black-white);
   z-index: 1;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.519);
 }
 
 #x-out {
@@ -287,19 +288,19 @@ export default defineComponent({
   width: 90%;
   margin: 20px auto;
   text-align: center;
-  border: 2px solid var(--black-white);
+  box-shadow: 0 0 10px var(--box-shadow);
   color: var(--text-color);
 }
 
 .table-header {
   font-weight: bold;
-  border: 2px solid var(--black-white);
+  box-shadow: 0 -1px 10px var(--box-shadow);
   background-color: var(--med-green);
   color: white;
 }
 
 .every-other {
-  background-color: var(--green-bg);
+  background-color: var(--row-bg);
 }
 
 .success {

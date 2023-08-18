@@ -376,7 +376,7 @@ td {
 .input-info {
   width: 150px;
   border-radius: 5px;
-  border: 2px solid black;
+  border: 1px solid var(--input-info);
   padding: 0 5px;
 }
 

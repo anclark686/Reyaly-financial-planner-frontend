@@ -398,7 +398,7 @@ export default defineComponent({
 .funds-table {
   margin: 0 auto;
   text-align: center;
-  border: 2px solid var(--black-white);
+  box-shadow: 0 0 10px var(--box-shadow);
   color: var(--text-color);
   background-color: var(--white-black);
 }
@@ -425,13 +425,13 @@ export default defineComponent({
 .pay-table-header,
 .funds-table-header {
   font-weight: bold;
-  border: 2px solid var(--black-white);
+  box-shadow: 0 -1px 10px var(--box-shadow);
   background-color: var(--med-green);
   color: white;
 }
 
 .every-other {
-  background-color: var(--green-bg);
+  background-color: var(--row-bg);
 }
 
 .combined-double {
@@ -441,9 +441,10 @@ export default defineComponent({
 }
 
 .input-info {
-  width: 150px;
+  width: 100px;
   border-radius: 5px;
-  border: 2px solid black;
+  border: 1px solid var(--input-info);
+  text-align: center;
   padding: 0 5px;
 }
 

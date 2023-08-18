@@ -26,29 +26,37 @@ const userStore = useUserStore();
   flex-direction: column;
 }
 .app-dark {
-  background-color: rgb(25, 24, 23);
+  background-color: rgb(14, 14, 14);
   --nav-pic: var(--dark-bg);
   --green-bg: var(--dk-green);
-  --white-black: rgb(9, 9, 9);
+  --row-bg: var(--dk-green);
+  --white-black: rgb(34, 34, 34);
   --black-white: white;
   --text-color: white;
   --btn-main: var(--dk-green);
   --btn-hover: #16784a;
+  --box-shadow: black;
+  --dk-box-shadow: black;
 }
 
 .app-light {
-  background-color: rgb(253, 247, 240);
+  background-color: rgb(250 250 250);
   --nav-pic: var(--light-bg);
-  --green-bg: var(--lt-green);
+  --green-bg: var(--lt-green-bg);
+  --row-bg: var(--lt-green);
   --white-black: white;
   --text-color: black;
   --black-white: black;
   --btn-main: var(--med-green);
   --btn-hover: #26c67b;
+  --box-shadow: lightgray;
+  --input-info: lightgray;
+  --dk-box-shadow: gray;
 }
 
 .page-header {
   color: var(--text-color);
+  font-size: 3rem;
 }
 
 .spinner-container {
