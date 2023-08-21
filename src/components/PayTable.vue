@@ -75,7 +75,7 @@ export default defineComponent({
   width: 90%;
   margin: 20px auto;
   font-size: larger;
-  border: 2px solid var(--black-white);
+  box-shadow: 0 0 10px var(--box-shadow);
 }
 
 .double {
