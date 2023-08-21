@@ -74,7 +74,7 @@ export default defineComponent({
 .single {
   width: 90%;
   margin: 20px auto;
-  font-size: larger;
+  font-size: 1rem;
   box-shadow: 0 0 10px var(--box-shadow);
 }
 
