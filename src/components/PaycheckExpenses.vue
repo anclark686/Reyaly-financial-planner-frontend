@@ -1,26 +1,41 @@
 <template>
   <main class="main-card">
     <div class="card-header">
-      <button class="arrow-btn btn" @click="changeDate('previous')">
+      <button class="arrow-btn btn" @click="checkModify('previous')">
         <img src="../components/icons/arrow-left.png" alt="left-arrow" class="arrow-img" />
       </button>
       <div v-if="loading" class="spinner-border text-success" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
       <h2 class="subheader" v-else>{{ paycheck }}</h2>
-      <button class="arrow-btn btn" @click="changeDate('next')">
+      <button class="arrow-btn btn" @click="checkModify('next')">
         <img src="../components/icons/arrow-right.png" alt="right-arrow" class="arrow-img" />
       </button>
     </div>
 
+    <div class="btn-container" v-if="modify === false">
+      <button class="btn btn-success" @click="modify = true">Modify Expenses</button>
+    </div>
+    <div class="btn-container" v-else>
+      <button class="btn btn-success" @click="checkModify('')">Close</button>
+    </div>
+
     <div class="expense-list" v-if="expenseList.length > 0">
-      <h5 class="expense-title">Recurring Expenses</h5>
       <MasterList
         pageType="paycheckList-noML-dateStr"
         :expenses="expenseList"
         :dateStr="paycheck"
+        :modify="modify"
+        :paycheck="paycheckInfo"
+        @changes="changes += 1"
       />
     </div>
+    
+    <SaveModal
+      v-if="showModal"
+      @close="showModal = false"
+      @continue="handleContinue"
+    />
   </main>
 </template>
 
@@ -28,6 +43,7 @@
 import { defineComponent } from "vue";
 
 import MasterList from "./MasterList.vue";
+import SaveModal from "./SaveModal.vue";
 import { useUserStore } from "../stores/UserStore";
 import { type Expense } from "../types";
 import { type Paycheck } from "../types";
@@ -38,12 +54,18 @@ export default defineComponent({
   },
   components: {
     MasterList,
+    SaveModal
   },
   data() {
     return {
       userStore: useUserStore(),
       expenseList: [] as Expense[],
       paycheck: "",
+      modify: false,
+      direction: "",
+      paycheckInfo: {paycheckId: "", date: ""},
+      changes: 0,
+      showModal: false,
       loading: false,
     };
   },
@@ -61,9 +83,27 @@ export default defineComponent({
     formatDate(dateStr: string): string {
       return this.userStore.formatDays(new Date(dateStr));
     },
-    changeDate(direction: string): void {
+    checkModify(direction: string): void {
+      this.direction = direction
+      if (this.modify && this.changes) {
+        this.showModal = true;
+      } else {
+        this.handleContinue()
+      }
+    },
+    handleContinue(): void {
+      this.modify = false
+      this.changes = 0
+      this.showModal = false;
+      console.log(this.expenseList)
+      if (this.direction) {
+        this.changeDate()
+      } 
+      this.getExpenses();
+    },
+    changeDate(): void {
       let pIndex = this.number === 1 ? this.userStore.pIndex : this.userStore.pIndex2;
-      if (direction === "next") {
+      if (this.direction === "next") {
         if (pIndex < this.userStore.paychecks.length - 1) {
           pIndex++;
           this.paycheck = this.formatDate(this.paychecks[pIndex].date);
@@ -154,10 +194,9 @@ export default defineComponent({
   color: white;
 }
 
-.expense-title {
+.btn-container {
+  margin:  20px auto 0 auto;
   text-align: center;
-  margin: 5px auto -15px auto;
-  color: var(--text-color);
 }
 
 .expense-list {

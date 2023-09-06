@@ -74,6 +74,7 @@ export const useUserStore = defineStore("UserStore", {
       await API.getUserInfo(authUID)
         .then((res) => {
           if (res.message !== "Not Found") {
+            console.log(res.data)
             this.error = false;
             this.noUser = false;
             const user = res.data.user;

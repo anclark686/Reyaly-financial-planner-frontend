@@ -8,7 +8,7 @@
         <div class="single-container card" v-if="showPaycheckCard && userStore.income === 1">
           <PaycheckExpenses :number="1" @dateChange1="sendExpenseList" />
 
-          <div class="ote-container">
+          <!-- <div class="ote-container">
             <OTETable
               :paycheckId="paycheckId1"
               :number="1"
@@ -16,7 +16,7 @@
               @newTotal="updateOTEtotal"
               @possChange="handleChange"
             />
-          </div>
+          </div> -->
 
           <PaycheckInfo :number="1" :expenseList="expenseList1" :oteTotal="oteTotal1" />
         </div>
@@ -25,7 +25,7 @@
           <div class="double-container card">
             <PaycheckExpenses :number="1" @dateChange1="sendExpenseList" />
 
-            <div class="ote-container">
+            <!-- <div class="ote-container">
               <OTETable
                 :paycheckId="paycheckId1"
                 :number="1"
@@ -33,7 +33,7 @@
                 @newTotal="updateOTEtotal"
                 @possChange="handleChange"
               />
-            </div>
+            </div> -->
 
             <PaycheckInfo :number="1" :expenseList="expenseList1" :oteTotal="oteTotal1" />
           </div>
@@ -41,7 +41,7 @@
           <div class="double-container card">
             <PaycheckExpenses :number="2" @dateChange2="sendExpenseList" />
 
-            <div class="ote-container">
+            <!-- <div class="ote-container">
               <OTETable
                 :paycheckId="paycheckId2"
                 :number="2"
@@ -49,7 +49,7 @@
                 @newTotal="updateOTEtotal"
                 @possChange="handleChange"
               />
-            </div>
+            </div> -->
 
             <PaycheckInfo :number="2" :expenseList="expenseList2" :oteTotal="oteTotal2" />
           </div>

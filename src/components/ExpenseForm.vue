@@ -31,14 +31,16 @@
           class="input-info"
           v-model="date"
           @keyup.enter="onSubmit"
+          v-if="type !== 'oneTime'"
         >
           <option value="">-Select One-</option>
           <option v-for="num in dateArr" v-bind:key="num" :value="num">
             {{ num }}
           </option>
         </select>
+        <input type="date" id="ote-date" name="ote-date" class="input-info" v-model="oteDate" v-else />
       </div>
-      <div class="input-row" v-if="type === 'new'">
+      <div class="input-row" v-if="type === 'new' || type === 'oneTime'">
         <input type="submit" id="submit-expense" class="btn btn-success" value="Add Expense" />
       </div>
 
@@ -70,6 +72,7 @@ export default defineComponent({
       name: this.expense.name,
       amount: this.expense.amount,
       date: this.expense.date,
+      oteDate: "",
       invalid: false,
     };
   },
@@ -90,12 +93,28 @@ export default defineComponent({
           newDateStr = `${dateArr[0]}/${this.date}/${dateArr[2]}`;
         }
       }
+      let dateObj: Date
+      let dateStr: string
+
+      if (newDateStr) {
+        dateObj = new Date(newDateStr)
+        dateStr = dateObj.toDateString()
+      } else if (this.type === 'oneTime') {
+        dateObj = new Date(this.oteDate.replace(/-/g, "/"))
+        dateStr = dateObj.toDateString()
+        this.date = dateObj.getDate()
+      } else {
+        dateObj = new Date(0)
+        dateStr = ""
+      }
+
       const expenseData = {
         id: this.expense.id,
-        name: this.name,
+        name: this.type === "oneTime" ? this.name + "*" : this.name,
         amount: this.amount,
         date: this.date,
-        dateStr: newDateStr ? new Date(newDateStr).toDateString() : "",
+        dateStr: dateStr,
+        dateObj: dateObj,
       };
       return expenseData;
     },
@@ -105,11 +124,12 @@ export default defineComponent({
       this.name = "";
       this.amount = 0;
       this.date = 0;
+      this.oteDate = "";
     },
     onSubmit(): void {
-      if (this.name && this.date) {
+      if (this.name && (this.date || this.oteDate)) {
         this.invalid = false;
-        if (this.type === "new") {
+        if (this.type === "new" || this.type === "oneTime") {
           this.$emit("addExpense", this.expenseData);
           this.clearInfo();
           (this.$refs["name"] as any).focus();
@@ -121,7 +141,6 @@ export default defineComponent({
       }
     },
   },
-  mounted() {},
 });
 </script>
 

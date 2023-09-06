@@ -8,8 +8,9 @@
             <td>Expense Name</td>
             <td>Amount</td>
             <td>Due Date</td>
-            <td v-if="pageType === 'settings' || pageType === 'paycheckList-noML-dateStr'">
-              Modify
+            <td v-if="pageType === 'paycheckList-noML-dateStr'">Paid</td>
+            <td v-if="pageType === 'settings' || modify === true">
+              Modify <button v-if="modify === true" class="emoji-btn">ℹ️</button>
             </td>
             <td v-if="pageType === 'account'">Account</td>
             <td v-if="pageType === 'account'">Add</td>
@@ -22,11 +23,23 @@
             :key="expense.id"
             :class="i % 2 === 0 ? 'expense-row every-other' : 'expense-row eog'"
           >
-            <td>{{ expense.name }}</td>
+            <td v-if="!expense.name.includes('*')">{{ expense.name }}</td>
+            <td v-else class="one-time">{{ expense.name.slice(0,-1)}}</td>
             <td>${{ expense.amount }}</td>
             <td v-if="!pageType.includes('dateStr')">{{ expense.date }}</td>
             <td v-else>{{ expense.dateStr }}</td>
-            <td v-if="pageType === 'settings' || pageType === 'paycheckList-noML-dateStr'">
+            <td v-if="pageType === 'paycheckList-noML-dateStr' && modify === true">
+              <input
+                type="checkbox"
+                :value="expense.paid"
+                class="paid-checkbox"
+                @change="checkPaid(expense)"
+              />
+            </td>
+            <td v-if="pageType === 'paycheckList-noML-dateStr' && modify === false">
+              {{ expense.paid ? "✔️" : "-" }}
+            </td>
+            <td v-if="pageType === 'settings' || modify === true">
               <button class="emoji-btn" @click="onEditClick(expense, i)">✏️</button>
               |
               <button class="emoji-btn" @click="preDelete(expense.id, i, expense.name)">❌</button>
@@ -72,6 +85,25 @@
       </button>
     </section>
 
+    <section class="expense-form-container" v-if="modify === true && addNew">
+      <ExpenseForm
+        @addExpense="addExpense"
+        :expense="{ id: '', name: '', amount: 0, date: 0 }"
+        type="oneTime"
+      />
+      <div class="button-container">
+        <button class="btn btn-success" @click="addNew = false">Close</button>
+      </div>
+    </section>
+
+    <section class="button-container" v-if="modify === true && addNew === false">
+      <button class="btn btn-success" @click="addNew = true">Add One Time Expense</button>
+    </section>
+
+    <section class="button-container" v-if="modify === true">
+      <button class="btn btn-success" @click="saveExpenseList">Save Changes</button>
+    </section>
+
     <DeleteModal
       v-if="showModal"
       @close="showModal = false"
@@ -94,6 +126,8 @@ export default defineComponent({
     pageType: { type: String, required: true },
     expenses: Array,
     dateStr: { type: String, required: false },
+    modify: { type: Boolean, required: false },
+    paycheck: { type: Object, required: false },
   },
   data() {
     return {
@@ -118,18 +152,26 @@ export default defineComponent({
   },
   methods: {
     async addExpense(expenseData: Expense): Promise<any> {
-      await this.userStore
-        .addExpense(expenseData)
-        .then((res) => {
-          if (res.message === "Success") {
-            expenseData.id = res.id;
-            this.masterList.push(expenseData);
-            this.sortMasterList();
-          } else {
-            alert("An error occurred, please try again");
-          }
-        })
-        .catch((err) => console.log(err));
+      if (!this.modify) {
+        await this.userStore
+          .addExpense(expenseData)
+          .then((res) => {
+            if (res.message === "Success") {
+              expenseData.id = res.id;
+              this.masterList.push(expenseData);
+              this.sortMasterList();
+            } else {
+              alert("An error occurred, please try again");
+            }
+          })
+          .catch((err) => console.log(err));
+      } else {
+        this.$emit("changes")
+        expenseData.id = crypto.randomUUID();
+        console.log(expenseData);
+        this.masterList.push(expenseData);
+        this.userStore.sortExpenseDateList(this.masterList);
+      }
     },
     onEditClick(expense: Expense, idx: number): void {
       this.addNew = false;
@@ -140,27 +182,43 @@ export default defineComponent({
       }
     },
     async editExpenseInfo(expenseData: Expense): Promise<any> {
-      await this.userStore
-        .editExpense(expenseData)
-        .then((res) => {
-          if (res.message === "Success") {
-            this.masterList.splice(this.editRow, 1);
-            this.masterList.push({
-              id: expenseData.id,
-              name: expenseData.name,
-              amount: expenseData.amount,
-              date: expenseData.date,
-              dateStr: expenseData.dateStr,
-            });
-            this.sortMasterList();
-            this.edit = false;
-            this.editInfo = {} as Expense;
-            this.editRow = 0;
-          } else {
-            alert("An error occurred, please try again");
-          }
-        })
-        .catch((err) => console.log(err));
+      if (!this.modify) {
+        await this.userStore
+          .editExpense(expenseData)
+          .then((res) => {
+            if (res.message === "Success") {
+              this.masterList.splice(this.editRow, 1);
+              this.masterList.push({
+                id: expenseData.id,
+                name: expenseData.name,
+                amount: expenseData.amount,
+                date: expenseData.date,
+                dateStr: expenseData.dateStr,
+              });
+              this.sortMasterList();
+              this.edit = false;
+              this.editInfo = {} as Expense;
+              this.editRow = 0;
+            } else {
+              alert("An error occurred, please try again");
+            }
+          })
+          .catch((err) => console.log(err));
+      } else {
+        this.$emit("changes")
+        this.masterList.splice(this.editRow, 1);
+        this.masterList.push({
+          id: expenseData.id,
+          name: expenseData.name,
+          amount: expenseData.amount,
+          date: expenseData.date,
+          dateStr: expenseData.dateStr,
+        });
+        this.sortMasterList();
+        this.edit = false;
+        this.editInfo = {} as Expense;
+        this.editRow = 0;
+      }
     },
     cancelEdit(): void {
       this.edit = false;
@@ -172,17 +230,23 @@ export default defineComponent({
     },
     async onDelete(id: string, idx: number): Promise<any> {
       this.showModal = false;
-      await this.userStore
-        .deleteExpense(id)
-        .then((res) => {
-          if (res.message === "Success") {
-            this.masterList.splice(idx, 1);
-            this.deleteInfo = { id: "", idx: 0, title: "" };
-          } else {
-            alert("An error occurred, please try again");
-          }
-        })
-        .catch((err) => console.log(err));
+      if (!this.modify) {
+        await this.userStore
+          .deleteExpense(id)
+          .then((res) => {
+            if (res.message === "Success") {
+              this.masterList.splice(idx, 1);
+              this.deleteInfo = { id: "", idx: 0, title: "" };
+            } else {
+              alert("An error occurred, please try again");
+            }
+          })
+          .catch((err) => console.log(err));
+      } else {
+        this.$emit("changes")
+        this.masterList.splice(idx, 1);
+        this.deleteInfo = { id: "", idx: 0, title: "" };
+      }
     },
     onAddClick(expense: Expense): void {
       this.$emit("addExpense", expense);
@@ -194,6 +258,13 @@ export default defineComponent({
       this.masterList.sort((a: any = {} as Expense, b: any = {} as Expense) => {
         return a.date - b.date;
       });
+    },
+    checkPaid(expense: Expense): void {
+      expense.paid = !expense.paid
+      this.$emit("changes")
+    },
+    saveExpenseList(): void {
+      console.log(this.masterList)
     },
   },
   mounted() {
@@ -229,6 +300,10 @@ export default defineComponent({
 
 .eog {
   background-color: var(--row-bg);
+}
+
+.one-time {
+  font-style: italic;
 }
 
 .emoji-btn {
