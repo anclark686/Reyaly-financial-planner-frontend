@@ -81,7 +81,7 @@ export default defineComponent({
 @media (max-width: 1024px) {
   .converter-container {
     width: 90%;
-    margin: 20px;
+    margin: 20px auto;
   }
 }
 </style>

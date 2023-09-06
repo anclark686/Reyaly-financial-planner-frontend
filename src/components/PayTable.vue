@@ -74,7 +74,7 @@ export default defineComponent({
 .single {
   width: 90%;
   margin: 20px auto;
-  font-size: 1rem;
+  font-size: larger;
   box-shadow: 0 0 10px var(--box-shadow);
 }
 
@@ -101,6 +101,10 @@ export default defineComponent({
 }
 
 @media (max-width: 1500px) {
+  .single {
+    font-size: 1rem;
+  }
+
   .double {
     width: 90%;
     margin: 10px auto;
