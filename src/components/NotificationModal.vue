@@ -2,14 +2,14 @@
   <div class="notifications">
     <div class="expenses-found" v-if="expenseList.length > 0">
       <p>Here's a list of expenses coming up this week:</p>
-    <div class="master-list-container">
-      <MasterList pageType="notifications-noML-dateStr" :expenses="expenseList" />
-    </div>
-    <p class="link-adjust">
-      Click
-      <RouterLink to="/views/calendar">here</RouterLink>
-      to view a full calendar of expenses.
-    </p>
+      <div class="master-list-container">
+        <MasterList pageType="notifications-noML-dateStr" :expenses="expenseList" />
+      </div>
+      <p class="link-adjust">
+        Click
+        <RouterLink to="/views/calendar">here</RouterLink>
+        to view a full calendar of expenses.
+      </p>
     </div>
     <div class="nada" v-else>
       <p>🎉 No upcoming expenses for this week! 🎉</p>

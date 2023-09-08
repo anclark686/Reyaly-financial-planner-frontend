@@ -69,7 +69,7 @@
       </div>
     </section>
 
-    <section class="expense-form-container" v-else-if="edit === true">
+    <section class="expense-form-container" v-else-if="edit">
       <DebtForm @cancel="cancelEdit" @editDebt="editDebt" :debt="editInfo" pageType="edit" />
     </section>
 

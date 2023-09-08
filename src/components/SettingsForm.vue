@@ -167,8 +167,9 @@
         <p id="success">Changes Successfully Saved!</p>
       </div>
     </form>
-    <DeleteModal
+    <SureModal
       v-if="showModal"
+      type="delete"
       @close="showModal = false"
       @deleteItem="onDeleteSecond()"
       name="Additional source of income"
@@ -185,7 +186,7 @@ import { useUserStore } from "../stores/UserStore";
 import { type User } from "../types";
 import { type PayData } from "../types";
 import PayForm from "./PayForm.vue";
-import DeleteModal from "./DeleteModal.vue";
+import SureModal from "./SureModal.vue";
 
 export default defineComponent({
   setup() {
@@ -205,7 +206,7 @@ export default defineComponent({
   components: {
     RouterLink,
     PayForm,
-    DeleteModal,
+    SureModal,
   },
   data() {
     return {

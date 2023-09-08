@@ -125,15 +125,25 @@ export const getSavedPaycheck = (dbUserId: string, paycheckId: string): Promise<
 
 export const addSavedPaycheck = (dbUserId: string, data: SavedPaycheck): Promise<any> => {
   return Axios.post(
-    `${baseUrl}/users/${dbUserId}/paychecks/${data.paycheck_id}/saved_paychecks`,
+    `${baseUrl}/users/${dbUserId}/paychecks/${data.paycheckId}/saved_paychecks`,
     data
   ).then((res) => res.data);
 };
 
 export const editSavedPaycheck = (dbUserId: string, data: SavedPaycheck): Promise<any> => {
   return Axios.put(
-    `${baseUrl}/users/${dbUserId}/paychecks/${data.paycheck_id}/saved_paychecks/${data.id}`,
+    `${baseUrl}/users/${dbUserId}/paychecks/${data.paycheckId}/saved_paychecks/${data.id}`,
     data
+  ).then((res) => res.data);
+};
+
+export const deleteSavedPaycheck = (
+  dbUserId: string,
+  paycheckId: string,
+  id: string
+): Promise<any> => {
+  return Axios.delete(
+    `${baseUrl}/users/${dbUserId}/paychecks/${paycheckId}/saved_paychecks/${id}`
   ).then((res) => res.data);
 };
 

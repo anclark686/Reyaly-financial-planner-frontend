@@ -38,7 +38,14 @@
             {{ num }}
           </option>
         </select>
-        <input type="date" id="ote-date" name="ote-date" class="input-info" v-model="oteDate" v-else />
+        <input
+          type="date"
+          id="ote-date"
+          name="ote-date"
+          class="input-info"
+          v-model="oteDate"
+          v-else
+        />
       </div>
       <div class="input-row" v-if="type === 'new' || type === 'oneTime'">
         <input type="submit" id="submit-expense" class="btn btn-success" value="Add Expense" />
@@ -93,19 +100,19 @@ export default defineComponent({
           newDateStr = `${dateArr[0]}/${this.date}/${dateArr[2]}`;
         }
       }
-      let dateObj: Date
-      let dateStr: string
+      let dateObj: Date;
+      let dateStr: string;
 
       if (newDateStr) {
-        dateObj = new Date(newDateStr)
-        dateStr = dateObj.toDateString()
-      } else if (this.type === 'oneTime') {
-        dateObj = new Date(this.oteDate.replace(/-/g, "/"))
-        dateStr = dateObj.toDateString()
-        this.date = dateObj.getDate()
+        dateObj = new Date(newDateStr);
+        dateStr = dateObj.toDateString();
+      } else if (this.type === "oneTime") {
+        dateObj = new Date(this.oteDate.replace(/-/g, "/"));
+        dateStr = dateObj.toDateString();
+        this.date = dateObj.getDate();
       } else {
-        dateObj = new Date(0)
-        dateStr = ""
+        dateObj = new Date(0);
+        dateStr = "";
       }
 
       const expenseData = {

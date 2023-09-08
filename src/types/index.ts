@@ -42,10 +42,11 @@ export interface Paycheck {
   income: number;
   id: string;
   dateObj: Date;
+  savedPaycheck?: string | undefined;
 }
 
 export interface SavedPaycheck {
-  paycheck_id: string;
+  paycheckId: string;
   date: string;
   id: string;
   expenses: Expense[];

@@ -47,7 +47,7 @@
       </div>
     </form>
 
-    <div class="paycheck-picker-modal" v-if="paycheckPicker === true && type === 'edit'">
+    <div class="paycheck-picker-modal" v-if="paycheckPicker && type === 'edit'">
       <button id="x-out" @click="paycheckPicker = false">x</button>
       <h3 class="date-picker-header">Adjust Paycheck</h3>
       <div class="date-picker-container" v-if="!year">

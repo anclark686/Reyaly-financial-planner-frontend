@@ -10,6 +10,7 @@ import { type Paycheck } from "../types";
 import { type Debt } from "../types";
 import { type Account } from "../types";
 import { type OneTimeExpense } from "../types";
+import { type SavedPaycheck } from "../types";
 
 export const useUserStore = defineStore("UserStore", {
   state: () => {
@@ -41,6 +42,7 @@ export const useUserStore = defineStore("UserStore", {
       otExpenses: [] as OneTimeExpense[],
       paychecks: [] as Paycheck[],
       paychecks2: [] as Paycheck[],
+      savedPaychecks: {} as { [key: string]: SavedPaycheck },
       accounts: [] as Account[],
       debts: [] as Debt[],
       fedTaxRate: 0,
@@ -74,7 +76,6 @@ export const useUserStore = defineStore("UserStore", {
       await API.getUserInfo(authUID)
         .then((res) => {
           if (res.message !== "Not Found") {
-            console.log(res.data)
             this.error = false;
             this.noUser = false;
             const user = res.data.user;
@@ -102,6 +103,7 @@ export const useUserStore = defineStore("UserStore", {
             this.otExpenses = res.data.otExpenses;
             this.paychecks = res.data.paychecks;
             this.paychecks2 = res.data.paychecks2;
+            this.savedPaychecks = res.data.saved_paychecks;
             this.debts = res.data.debts;
             this.accounts = res.data.accounts;
 
@@ -331,6 +333,55 @@ export const useUserStore = defineStore("UserStore", {
     },
     async deleteOTExpense(paycheckId: string, id: string): Promise<any> {
       const res = await API.deleteOTExpense(this.dbUserId, paycheckId, id)
+        .then((res) => {
+          this.error = false;
+          return res;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.error = true;
+        });
+      return res;
+    },
+    // Saved Paycheck API methods
+    async getSavedPaycheck(paycheckId: string): Promise<any> {
+      const res = await API.getSavedPaycheck(this.dbUserId, paycheckId)
+        .then((res) => {
+          this.error = false;
+          return res;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.error = true;
+        });
+      return res;
+    },
+    async addSavedPaycheck(data: SavedPaycheck): Promise<any> {
+      const res = await API.addSavedPaycheck(this.dbUserId, data)
+        .then((res) => {
+          this.error = false;
+          return res;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.error = true;
+        });
+      return res;
+    },
+    async editSavedPaycheck(data: SavedPaycheck): Promise<any> {
+      const res = await API.editSavedPaycheck(this.dbUserId, data)
+        .then((res) => {
+          this.error = false;
+          return res;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.error = true;
+        });
+      return res;
+    },
+    async deleteSavedPaycheck(paycheckId: string, id: string): Promise<any> {
+      const res = await API.deleteSavedPaycheck(this.dbUserId, paycheckId, id)
         .then((res) => {
           this.error = false;
           return res;

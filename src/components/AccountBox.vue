@@ -29,8 +29,9 @@
         Delete
       </button>
     </div>
-    <DeleteModal
+    <SureModal
       v-if="showModal"
+      type="delete"
       @close="showModal = false"
       @deleteItem="deleteAcct(deleteInfo.id)"
       :name="deleteInfo.title"
@@ -42,7 +43,7 @@
 import { defineComponent, type PropType } from "vue";
 
 import MasterList from "./MasterList.vue";
-import DeleteModal from "./DeleteModal.vue";
+import SureModal from "./SureModal.vue";
 import { useUserStore } from "../stores/UserStore";
 import { type Account } from "../types";
 
@@ -55,7 +56,7 @@ export default defineComponent({
   },
   components: {
     MasterList,
-    DeleteModal,
+    SureModal,
   },
   data() {
     return {

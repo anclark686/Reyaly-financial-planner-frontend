@@ -7,7 +7,7 @@
       <section class="calendar">
         <FullCalendar ref="calendar" :options="calendarOptions" />
       </section>
-      <section class="expense-form-modal" v-if="addNew === true">
+      <section class="expense-form-modal" v-if="addNew">
         <h3 class="subheader">Add Recurring Expense</h3>
         <ExpenseForm
           @addExpense="addExpense"
@@ -18,7 +18,7 @@
           <button id="close-btn" class="btn btn-success" @click="addNew = false">Close</button>
         </div>
       </section>
-      <section class="view-expense-modal" v-if="showData === true">
+      <section class="view-expense-modal" v-if="showData">
         <h3 class="subheader">{{ currentExpense.name }} Info</h3>
         <div class="expense-info">
           <table>
@@ -40,7 +40,7 @@
             </tbody>
           </table>
         </div>
-        <div class="btn-container" v-if="edit === false">
+        <div class="btn-container" v-if="!edit">
           <button id="edit-btn" class="btn btn-success modify-btn btn-sm" @click="edit = true">
             Modify
           </button>
@@ -52,7 +52,7 @@
             Delete
           </button>
         </div>
-        <div class="expense-form-container" v-if="edit === true">
+        <div class="expense-form-container" v-if="edit">
           <ExpenseForm
             @cancel="cancelEdit"
             @editExpense="editExpenseInfo"
@@ -65,8 +65,9 @@
           <button id="close-btn" class="btn btn-success" @click="showData = false">Close</button>
         </div>
       </section>
-      <DeleteModal
+      <SureModal
         v-if="showModal"
+        type="delete"
         @close="showModal = false"
         @deleteItem="onDelete(deleteInfo.id, deleteInfo.idx)"
         :name="deleteInfo.title"
@@ -95,7 +96,7 @@ import JSConfetti from "js-confetti";
 import { useUserStore } from "../stores/UserStore";
 import ExpenseForm from "../components/ExpenseForm.vue";
 import ErrorComponent from "../components/ErrorComponent.vue";
-import DeleteModal from "../components/DeleteModal.vue";
+import SureModal from "../components/SureModal.vue";
 
 const jsConfetti = new JSConfetti();
 
@@ -111,7 +112,7 @@ export default defineComponent({
     FullCalendar,
     ExpenseForm,
     ErrorComponent,
-    DeleteModal,
+    SureModal,
   },
   data() {
     return {
@@ -221,7 +222,7 @@ export default defineComponent({
       const calendarApi = this.$refs.calendar.getApi();
       const relatedArr = this.calendarOptions.events.filter((e) => {
         return e.id.includes(this.currentExpense.id);
-      })
+      });
 
       for (const eventObj of relatedArr) {
         const calEvent = calendarApi.getEventById(eventObj.id);

@@ -49,8 +49,9 @@
       <button class="btn btn-success" @click="showOTEForm = false">Close</button>
     </div>
 
-    <DeleteModal
+    <SureModal
       v-if="showModal"
+      type="delete"
       @close="showModal = false"
       @deleteItem="onDelete(deleteInfo.id, deleteInfo.idx)"
       :name="deleteInfo.title"
@@ -63,7 +64,7 @@ import { defineComponent } from "vue";
 
 import { useUserStore } from "../stores/UserStore";
 import OTEForm from "../components/OTEForm.vue";
-import DeleteModal from "./DeleteModal.vue";
+import SureModal from "./SureModal.vue";
 import { type OneTimeExpense } from "../types";
 import { type Paycheck } from "../types";
 
@@ -75,7 +76,7 @@ export default defineComponent({
   },
   components: {
     OTEForm,
-    DeleteModal,
+    SureModal,
   },
   data() {
     return {
