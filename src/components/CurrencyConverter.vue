@@ -229,7 +229,6 @@ export default defineComponent({
   text-align: center;
 }
 
-
 @media (max-width: 600px) {
   .btn {
     font-size: 1.15rem;

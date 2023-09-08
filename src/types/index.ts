@@ -24,6 +24,7 @@ export interface Expense {
   dateStr?: string | "";
   dateObj?: Date | undefined;
   account?: string;
+  paid?: boolean;
 }
 
 export interface OneTimeExpense {
@@ -41,6 +42,14 @@ export interface Paycheck {
   income: number;
   id: string;
   dateObj: Date;
+  savedPaycheck?: string | undefined;
+}
+
+export interface SavedPaycheck {
+  paycheckId: string;
+  date: string;
+  id: string;
+  expenses: Expense[];
 }
 
 export interface Debt {

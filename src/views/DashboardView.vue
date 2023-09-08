@@ -3,7 +3,7 @@
     <main class="dashboard" v-if="!userStore.loading && !userStore.error">
       <h1 class="page-header">Dashboard</h1>
       <div class="notification-container" v-if="!userStore.noUser">
-        <section class="notif-container" v-if="showNotifications === true">
+        <section class="notif-container" v-if="showNotifications">
           <div class="notif-header">
             <h2>Notifications</h2>
             <button class="emoji-btn" @click="showNotifications = false">➖</button>

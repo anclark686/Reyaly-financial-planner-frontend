@@ -8,16 +8,15 @@
           </div>
           <hr />
           <div class="modal-body">
-            <p name="body">Are you sure you want to delete</p>
-            <p name="body" id="title">{{ name }}?</p>
+            <p name="body">{{ message }}</p>
           </div>
 
           <div class="modal-footer">
             <button class="modal-btn btn btn-secondary" id="cancel" @click="$emit('close')">
               Cancel
             </button>
-            <button class="modal-btn btn btn-danger" id="delete" @click="$emit('deleteItem')">
-              Delete
+            <button class="modal-btn btn btn-danger" id="delete" @click="handleClick">
+              {{ button }}
             </button>
           </div>
         </div>
@@ -29,11 +28,38 @@
 <script lang="ts">
 export default {
   props: {
+    type: { type: String, required: true },
     name: { type: String, required: true },
   },
+  data() {
+    return {
+      button: "",
+    };
+  },
+  computed: {
+    message(): string {
+      if (this.type === "delete") {
+        this.button = "Delete";
+        return `Are you sure you want to delete ${this.name}?`;
+      } else if (this.type === "save") {
+        this.button = "Continue";
+        return "You have unsaved changes. Are you sure you want to continue?";
+      } else if (this.type === "revert") {
+        this.button = "Continue";
+        return "Are you sure you want to revert to base expenses?";
+      } else {
+        this.button = "Continue";
+        return "";
+      }
+    },
+  },
   methods: {
-    onClickButton(): void {
-      this.$emit("clicked");
+    handleClick(): void {
+      if (this.type === "delete") {
+        this.$emit("deleteItem");
+      } else {
+        this.$emit("continue");
+      }
     },
   },
 };

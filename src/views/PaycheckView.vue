@@ -8,16 +8,6 @@
         <div class="single-container card" v-if="showPaycheckCard && userStore.income === 1">
           <PaycheckExpenses :number="1" @dateChange1="sendExpenseList" />
 
-          <div class="ote-container">
-            <OTETable
-              :paycheckId="paycheckId1"
-              :number="1"
-              :possChange="possChange"
-              @newTotal="updateOTEtotal"
-              @possChange="handleChange"
-            />
-          </div>
-
           <PaycheckInfo :number="1" :expenseList="expenseList1" :oteTotal="oteTotal1" />
         </div>
 
@@ -25,31 +15,11 @@
           <div class="double-container card">
             <PaycheckExpenses :number="1" @dateChange1="sendExpenseList" />
 
-            <div class="ote-container">
-              <OTETable
-                :paycheckId="paycheckId1"
-                :number="1"
-                :possChange="possChange"
-                @newTotal="updateOTEtotal"
-                @possChange="handleChange"
-              />
-            </div>
-
             <PaycheckInfo :number="1" :expenseList="expenseList1" :oteTotal="oteTotal1" />
           </div>
 
           <div class="double-container card">
             <PaycheckExpenses :number="2" @dateChange2="sendExpenseList" />
-
-            <div class="ote-container">
-              <OTETable
-                :paycheckId="paycheckId2"
-                :number="2"
-                :possChange="possChange"
-                @newTotal="updateOTEtotal"
-                @possChange="handleChange"
-              />
-            </div>
 
             <PaycheckInfo :number="2" :expenseList="expenseList2" :oteTotal="oteTotal2" />
           </div>
@@ -77,7 +47,6 @@ import { defineComponent } from "vue";
 
 import PaycheckExpenses from "../components/PaycheckExpenses.vue";
 import PaycheckInfo from "../components/PaycheckInfo.vue";
-import OTETable from "../components/OTETable.vue";
 import CombinedPay from "../components/CombinedPay.vue";
 import ErrorComponent from "../components/ErrorComponent.vue";
 import { useUserStore } from "../stores/UserStore";
@@ -95,7 +64,6 @@ export default defineComponent({
     PaycheckExpenses,
     PaycheckInfo,
     CombinedPay,
-    OTETable,
     ErrorComponent,
   },
   data() {
@@ -190,11 +158,11 @@ export default defineComponent({
 }
 
 .card {
-    border: none;
-    padding: 10px;
-    background-color: var(--white-black);
-    box-shadow: 0 0 10px var(--box-shadow);
-  }
+  border: none;
+  padding: 10px;
+  background-color: var(--white-black);
+  box-shadow: 0 0 10px var(--box-shadow);
+}
 
 @media (max-width: 1024px) {
   .page-header {

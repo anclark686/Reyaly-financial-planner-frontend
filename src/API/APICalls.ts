@@ -4,6 +4,7 @@ import { type Account } from "../types";
 import { type Debt } from "../types";
 import { type Expense } from "../types";
 import { type OneTimeExpense } from "../types";
+import { type SavedPaycheck } from "../types";
 
 // const baseUrl = "http://127.0.0.1:3000";
 const baseUrl = "https://reyaly-financial-backend-983411f48872.herokuapp.com";
@@ -112,6 +113,37 @@ export const editOTExpense = (dbUserId: string, data: OneTimeExpense): Promise<a
 export const deleteOTExpense = (dbUserId: string, paycheckId: string, id: string): Promise<any> => {
   return Axios.delete(
     `${baseUrl}/users/${dbUserId}/paychecks/${paycheckId}/one_time_expenses/${id}`
+  ).then((res) => res.data);
+};
+
+// One Time Expense Routes
+export const getSavedPaycheck = (dbUserId: string, paycheckId: string): Promise<any> => {
+  return Axios.get(`${baseUrl}/users/${dbUserId}/paychecks/${paycheckId}/saved_paychecks`).then(
+    (res) => res.data
+  );
+};
+
+export const addSavedPaycheck = (dbUserId: string, data: SavedPaycheck): Promise<any> => {
+  return Axios.post(
+    `${baseUrl}/users/${dbUserId}/paychecks/${data.paycheckId}/saved_paychecks`,
+    data
+  ).then((res) => res.data);
+};
+
+export const editSavedPaycheck = (dbUserId: string, data: SavedPaycheck): Promise<any> => {
+  return Axios.put(
+    `${baseUrl}/users/${dbUserId}/paychecks/${data.paycheckId}/saved_paychecks/${data.id}`,
+    data
+  ).then((res) => res.data);
+};
+
+export const deleteSavedPaycheck = (
+  dbUserId: string,
+  paycheckId: string,
+  id: string
+): Promise<any> => {
+  return Axios.delete(
+    `${baseUrl}/users/${dbUserId}/paychecks/${paycheckId}/saved_paychecks/${id}`
   ).then((res) => res.data);
 };
 
