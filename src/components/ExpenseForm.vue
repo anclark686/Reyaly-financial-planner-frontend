@@ -83,6 +83,13 @@ export default defineComponent({
       invalid: false,
     };
   },
+  watch: {
+    expense: function () {
+      this.name = this.expense.name;
+      this.amount = this.expense.amount;
+      this.date = this.expense.date;
+    },
+  },
   computed: {
     dateArr(): number[] {
       const dateArr = Array.from({ length: 31 }, (_, idx) => idx + 1);
@@ -122,6 +129,7 @@ export default defineComponent({
         date: this.date,
         dateStr: dateStr,
         dateObj: dateObj,
+        paid: this.expense.paid,
       };
       return expenseData;
     },
@@ -147,6 +155,9 @@ export default defineComponent({
         this.invalid = true;
       }
     },
+  },
+  mounted() {
+    (this.$refs["name"] as any).focus()
   },
 });
 </script>

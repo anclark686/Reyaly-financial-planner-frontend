@@ -191,15 +191,13 @@ export default defineComponent({
         this.$emit("changes");
         this.changes += 1;
         expenseData.id = crypto.randomUUID();
-        console.log(expenseData);
         this.masterList.push(expenseData);
-        console.log(this.masterList);
         this.userStore.sortExpenseDateList(this.masterList);
       }
     },
     onEditClick(expense: Expense, idx: number): void {
       this.addNew = false;
-      if (!this.edit) {
+      if (this.editInfo = expense) {
         this.edit = true;
         this.editInfo = expense;
         this.editRow = idx;
@@ -238,6 +236,7 @@ export default defineComponent({
           amount: expenseData.amount,
           date: expenseData.date,
           dateStr: expenseData.dateStr,
+          paid: expenseData.paid,
         });
         this.sortMasterList();
         this.edit = false;
@@ -297,7 +296,7 @@ export default defineComponent({
         date: this.paycheck!.date,
         expenses: this.masterList,
       };
-      console.log(paycheckData);
+
       if (!Object.keys(this.userStore.savedPaychecks).includes(this.paycheck!.id)) {
         await this.userStore
           .addSavedPaycheck(paycheckData)
@@ -311,8 +310,6 @@ export default defineComponent({
           })
           .catch((err) => console.log(err));
       } else {
-        console.log("edit");
-        console.log(this.paycheck);
         await this.userStore
           .editSavedPaycheck(paycheckData)
           .then((res) => {
