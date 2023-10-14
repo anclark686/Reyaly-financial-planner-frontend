@@ -684,7 +684,7 @@ export const useUserStore = defineStore("UserStore", {
           potential1 = todayUTC;
           break;
         } else if (todayUTC < payDate) {
-          this.pIndex = i;
+          this.pIndex = i - 1;
           potential1 = payDate;
           break;
         }
@@ -694,11 +694,11 @@ export const useUserStore = defineStore("UserStore", {
         const payDate = new Date(paycheck.date);
 
         if (todayUTC === payDate) {
-          this.pIndex = i;
+          this.pIndex2 = i;
           potential2 = todayUTC;
           break;
         } else if (todayUTC < payDate) {
-          this.pIndex = i;
+          this.pIndex2 = i - 2;
           potential2 = payDate;
           break;
         }
