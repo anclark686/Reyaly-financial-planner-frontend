@@ -119,11 +119,9 @@ export default defineComponent({
       this.getExpenses();
     },
     async revertExpenses(): Promise<any> {
-      console.log(this.userStore.savedPaychecks[this.paycheck.id].id);
       await this.userStore
         .deleteSavedPaycheck(this.paycheck.id, this.userStore.savedPaychecks[this.paycheck.id].id)
         .then((res) => {
-          console.log("deleted");
           delete this.userStore.savedPaychecks[this.paycheck.id];
           this.getExpenses();
         })
@@ -164,11 +162,9 @@ export default defineComponent({
           .then((res) => {
             this.expenseList = res.data.expenses;
             this.paycheck.savedPaycheck = this.userStore.savedPaychecks[this.paycheck.id].id;
-            console.log(this.paycheck);
             for (const expense of this.expenseList) {
               expense.dateObj = new Date(expense.dateStr!);
             }
-            console.log(this.expenseList);
             this.userStore.sortExpenseDateList(this.expenseList);
             this.$emit(`dateChange${this.number}`, {
               num: this.number,
