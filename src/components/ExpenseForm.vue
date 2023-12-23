@@ -101,6 +101,15 @@ export default defineComponent({
       if (this.dateStr) {
         dateArr = this.dateStr.split("/");
 
+        if (this.date < parseInt(dateArr[1])) {
+          if (parseInt(dateArr[0]) < 12) {
+            dateArr[0] = (parseInt(dateArr[0]) + 1).toString()
+          } else {
+            dateArr[0] = "1"
+            dateArr[2] = (parseInt(dateArr[2]) + 1).toString()
+          }
+        }
+
         if (this.date < 10) {
           newDateStr = `${dateArr[0]}/0${this.date}/${dateArr[2]}`;
         } else {
