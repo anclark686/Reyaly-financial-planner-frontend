@@ -2,6 +2,23 @@
   <div class="master-list">
     <h3 class="subheader" v-if="!pageType?.includes('noML')">Master List</h3>
     <section class="expense-container">
+      <div class="sort-container">
+        <label for="sort-dropdown">Sort By:</label>
+        <select
+          name="sort-dropdown"
+          id="sort-dropdown"
+          class="input-info"
+          v-model="sortVal"
+          @change="sortList"
+        >
+          <option value="">-Select One-</option>
+          <option value="name">Name</option>
+          <option value="amount">Amount</option>
+          <option v-if="!pageType.includes('dateStr')" value="date">Due Date</option>
+          <option v-else value="dateObj">Due Date</option>
+          <option v-if="pageType === 'paycheckList-noML-dateStr'" value="paid">Paid</option>
+        </select>
+      </div>
       <table class="expense-table" v-if="expenses?.length !== 0">
         <thead class="expense-table-header">
           <tr>
@@ -161,6 +178,7 @@ export default defineComponent({
       showModal: false,
       deleteInfo: {} as { id: string; idx: number; title: string },
       showInfoModal: false,
+      sortVal: "",
     };
   },
   components: {
@@ -173,6 +191,21 @@ export default defineComponent({
     },
   },
   methods: {
+    sortList(): void {
+      if (this.sortVal === "name" || this.sortVal === "type") {
+        this.masterList = this.masterList.sort((a: any = {}, b: any = {}) => {
+          return a[this.sortVal].localeCompare(b[this.sortVal]);
+        });
+      } else if (this.sortVal === "paid") {
+        this.masterList = this.masterList.sort((a: any = {}, b: any = {}) => {
+          return (a.paid === b.paid)? 0 : a.paid? 1 : -1; 
+        });
+      } else {
+        this.masterList = this.masterList.sort((a: any = {}, b: any = {}) => {
+          return a[this.sortVal] - b[this.sortVal];
+        });
+      }
+    },
     async addExpense(expenseData: Expense): Promise<any> {
       if (!this.modify) {
         await this.userStore
@@ -197,7 +230,7 @@ export default defineComponent({
     },
     onEditClick(expense: Expense, idx: number): void {
       this.addNew = false;
-      if (this.editInfo = expense) {
+      if ((this.editInfo = expense)) {
         this.edit = true;
         this.editInfo = expense;
         this.editRow = idx;
@@ -335,6 +368,19 @@ export default defineComponent({
 .subheader {
   text-align: center;
   color: var(--text-color);
+}
+
+.sort-container {
+  margin: 10px auto 0 auto;
+  width: fit-content;
+}
+
+.input-info {
+  margin: 10px 5px;
+  width: 150px;
+  border-radius: 5px;
+  border: 1px solid var(--input-info);
+  padding: 0 5px;
 }
 
 .expense-table {
