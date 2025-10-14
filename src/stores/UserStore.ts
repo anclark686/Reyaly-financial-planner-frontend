@@ -101,9 +101,17 @@ export const useUserStore = defineStore("UserStore", {
 
             this.expenses = this.matchAccountToExpense(res.data.expenses, res.data.accounts);
             this.otExpenses = res.data.otExpenses;
-            this.paychecks = res.data.paychecks;
-            this.paychecks2 = res.data.paychecks2;
-            this.savedPaychecks = res.data.saved_paychecks;
+            this.paychecks = res.data.paychecks.sort((a: any = {} as Paycheck, b: any = {} as Paycheck) => {
+              const aDate = new Date(a.date);
+              const bDate = new Date(b.date);
+              return aDate !== bDate ? aDate.valueOf() - bDate.valueOf() : aDate.valueOf();
+            });
+            this.paychecks2 = res.data.paychecks2.sort((a: any = {} as Paycheck, b: any = {} as Paycheck) => {
+              const aDate = new Date(a.date);
+              const bDate = new Date(b.date);
+              return aDate !== bDate ? aDate.valueOf() - bDate.valueOf() : aDate.valueOf();
+            });
+            this.savedPaychecks = res.data.saved_paychecks
             this.debts = res.data.debts;
             this.accounts = res.data.accounts;
 
